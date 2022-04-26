@@ -10,21 +10,22 @@ function createBackgroundBlockStyle ({ speed = 1, isError = false, sizeBounds = 
   const size = randInt(sizeBounds[0], sizeBounds[1])
   return {
     animationName: 'rotating , moving',
-    animationDuration: `${1 / speed * randInt(2000, 7000)}ms, ${1 / speed * randInt(5000, 25000)}ms`,
+    animationDuration: `${1 / speed * randInt(7000, 17000)}ms, 10s`,
     animationIterationCount: 'infinite, 1',
     animationFillMode: 'forwards',
-    // animationDelay: `-${randInt(0, 1000)}s`,
     animationTimingFunction: 'linear',
-    width: size + 'px',
-    height: size + 'px',
+    fontSize: (size / 30) + 'em',
     left: -30 + randInt(0, 160) + '%',
     borderRadius: Math.floor(size / 5) + 'px'
   }
 }
 
 function BackgroundParticle ({ str, isErr }) {
+  if (str === ' ') str = 'space'
   const style = useRef(createBackgroundBlockStyle({ isError: isErr }))
-  return (<div className="particle" style={style.current}>str</div>)
+  return (
+    <div className={'particle ' + (isErr && 'particle-error')} style={style.current}>{str.toUpperCase()}</div>
+  )
 }
 
 BackgroundParticle.propTypes = {

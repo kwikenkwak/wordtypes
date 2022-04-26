@@ -1,6 +1,6 @@
 $base-color: #26BADF;
 $speed: .3;
-$squareopacity: .1;
+$squareopacity: 10%;
 
 .background {
   position: absolute;
@@ -16,8 +16,16 @@ $squareopacity: .1;
 
 .particle {
     position: absolute;
-    background-color: white;
-    opacity: $squareopacity;
+    background-color: rgba(255, 255, 255, $squareopacity);
+    line-height: 1;
+    padding: 1rem;
+    text-stroke: black;
+    padding-bottom: .2rem;
+    color: rgba(255, 255, 255, $squareopacity * 2);
+}
+
+.particle-error {
+  background-color: rgba(255, 0, 0, $squareopacity);
 }
 
 @keyframes moving {
@@ -26,7 +34,7 @@ $squareopacity: .1;
   }
 
   0% {
-    top: -50%;
+    top: -10%;
   }
 }
 

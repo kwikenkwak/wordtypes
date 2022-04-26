@@ -14,7 +14,6 @@ function WordTyper ({ wordInfo, onComplete, onType }) {
     const charTyped = e.keyCode === 13 ? 'Enter' : String.fromCharCode(e.keyCode)
     const correct = charTyped === currentMeaning.getExpectedChar()
     onType({ str: charTyped, isErr: !correct })
-    console.log(charTyped)
     if (correct) {
       setCorrectTyped(correctTyped + 1)
       const isCompleted = currentMeaning.advance()
@@ -29,7 +28,6 @@ function WordTyper ({ wordInfo, onComplete, onType }) {
   }
 
   const initialize = () => {
-    console.log(wordInfo)
     const allMeanings = []
     for (const meaning of wordInfo.definitions) {
       allMeanings.push(new WordMeaningProgress(meaning))
