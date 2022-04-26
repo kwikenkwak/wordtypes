@@ -1,0 +1,14 @@
+.text-typed {
+  color: green;
+}
+
+.fake-cursor {
+  min-width: 2px;
+  height: 1em;
+  background: blue;
+  display: inline-block;
+}
+
+.base-color-canvas {
+  filter: invert()
+}

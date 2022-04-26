@@ -1,0 +1,15 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <title>DictionaryTyper</title>
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+  </head>
+  <body>  
+    <div id="root" />
+      <script>
+        const loadingBallsUrl = "{% static 'animations/loadingballs.riv' %}"
+      </script>
+      <script src="{% static 'index-bundle.js' %}"></script>
+  </body>
+</html>
