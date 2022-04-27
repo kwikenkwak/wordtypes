@@ -41,7 +41,6 @@ class Background extends React.Component {
 
   addParticle (args) {
     this.particles.push(args)
-    console.log(this.particles)
     this.setState({})
   }
 
