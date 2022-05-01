@@ -44,6 +44,7 @@ class WordMeaningProgress {
         this.definitionProgress += 1
       }
     } else if (this.typingWhat === 'examples') {
+      if (this.examples[this.exampleIndex] === undefined) return false
       if (this.exampleProgress === this.examples[this.exampleIndex].length) {
         this.exampleIndex += 1
         if (this.exampleIndex === this.examples.length) { return true }

@@ -1,16 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRive, Layout, Fit, Alignment } from 'rive-react'
 import PropTypes from 'prop-types'
+import { bufferManager } from './buffermanager.js'
 import './styles/homepage.scss'
 import './styles/scrollbar.scss'
 
 function WelcomePage ({ jumpPage }) {
+  const [, forceUpdate] = useState(0)
   const layout = new Layout({ fit: Fit.FitHeight, alignment: Alignment.TopCenter })
-  const { rive, RiveComponent } = useRive({
-    src: treesUrl,
-    animations: ['Idle'],
-    layout: layout
-  })
+
+  const { rive, RiveComponent } = useRive(
+    {
+      autoplay: true,
+      animations: ['Idle'],
+      layout: layout,
+      src: bufferManager.isLoaded(treesUrl) ? undefined : treesUrl,
+      buffer: bufferManager.load(treesUrl, forceUpdate)
+    })
+
   return (<>
     <RiveComponent className="trees-bg" />
     <div className="welcome-content">
