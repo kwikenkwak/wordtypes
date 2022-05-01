@@ -1,6 +1,5 @@
 import './styles/background.scss'
 import React, { useState, useRef } from 'react'
-import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom/client'
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
@@ -9,20 +8,7 @@ import { Typer } from './typer.js'
 import uuid from 'uuid'
 import { StatsViewer } from './statsviewer.js'
 import { Background } from './background.js'
-
-function WelcomePage ({ jumpPage }) {
-  return (<>
-          <h1>Welcome to DictionaryTyper</h1>
-          <p>Dolor consectetur odio aliquam dignissimos?</p>
-    <button onClick={() => jumpPage('stats')}>Stats</button>
-    <button onClick={() => jumpPage('typer')}>START</button>
-
-    </>)
-}
-
-WelcomePage.propTypes = {
-  jumpPage: PropTypes.func.isRequired
-}
+import { WelcomePage } from './welcomepage.js'
 
 function HomePage () {
   const [items, setItems] = useState([{ id: uuid(), page: 'welcome' }])

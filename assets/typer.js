@@ -50,15 +50,14 @@ function Typer ({ background, jumpPage }) {
 
   return (
     <>
-    <button onClick={() => jumpPage('typer')}>Skip</button>
-
     {!isLoadingWord &&
         <WordTyper wordInfo={currentWordInfo}
                    onComplete={onWordComplete}
                    onType={onType}/>}
     {isLoadingWord && <LoadingAnimation />}
-    <button onClick={() => jumpPage('stats')}>Stats</button>
-    <button onClick={() => jumpPage('welcome')}>Home</button>
+    <a onClick={() => jumpPage('stats')}>Stats</a>
+    <a onClick={() => jumpPage('welcome')}>Home</a>
+    <a onClick={() => jumpPage('typer')}>Skip this word</a>
     </>
   )
 }

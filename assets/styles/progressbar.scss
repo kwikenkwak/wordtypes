@@ -1,0 +1,22 @@
+@use 'vars' as *;
+
+.progressbar-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.progressbar {
+  height: 10px;
+  background-color: darken($bg-base, 10%);
+  position: relative;
+}
+
+.progressbar-completed {
+  height: 10px;
+  background-color: $base-color;
+}
+
+.progressbar-text {
+  color: $base-color;
+  font-size: .5em;
+}

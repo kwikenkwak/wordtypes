@@ -1,6 +1,17 @@
-$base-color: #26BADF;
-$speed: .3;
-$squareopacity: 10%;
+@use 'vars' as *;
+
+html, body { 
+  margin: 0;
+  height: 100%;
+  color: $base-color;
+}
+
+body {
+  display: flex;
+  align-items: stretch;
+  font-family: 'Teko', sans-serif;
+  font-size: 2em;
+}
 
 .background {
   position: absolute;
@@ -10,8 +21,8 @@ $squareopacity: 10%;
   height: 100vh;
   z-index: -10;
   overflow: hidden;
-  background: rgb(85,208,217);
-  background: linear-gradient(70deg, rgba(85,208,217,1) 0%, rgba(0,149,255,1) 100%); 
+  background: $bg-base;
+  background: linear-gradient(70deg, lighten($bg-base, 10%) 0%, $bg-base 100%); 
 }
 
 .particle {
@@ -46,28 +57,34 @@ $squareopacity: 10%;
   }
 }
 
+
+// We have some weird margin here because we want the
+// pages two switch places because the normal ordering in the
+// flex-box is wrong
 .page-enter {
-  margin-left: -100%;
+  margin-left: 100%;
 }
 
 .page-enter-active {
   transition: margin-left ease 2s;
-  margin-left: 0;
+  margin-left: 0%;
 }
 
 .page-exit {
-  // margin-left: 0;
+  margin-left: -200%;
 }
 
 .page-exit-active {
-  // transition: margin-left ease 2s;
-  // margin-left: -100%;
+  transition: margin-left ease 2s;
+  margin-left: -200%;
 }
 
 .page {
   min-width: 100%;
   max-width: 100%;
+  height: 100%;
   overflow: auto;
+  position: relative;
 }
 
 .page-enter-done {
@@ -75,8 +92,8 @@ $squareopacity: 10%;
 
 .page-wrapper {
   display: flex;
-  align-items: flex-start;
-  width: 100%;
+  align-items: stretch;
+  width: 100vw;
   height: 100%;
   overflow: hidden;
 }

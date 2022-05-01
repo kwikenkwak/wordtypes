@@ -19,7 +19,6 @@ function StatsViewer ({ jumpPage }) {
     <Tooltip />
     </LineChart>
     <button onClick={() => jumpPage('welcome')}>HOME</button>
-    <button onClick={() => jumpPage('typer')}>START</button>
     </>)
 }
 
