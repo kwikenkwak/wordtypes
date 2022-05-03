@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { loadVoc, loadTypeStats } from './statstore.js'
+// import { loadVoc, loadTypeStats } from './statsmanager.js'
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts'
 
 function StatsViewer ({ jumpPage }) {

@@ -20,17 +20,17 @@ function createBackgroundBlockStyle ({ speed = 1, isError = false, sizeBounds = 
   }
 }
 
-function BackgroundParticle ({ str, isErr }) {
-  if (str === ' ') str = 'space'
-  const style = useRef(createBackgroundBlockStyle({ isError: isErr }))
+function BackgroundParticle ({ charTyped, correct }) {
+  if (charTyped === ' ') charTyped = 'space'
+  const style = useRef(createBackgroundBlockStyle({ isError: !correct }))
   return (
-    <div className={'particle ' + (isErr && 'particle-error')} style={style.current}>{str.toUpperCase()}</div>
+    <div className={'particle ' + (!correct && 'particle-error')} style={style.current}>{charTyped.toUpperCase()}</div>
   )
 }
 
 BackgroundParticle.propTypes = {
-  str: PropTypes.string.isRequired,
-  isErr: PropTypes.bool.isRequired
+  charTyped: PropTypes.string.isRequired,
+  correct: PropTypes.bool.isRequired
 }
 
 class Background extends React.Component {
@@ -48,7 +48,7 @@ class Background extends React.Component {
     return (
     <div className="background">
     <div className="particles">
-    {this.particles.map((value, idx) => <BackgroundParticle key={idx} str={value.str} isErr={value.isErr}/>)}
+    {this.particles.map((value, idx) => <BackgroundParticle key={idx} charTyped={value.charTyped} correct={value.correct}/>)}
     </div>
     </div>
     )

@@ -1,0 +1,38 @@
+@use 'vars' as *;
+
+.home-button-icon {
+  filter: invert(100%);
+  opacity: 80%;
+}
+
+.nav-button {
+  display: flex;
+  flex-flow: column;
+
+  $darker: darken($bg-base, 10%);
+  background-color: $darker;
+  border: $darker solid 3px;
+  transition: background-color ease .5s;
+  border-radius: 5px;
+  padding: 0 1em;
+  padding-bottom: .3em;
+  flex-grow: 0;
+  align-items: center;
+  justify-content: space-around;
+  cursor: pointer;
+}
+
+.nav-button:hover {
+  background-color: $bg-base;
+}
+
+.nav-buttons {
+  display: flex;
+}
+
+.nav-button:nth-child(1){
+  margin-right: 200px;
+}
+
+
+

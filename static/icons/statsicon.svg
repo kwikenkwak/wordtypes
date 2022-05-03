@@ -1,0 +1,50 @@
+<svg width="645" height="510" viewBox="0 0 645 510" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_1_82" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="-17" y="24" width="632" height="341">
+<path d="M0 268L200.561 133.309C202.441 132.047 204.992 132.595 206.188 134.518L301.05 287.041C302.91 290.033 307.449 289.333 308.322 285.92L370.266 43.6912C371.193 40.0681 376.141 39.5846 377.752 42.9599L422.26 136.256C423.529 138.916 427.141 139.337 428.987 137.04L462.139 95.8021C463.954 93.5448 467.492 93.9045 468.815 96.4809L598 348" stroke="black" stroke-width="33" stroke-linecap="round"/>
+</mask>
+<g mask="url(#mask0_1_82)">
+<rect x="40" y="-85" width="666" height="566" fill="black"/>
+</g>
+<path d="M41.4958 81.9979L41.4958 179.998" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="140" y1="182" x2="42" y2="181.998" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M142 82L142 180" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="240.504" y1="182.002" x2="142.504" y2="182" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M243 82L243 180" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="341.504" y1="182.002" x2="243.504" y2="182" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M344 82V180" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="442.504" y1="182.002" x2="344.504" y2="182" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M42 182L42 280" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="140.504" y1="282.002" x2="42.5042" y2="282" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M142.504 182.002L142.504 280.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="241.008" y1="282.004" x2="143.008" y2="282.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M243.504 182.002L243.504 280.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="342.008" y1="282.004" x2="244.008" y2="282.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M344.504 182.002V280.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="443.008" y1="282.004" x2="345.008" y2="282.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M42 282L42 380" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="140.504" y1="382.002" x2="42.5042" y2="382" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M142.504 282.002L142.504 380.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="241.008" y1="382.004" x2="143.008" y2="382.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M243.504 282.002L243.504 380.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="342.008" y1="382.004" x2="244.008" y2="382.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M344.504 282.002V380.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="443.008" y1="382.004" x2="345.008" y2="382.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M42 382L42 480" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="140.504" y1="482.002" x2="42.5042" y2="482" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M142.504 382.002L142.504 480.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="241.008" y1="482.004" x2="143.008" y2="482.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M243.504 382.002L243.504 480.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="342.008" y1="482.004" x2="244.008" y2="482.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M344.504 382.002V480.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="443.008" y1="482.004" x2="345.008" y2="482.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M446 82V180" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="544.504" y1="182.002" x2="446.504" y2="182" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M446.504 182.002V280.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="545.008" y1="282.004" x2="447.008" y2="282.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M446.504 282.002V380.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="545.008" y1="382.004" x2="447.008" y2="382.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M446.504 382.002V480.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<line x1="545.008" y1="482.004" x2="447.008" y2="482.002" stroke="black" stroke-width="2" stroke-linecap="square"/>
+<path d="M35.5 481C35.5 483.761 37.7386 486 40.5 486C43.2614 486 45.5 483.761 45.5 481H35.5ZM40.5 0L11.6325 50H69.3675L40.5 0ZM45.5 481L45.5 45H35.5L35.5 481H45.5Z" fill="black"/>
+<path d="M40 476C37.2386 476 35 478.239 35 481C35 483.761 37.2386 486 40 486V476ZM645 481L595 452.132V509.868L645 481ZM40 486H600V476H40V486Z" fill="black"/>
+</svg>

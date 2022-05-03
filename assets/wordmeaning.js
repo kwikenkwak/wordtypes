@@ -1,5 +1,5 @@
 import { SemiTypedString } from './semitypedstring.js'
-import React, { useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 class WordMeaningProgress {
@@ -58,12 +58,41 @@ class WordMeaningProgress {
   }
 }
 
-function WordMeaning ({ progress, meaning, active }) {
+function WordMeaning ({ meaning, active, onType, onComplete, first }) {
+  const progress = useState(new WordMeaningProgress(meaning))[0]
+  const [force, forceUpdate] = useState(0)
   const div = useRef()
 
   useEffect(() => {
-    if (active) div.current.scrollIntoView({ behavior: 'smooth' })
+    if (active && !first) div.current.scrollIntoView({ behavior: 'smooth' })
   }, [active])
+
+  const onKeyPresss = (e) => {
+    if (!active) return
+    e.preventDefault()
+    const charTyped = e.keyCode === 13 ? 'Enter' : String.fromCharCode(e.keyCode)
+    const correct = charTyped === progress.getExpectedChar()
+
+    // TODO DEBUG
+    onType({ charTyped: charTyped, correct: correct })
+    if (correct) {
+      const isCompleted = progress.advance()
+      if (isCompleted) {
+        onComplete()
+      }
+    }
+    forceUpdate(force + 1)
+  }
+
+  useEffect(() => {
+    // Do this to prevent button clicks made with spacebar
+    // while typing
+    document.activeElement.blur()
+
+    window.addEventListener('keypress', onKeyPresss)
+
+    return () => window.removeEventListener('keypress', onKeyPresss)
+  })
 
   return (<>
     <div className="meaning-wrapper" ref={div}>
@@ -81,9 +110,11 @@ function WordMeaning ({ progress, meaning, active }) {
 }
 
 WordMeaning.propTypes = {
-  progress: PropTypes.object.isRequired,
   meaning: PropTypes.object.isRequired,
-  active: PropTypes.bool.isRequired
+  active: PropTypes.bool.isRequired,
+  onType: PropTypes.func.isRequired,
+  onComplete: PropTypes.func.isRequired,
+  first: PropTypes.bool.isRequired
 }
 
 export { WordMeaning, WordMeaningProgress }
