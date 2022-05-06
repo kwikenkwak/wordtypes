@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Icon } from './icon.js'
+import { urls } from './resourceurls.js'
 
 function SemiTypedString ({ string, progress, cursor, isEnter = false }) {
   return (<>
@@ -11,7 +12,7 @@ function SemiTypedString ({ string, progress, cursor, isEnter = false }) {
       <span className="text-not-typed">
       {string.substr(progress)}
       </span>
-      { isEnter && cursor && <Icon size='1em' src={enterIconUrl} /> }
+      { isEnter && cursor && <Icon size='1em' src={urls.enterIcon} /> }
     </>)
 }
 

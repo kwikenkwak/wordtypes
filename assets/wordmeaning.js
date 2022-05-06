@@ -3,13 +3,14 @@ import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 class WordMeaningProgress {
-  constructor (meaning) {
+  constructor (meaning, last = false) {
     this.definition = meaning.definition
     this.examples = meaning.examples
     this.definitionProgress = 0
     this.exampleIndex = 0
     this.exampleProgress = 0
     this.typingWhat = 'definition'
+    this.last = last
   }
 
   getExampleProgress (idx) {
@@ -40,6 +41,9 @@ class WordMeaningProgress {
       if (this.definitionProgress === this.definition.length) {
         this.typingWhat = 'examples'
         if (!this.examples.length) return true
+      } else if (this.last && this.examples.length === 0 &&
+              this.definitionProgress === this.definition.length - 1) {
+        return true
       } else {
         this.definitionProgress += 1
       }
@@ -50,6 +54,9 @@ class WordMeaningProgress {
         if (this.exampleIndex === this.examples.length) { return true }
 
         this.exampleProgress = 0
+      } else if (this.last && this.exampleIndex === this.examples.length - 1 &&
+                this.exampleProgress === this.examples[this.exampleIndex].length - 1) {
+        return true
       } else {
         this.exampleProgress += 1
       }
@@ -58,8 +65,8 @@ class WordMeaningProgress {
   }
 }
 
-function WordMeaning ({ meaning, active, onType, onComplete, first }) {
-  const progress = useState(new WordMeaningProgress(meaning))[0]
+function WordMeaning ({ meaning, active, onType, onComplete, first, last }) {
+  const progress = useState(new WordMeaningProgress(meaning, last))[0]
   const [force, forceUpdate] = useState(0)
   const div = useRef()
 
@@ -114,7 +121,8 @@ WordMeaning.propTypes = {
   active: PropTypes.bool.isRequired,
   onType: PropTypes.func.isRequired,
   onComplete: PropTypes.func.isRequired,
-  first: PropTypes.bool.isRequired
+  first: PropTypes.bool.isRequired,
+  last: PropTypes.bool.isRequired
 }
 
 export { WordMeaning, WordMeaningProgress }

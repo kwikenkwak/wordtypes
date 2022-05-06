@@ -2,3 +2,8 @@ $base-color: rgba(255, 255, 255, 80%);
 $squareopacity: 10%;
 $bg-base: #EBB914;
 
+root {
+  --base-color: $base-color;
+  --bg-base: $bg-base;
+}
+

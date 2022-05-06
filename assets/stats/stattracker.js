@@ -4,7 +4,7 @@ class StatTracker {
     this.name = name
     this.totalTypeCount = 0
     this.correctTypeCount = 0
-    this.timeStamps = []
+    this.keysData = []
     this.hasDumped = false
   }
 
@@ -16,11 +16,16 @@ class StatTracker {
     this.totalTypeCount += 1
     if (correct) {
       this.correctTypeCount += 1
-      if (this.startTime) {
-        this.timeStamps.push((new Date()).getTime() - this.startTime.getTime())
-      } else {
-        console.warn('A key was registered without the timer running')
-      }
+    }
+
+    if (this.startTime) {
+      this.keysData.push({
+        correct: correct,
+        time: (new Date()).getTime() - this.startTime.getTime(),
+        key: key
+      })
+    } else {
+      console.warn('A key was registered without the timer running')
     }
   }
 
@@ -37,7 +42,8 @@ class StatTracker {
       word: this.name,
       total: this.totalTypeCount,
       correct: this.correctTypeCount,
-      timeStamps: this.timeStamps
+      keysData: this.keysData,
+      date: new Date()
     }
   }
 }

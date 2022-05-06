@@ -6,7 +6,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 import { Typer } from './typer.js'
 import uuid from 'uuid'
-import { StatsViewer } from './statsviewer.js'
+import { StatsViewer } from './stats/statsviewer.js'
 import { Background } from './background.js'
 import { WelcomePage } from './welcomepage.js'
 

@@ -1,0 +1,32 @@
+@use 'vars' as *;
+
+.accuracy-bar {
+  width: 100%;
+  height: 10px;
+  display: flex;
+}
+
+.accuracy-bar-section {
+  height: 10px;
+}
+
+.section-correct {
+  background-color: $base-color;
+}
+
+.section-error {
+  background-color: darken($bg-base, 30%);
+}
+
+$base-color-graph: rgba($base-color, 1);
+
+.stats-line {
+  stroke-width: .2em;
+  stroke: $base-color-graph;
+}
+
+.grid-axis-wrapper {
+  stroke: $base-color-graph;
+  fill: $base-color-graph;
+  color: $base-color-graph;
+}

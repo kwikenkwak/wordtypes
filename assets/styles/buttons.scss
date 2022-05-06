@@ -28,11 +28,6 @@
 
 .nav-buttons {
   display: flex;
+  width: 50%;
+  justify-content: space-between;
 }
-
-.nav-button:nth-child(1){
-  margin-right: 200px;
-}
-
-
-

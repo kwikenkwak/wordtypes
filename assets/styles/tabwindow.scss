@@ -1,0 +1,17 @@
+@use 'vars' as *;
+
+.tab-window {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+}
+
+.tab-window-tab {
+  width: 100%;
+  height: 100%;
+  margin-left: 0;
+  display: inline-block;
+  transition: margin-left ease 1s;
+}

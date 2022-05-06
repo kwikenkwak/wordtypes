@@ -2,18 +2,56 @@ import React, { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 
 import './styles/buttons.scss'
+import './styles/typer.scss'
 
 import { WordMeaning } from './wordmeaning.js'
 import { LoadingAnimation } from './animations.js'
 import { PropTypes } from 'prop-types'
-import { StatTracker } from './stattracker.js'
+import { StatTracker } from './stats/stattracker.js'
+import { SessionStatViewer } from './stats/sessionstatviewer.js'
 import { ProgressBar } from './progressbar.js'
 import { Icon } from './icon.js'
+
+import { StatsButton, SkipButton, HomeButton } from './buttons.js'
 
 function getMeaningLength (meaning) {
   return meaning.definition.length +
          meaning.examples.reduce((p, c) => p + c.length, 0) +
          meaning.examples.length
+}
+
+function TyperTypeWindow ({ meanings, running, word, onMeaningComplete, onType, currentMeaning, tracker, progress }) {
+  return (
+    <>
+    <div className='typer-window'>
+    { running
+      ? <div>
+        <h1>{word}</h1>
+        { meanings.map((meaning, idx) => {
+          return <WordMeaning key={idx} meaning={meaning}
+          active={idx === currentMeaning}
+          first={idx === 0}
+          onType={onType} onComplete={onMeaningComplete}
+          last={idx === meanings.length - 1}
+            />
+        })}
+        </div>
+      : <SessionStatViewer stats={tracker.getData()} /> }
+    </div>
+    <ProgressBar progress={progress} width={'100%'}/>
+    </>
+  )
+}
+
+TyperTypeWindow.propTypes = {
+  meanings: PropTypes.array.isRequired,
+  running: PropTypes.bool.isRequired,
+  word: PropTypes.string.isRequired,
+  onMeaningComplete: PropTypes.func.isRequired,
+  onType: PropTypes.func.isRequired,
+  currentMeaning: PropTypes.number.isRequired,
+  tracker: PropTypes.object.isRequired,
+  progress: PropTypes.number.isRequired
 }
 
 function Typer ({ background, jumpPage }) {
@@ -23,6 +61,7 @@ function Typer ({ background, jumpPage }) {
   const meanings = wordInfo.definitions || []
   const [currentMeaning, setCurrentMeaning] = useState(0)
   const [progress, setProgress] = useState(0)
+  const [running, setRunning] = useState(true)
 
   const onWordLoaded = (wordInfo) => {
     console.log(wordInfo)
@@ -54,7 +93,8 @@ function Typer ({ background, jumpPage }) {
 
   function onWordComplete () {
     tracker.dumpData()
-    jumpPage('typer')
+    setRunning(false)
+    // jumpPage('typer')
   }
 
   const onType = (args) => {
@@ -82,26 +122,20 @@ function Typer ({ background, jumpPage }) {
   }
 
   return (
-    <>
+    <div className='typer-page'>
     {!isLoadingWord &&
-      <div>
-      <h1>{wordInfo.word}</h1>
-    { meanings.map((meaning, idx) => {
-      return <WordMeaning key={idx} meaning={meaning}
-              active={idx === currentMeaning}
-              first={idx === 0}
-              onType={onType} onComplete={onMeaningComplete}
-        />
-    })}
-    <ProgressBar progress={progress} width={'500px'}/>
-    </div>
+      <TyperTypeWindow meanings={meanings} running={running} word={wordInfo.word}
+          onMeaningComplete={onMeaningComplete} onType={onType} currentMeaning={currentMeaning}
+          tracker={tracker} progress={progress} />
     }
 
     {isLoadingWord && <LoadingAnimation />}
-    <a onClick={() => jumpPage('stats')}>Stats <span className="stats-icon" ><Icon src={statsIconUrl} /></span></a>
-    <a onClick={() => jumpPage('welcome')}>Home</a>
-    <a onClick={() => jumpPage('typer')}>Skip this word</a>
-    </>
+    <div className='typer-buttons'>
+    <StatsButton jumpPage={jumpPage}/>
+    <HomeButton jumpPage={jumpPage}/>
+    <SkipButton jumpPage={jumpPage}/>
+    </div>
+    </div>
   )
 }
 
