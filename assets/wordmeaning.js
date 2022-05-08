@@ -2,6 +2,8 @@ import { SemiTypedString } from './semitypedstring.js'
 import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
+import './styles/wordmeaning.scss'
+
 class WordMeaningProgress {
   constructor (meaning, last = false) {
     this.definition = meaning.definition
@@ -65,7 +67,7 @@ class WordMeaningProgress {
   }
 }
 
-function WordMeaning ({ meaning, active, onType, onComplete, first, last }) {
+function WordMeaning ({ meaning, active, onType, onComplete, first, last, index }) {
   const progress = useState(new WordMeaningProgress(meaning, last))[0]
   const [force, forceUpdate] = useState(0)
   const div = useRef()
@@ -102,15 +104,32 @@ function WordMeaning ({ meaning, active, onType, onComplete, first, last }) {
   })
 
   return (<>
-    <div className="meaning-wrapper" ref={div}>
-      <p>{meaning.type}</p>
-      <p>
-      <SemiTypedString string={meaning.definition} progress={progress.definitionProgress}
-      cursor={progress.typingWhat === 'definition' && active} isEnter={progress.isEnter()}/>
-      </p>
-      { meaning.examples.map((example, idx) =>
-        <p key={idx}><SemiTypedString string={example} progress={progress.getExampleProgress(idx)}
-           cursor={progress.typingWhat === 'examples' && progress.exampleIndex === idx && active} isEnter={progress.isEnter()}/></p>)
+    <div className="meaning" ref={div}>
+      <div className="meaning-type">
+        {index + 1} <span className="meaning-type-text">{meaning.type}</span>
+      </div>
+
+      <div className="meaning-definition">
+        <span className="meaning-definition-header">Definition</span>
+        <div className="meaning-definition-content">
+          <SemiTypedString string={meaning.definition} progress={progress.definitionProgress}
+            cursor={progress.typingWhat === 'definition' && active} isEnter={progress.isEnter()}/>
+        </div>
+      </div>
+
+      { meaning.examples.length > 0 &&
+      <div className="meaning-examples">
+        <span className="meaning-examples-header">Examples</span>
+        <div className="meaning-examples-content">
+          { meaning.examples.map((example, idx) =>
+            <div className="meaning-example" key={idx}>
+              <SemiTypedString string={example} progress={progress.getExampleProgress(idx)}
+                cursor={progress.typingWhat === 'examples' && progress.exampleIndex === idx && active}
+                isEnter={progress.isEnter()}/>
+            </div>)
+          }
+        </div>
+      </div>
       }
     </div>
     </>)
@@ -122,7 +141,8 @@ WordMeaning.propTypes = {
   onType: PropTypes.func.isRequired,
   onComplete: PropTypes.func.isRequired,
   first: PropTypes.bool.isRequired,
-  last: PropTypes.bool.isRequired
+  last: PropTypes.bool.isRequired,
+  index: PropTypes.number.isRequired
 }
 
 export { WordMeaning, WordMeaningProgress }

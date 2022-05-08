@@ -10,7 +10,6 @@ $bg-tooltip: darken(rgba($bg-base, .8), 20%);
   background-color: $bg-tooltip;
   color: $base-color;
   border: solid 1px $base-color;
-  opacity: 0;
   padding: 1em;
   font-size: .5em;
 }
@@ -23,17 +22,10 @@ $bg-tooltip: darken(rgba($bg-base, .8), 20%);
   transition: opacity 200ms;
 }
 
-.tooltip-enter-done {
-  opacity: 1;
-}
 .tooltip-exit {
   opacity: 1;
 }
 .tooltip-exit-active {
   opacity: 0;
   transition: opacity 200ms;
-}
-
-.tooltip-exit-done {
-  opacity: 0;
 }

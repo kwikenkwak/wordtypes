@@ -45,20 +45,23 @@ function TyperTypeWindow ({ meanings, running, word, onMeaningComplete, onType, 
     <>
     <div className='typer-window'>
     <TabWindow current={currentWindow}>
-    <div className='typer-window-tab'>
-        <h1>{word}</h1>
+    <div className='typer-window-tab typer-word-window'>
+        <h1 className="word-title">{word}</h1>
+        <div className="word-meanings">
         { meanings.map((meaning, idx) => {
           return <WordMeaning key={idx} meaning={meaning}
           active={idx === currentMeaning}
           first={idx === 0}
           onType={onType} onComplete={onMeaningComplete}
           last={idx === meanings.length - 1}
+          index={idx}
             />
         })}
+        </div>
             </div>
 
     { !running &&
-    <div className='typer-window-tab'>
+    <div className='typer-window-tab typer-stats-window'>
     <SessionStatViewer stats={tracker.getData()} />
     </div>}
 

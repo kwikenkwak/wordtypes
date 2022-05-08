@@ -20,7 +20,7 @@ function TabWindow ({ children, buttons = [], start = 0, current = -1 }) {
   if (current >= 0 && slideCurrent !== current) setSlideCurrent(current)
   return (
     <div className="tab-window">
-
+    { buttons.length > 0 &&
     <div className="tab-window-buttons">
     {buttons.map((button, index) =>
       <TabWindowButton key={index}
@@ -29,7 +29,7 @@ function TabWindow ({ children, buttons = [], start = 0, current = -1 }) {
       {button}
       </TabWindowButton>
     )}
-    </div>
+    </div>}
 
     <div className="tab-window-tabs">
       {children.map((child, idx) =>

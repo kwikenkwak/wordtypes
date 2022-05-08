@@ -21,7 +21,7 @@ function getPosition (pos, target) {
 
 function Tooltip ({ text, pos = 'left', parentRef, show }) {
   return (
-    <CSSTransition timeout={200} in={show} classNames='tooltip'>
+    <CSSTransition timeout={200} in={show} classNames='tooltip' unmountOnExit>
       <div className="tooltip" style={getPosition(pos, parentRef.current)}>{text}</div>
     </CSSTransition>
   )

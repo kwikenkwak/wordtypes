@@ -38,7 +38,8 @@ def findwords(request):
         word = words[index]
 
         # For debugging (-:
-        word = 'descending'
+        # word = 'descending'
+        # word = 'heap'
 
         definitions = get_definitions(word)
 

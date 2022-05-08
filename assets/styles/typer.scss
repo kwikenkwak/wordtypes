@@ -11,7 +11,6 @@
 
 .typer-window {
   display: flex;
-  padding: 1em;
   margin-top: 1em;
   width: 100%;
   flex-grow: 1;
@@ -58,5 +57,30 @@
 
 .typer-nav-button:hover {
   background-color: darken($bg-base, 5%);
+}
+
+.word-title {
+  margin: 0;
+  display: flex;
+  background: rgba($base-color, .8);
+  color: $bg-base;
+  border-bottom: solid 1px $base-color;
+  justify-content: center;
+}
+
+.word-meanings {
+  padding: 1em;
+  overflow: auto;
+  flex-grow: 1;
+  padding-top: .2em;
+}
+
+.typer-stats-window {
+  margin: 1em;
+}
+
+.typer-word-window {
+  display: flex;
+  flex-flow: column;
 }
 
