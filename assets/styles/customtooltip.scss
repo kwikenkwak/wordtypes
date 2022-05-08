@@ -1,0 +1,20 @@
+@use 'vars' as *;
+
+.custom-tooltip {
+  background-color: rgba(darken($bg-base, 20%), .8);
+  border: solid 1px $base-color;
+  border-radius: .3em;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding: .3em;
+}
+
+.tooltip-title {
+  font-size: 2em;
+}
+
+.tooltip-description {
+  font-size: .5em;
+  color: $base-color;
+}

@@ -30,3 +30,9 @@ $base-color-graph: rgba($base-color, 1);
   fill: $base-color-graph;
   color: $base-color-graph;
 }
+
+.stats-flex-graph {
+  flex-grow: 1;
+  width: 100%;
+  height: 10px;
+}

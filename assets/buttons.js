@@ -3,6 +3,19 @@ import PropTypes from 'prop-types'
 import { urls } from './resourceurls.js'
 import { Icon } from './icon.js'
 
+function BaseButton ({ onClick, url, text }) {
+  return (
+  <a className="nav-button" onClick={onClick}>
+      {text}<Icon className="home-button-icon" size={'1.5em'} src={url} />
+  </a>)
+}
+
+BaseButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  url: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired
+}
+
 function BaseNavButton ({ jumpPage, targetPage, iconUrl, text }) {
   return (
     <a className="nav-button" onClick={() => jumpPage(targetPage)}>
@@ -43,4 +56,4 @@ TyperButton.propTypes = StatsButton.propTypes = SkipButton.propTypes =
     jumpPage: PropTypes.func.isRequired
   }
 
-export { StatsButton, TyperButton, SkipButton, HomeButton }
+export { StatsButton, TyperButton, SkipButton, HomeButton, BaseButton }

@@ -10,9 +10,23 @@ import { PropTypes } from 'prop-types'
 import { StatTracker } from './stats/stattracker.js'
 import { SessionStatViewer } from './stats/sessionstatviewer.js'
 import { ProgressBar } from './progressbar.js'
-import { Icon } from './icon.js'
-
+import { TabWindow } from './tabwindow.js'
 import { StatsButton, SkipButton, HomeButton } from './buttons.js'
+import { Icon } from './icon.js'
+import { urls } from './resourceurls.js'
+
+function TyperNavButton ({ onClick, url, text }) {
+  return (
+  <a className="typer-nav-button" onClick={onClick}>
+      {text}<Icon className="home-button-icon" size={'1.5em'} src={url} />
+  </a>)
+}
+
+TyperNavButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  url: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired
+}
 
 function getMeaningLength (meaning) {
   return meaning.definition.length +
@@ -21,11 +35,17 @@ function getMeaningLength (meaning) {
 }
 
 function TyperTypeWindow ({ meanings, running, word, onMeaningComplete, onType, currentMeaning, tracker, progress }) {
+  const [currentWindow, setCurrentWindow] = useState(0)
+
+  useEffect(() => { setCurrentWindow(running ? 0 : 1) }, [running])
+
+  const jumpToWord = () => setCurrentWindow(0)
+  const jumpToStats = () => setCurrentWindow(1)
   return (
     <>
     <div className='typer-window'>
-    { running
-      ? <div>
+    <TabWindow current={currentWindow}>
+    <div className='typer-window-tab'>
         <h1>{word}</h1>
         { meanings.map((meaning, idx) => {
           return <WordMeaning key={idx} meaning={meaning}
@@ -35,8 +55,18 @@ function TyperTypeWindow ({ meanings, running, word, onMeaningComplete, onType, 
           last={idx === meanings.length - 1}
             />
         })}
-        </div>
-      : <SessionStatViewer stats={tracker.getData()} /> }
+            </div>
+
+    { !running &&
+    <div className='typer-window-tab'>
+    <SessionStatViewer stats={tracker.getData()} />
+    </div>}
+
+    </TabWindow>
+    {!running && (currentWindow === 1
+      ? <div className="back-to-word-button"> <TyperNavButton onClick={jumpToWord} text='Back to word' url={urls.backToWord} /></div>
+      : <div className="back-to-word-button"> <TyperNavButton onClick={jumpToStats} text='View stats' url={urls.statsIcon} /></div>)}
+
     </div>
     <ProgressBar progress={progress} width={'100%'}/>
     </>

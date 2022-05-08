@@ -36,6 +36,10 @@ def findwords(request):
     while (not definitions) or word[0].isupper():
         index = random.randint(info["min"], info["max"])
         word = words[index]
+
+        # For debugging (-:
+        word = 'descending'
+
         definitions = get_definitions(word)
 
     # word = "across"

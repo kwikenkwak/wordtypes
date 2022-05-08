@@ -8,7 +8,10 @@ const urls = {
   trees: treesUrl,
   enterIcon: enterIconUrl,
   homeIcon: homeIconUrl,
-  skipIcon: skipIconUrl
+  skipIcon: skipIconUrl,
+  infoIcon: infoIconUrl,
+  perfectImage: perfectImageUrl,
+  backToWord: backToWordUrl
 }
 
 export { urls }

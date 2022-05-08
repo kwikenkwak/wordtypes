@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { bufferManager } from './buffermanager.js'
 import { StatsButton, TyperButton } from './buttons.js'
 import { urls } from './resourceurls.js'
+import { InfoButton } from './infobutton.js'
 import './styles/homepage.scss'
 import './styles/scrollbar.scss'
 
