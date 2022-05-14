@@ -36,3 +36,21 @@ $base-color-graph: rgba($base-color, 1);
   width: 100%;
   height: 10px;
 }
+
+.stats-window {
+  display: flex;
+  flex-flow: column;
+}
+
+.stats-viewer {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  height: 100%;
+}
+
+.stats-viewer-content {
+  padding: 3% 10%;
+  padding-bottom: 7%;
+  flex-grow: 1;
+}

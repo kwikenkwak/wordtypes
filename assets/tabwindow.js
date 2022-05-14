@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { PropTypes } from 'prop-types'
+import PropTypes from 'prop-types'
 
 import './styles/tabwindow.scss'
 
@@ -10,7 +10,7 @@ function TabWindowButton ({ children, active, onClick }) {
 }
 
 TabWindowButton.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   active: PropTypes.bool.isRequired,
   onClick: PropTypes.func
 }

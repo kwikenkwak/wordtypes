@@ -11,22 +11,8 @@ import { StatTracker } from './stats/stattracker.js'
 import { SessionStatViewer } from './stats/sessionstatviewer.js'
 import { ProgressBar } from './progressbar.js'
 import { TabWindow } from './tabwindow.js'
-import { StatsButton, SkipButton, HomeButton } from './buttons.js'
-import { Icon } from './icon.js'
+import { StatsButton, HomeButton, BaseButton, FloatingNavButton } from './buttons.js'
 import { urls } from './resourceurls.js'
-
-function TyperNavButton ({ onClick, url, text }) {
-  return (
-  <a className="typer-nav-button" onClick={onClick}>
-      {text}<Icon className="home-button-icon" size={'1.5em'} src={url} />
-  </a>)
-}
-
-TyperNavButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  url: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired
-}
 
 function getMeaningLength (meaning) {
   return meaning.definition.length +
@@ -67,8 +53,8 @@ function TyperTypeWindow ({ meanings, running, word, onMeaningComplete, onType, 
 
     </TabWindow>
     {!running && (currentWindow === 1
-      ? <div className="back-to-word-button"> <TyperNavButton onClick={jumpToWord} text='Back to word' url={urls.backToWord} /></div>
-      : <div className="back-to-word-button"> <TyperNavButton onClick={jumpToStats} text='View stats' url={urls.statsIcon} /></div>)}
+      ? <div className="back-to-word-button"> <FloatingNavButton onClick={jumpToWord} text='Back to word' url={urls.backToWord} /></div>
+      : <div className="back-to-word-button"> <FloatingNavButton onClick={jumpToStats} text='View stats' url={urls.statsIcon} /></div>)}
 
     </div>
     <ProgressBar progress={progress} width={'100%'}/>
@@ -166,7 +152,8 @@ function Typer ({ background, jumpPage }) {
     <div className='typer-buttons'>
     <StatsButton jumpPage={jumpPage}/>
     <HomeButton jumpPage={jumpPage}/>
-    <SkipButton jumpPage={jumpPage}/>
+    <BaseButton text={running ? 'Skip' : 'Next'} onClick={() => jumpPage('typer')}
+                url={running ? urls.skipIcon : urls.typerIcon }/>
     </div>
     </div>
   )

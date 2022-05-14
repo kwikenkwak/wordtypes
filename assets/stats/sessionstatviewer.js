@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { mRound, calcWPM, calcAccuracy } from './statutils.js'
 import { PropTypes } from 'prop-types'
 import { AccuracyBar } from './accuracybar.js'
 import { TabWindow } from '../tabwindow.js'
@@ -8,10 +9,6 @@ import { Histogram } from './histogram.js'
 import { urls } from '../resourceurls.js'
 import '../styles/stats.scss'
 import '../styles/sessionstats.scss'
-
-function mRound (a, n) {
-  return Math.round(Math.pow(10, n) * a) / Math.pow(10, n)
-}
 
 function toSpeedData (keys) {
   const data = []
@@ -23,11 +20,6 @@ function toSpeedData (keys) {
     totalCorrect += 1
   }
   return data
-}
-
-function calcWPM (stats) {
-  const time = stats.keysData[stats.keysData.length - 1].time
-  return ((60000 * stats.correct) / (time * 5))
 }
 
 function createSpeedTooltipText (value, label) {
@@ -71,11 +63,10 @@ function createAccuracyTooltipText (value, label) {
 }
 
 function AccuracyTab ({ stats }) {
-  const accuracy = Math.round(100 * 100 * (stats.correct / stats.total)) / 100
   return (
     <div className="accuracy-tab">
     <div className="accuracy-header">
-    Your accuracy was {accuracy}%
+    Your accuracy was {calcAccuracy(stats)}%
     <div className="accuracy-header-info">
     <InfoButton text='Accuracy is the most important metric when learning to type, it is best to focus on accuracy instead of speed' />
     </div>
@@ -87,7 +78,7 @@ function AccuracyTab ({ stats }) {
     </div>
     </div>
 
-    {accuracy !== 100
+    {calcAccuracy(stats) !== 100
       ? <div className="speed-graph-wrapper">
     <p className="graph-description"> Errors by character </p>
     <div className="stats-flex-graph">
@@ -105,14 +96,14 @@ AccuracyTab.propTypes = {
 }
 
 function SessionStatViewer ({ stats }) {
-  const buttons = [<span key={0} >Speed</span>,
-                   <span key={1} >Accuracy</span>]
+  const buttons = [<span key={0} >Accuracy</span>,
+                   <span key={1} >Speed</span>]
 
   return (
     <>
     <TabWindow buttons={buttons} >
-      <SpeedTab stats={stats} />
       <AccuracyTab stats={stats} />
+      <SpeedTab stats={stats} />
     </TabWindow>
     </>
   )

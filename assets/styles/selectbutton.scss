@@ -1,0 +1,54 @@
+@use 'vars' as *;
+
+.select-button {
+  position: relative;
+  // background-color: darken($bg-base, 20%);
+  // border: solid 1px $base-color;
+  background-color: $base-color;
+  color: $bg-base;
+  border-radius: 5px;
+  padding: 0 .2em;
+  cursor: pointer;
+}
+
+.select-options {
+  background-color: rgba(darken($bg-base, 10%), .7);
+  position: absolute;
+  z-index: 9999;
+  overflow: hidden;
+  display: inline-block;
+  padding: .3em .1em;
+  border-radius: 7px;
+}
+
+.select-option {
+  border-radius: 4px;
+  padding: 0 .1em;
+  background-color: transparent;
+  color: $base-color;
+  transition: background-color, color .2s ease;
+  cursor: pointer;
+}
+
+.select-option:hover {
+  background-color: $base-color;
+  color: rgba(darken($bg-base, 10%), .9);
+}
+
+.select-options-enter .select-option:first-child {
+  margin-top: -150%;
+  transition: margin-top .1s ease;
+}
+
+.select-options-enter-active .select-option:first-child {
+  margin-top: 0px;
+}
+
+.select-options-exit .select-option:first-child {
+  margin-top: 0px;
+  transition: margin-top .1s ease;
+}
+
+.select-options-exit-active .select-option:first-child {
+  margin-top: -150%;
+}

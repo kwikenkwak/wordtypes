@@ -6,7 +6,7 @@ import '../styles/customtooltip.scss'
 function CustomTooltip ({ active, payload, label, createText = null }) {
   if (active && payload && payload.length) {
     const value = payload[0].value
-    const [title, description] = createText ? createText(value, label) : [value, value]
+    const [title, description] = createText ? createText(value, label, payload) : [value, value]
     return (
       <div className="custom-tooltip">
         <span className="tooltip-title">{title}</span>

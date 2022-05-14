@@ -1,0 +1,41 @@
+@use 'vars' as *;
+
+.root-floater {
+  position: absolute;
+  z-index: 999;
+}
+
+.root-floater-animate {
+  transition: left .2s ease, top .2s ease;
+}
+
+.sortable-list-item {
+  overflow: hidden;
+  background-color: red;
+}
+
+.sortable-list-item-inner {
+}
+
+.sortable-list-item-enter .sortable-list-item-inner {
+  margin-top: -100%;
+}
+
+.sortable-list-item-enter-active .sortable-list-item-inner {
+  margin-top: 0;
+  transition: margin-top .2s ease;
+}
+
+.sortable-list-item-exit .sortable-list-item-inner {
+  margin-top: 0%;
+}
+
+.sortable-list-item-exit-active .sortable-list-item-inner {
+  margin-top: -100%;
+  transition: margin-top .2s ease;
+}
+
+.sortable-list-item-ghost {
+  opacity: 0
+}
+

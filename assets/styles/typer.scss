@@ -34,31 +34,6 @@
   position: relative;
 }
 
-.typer-nav-button {
-  position: absolute;
-  width: 4em;
-  height: 4em;
-  right: 1em;
-  bottom: 1em;
-  opacity: .6;
-  font-size: .7em;
-
-  display: flex;
-  flex-flow: column;
-  border: solid 1px $base-color;
-  border-radius: 5px;
-  padding: .5em;
-  cursor: pointer;
-  justify-content: center;
-  align-items: center;
-  background-color: darken($bg-base, 20%);
-  transition: background-color .2s ease;
-}
-
-.typer-nav-button:hover {
-  background-color: darken($bg-base, 5%);
-}
-
 .word-title {
   margin: 0;
   display: flex;
@@ -83,4 +58,3 @@
   display: flex;
   flex-flow: column;
 }
-
