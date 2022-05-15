@@ -5,12 +5,12 @@ function useSortableList (items, onChange, dragClass) {
   const [state, setState] = useState({
     dragged: null,
     draggedPos: {},
-    ghosts: {},
+    ghost: -1,
     animDrag: false,
     list: items.slice()
   })
 
-  const ghostsRef = useRef({})
+  const ghost = useRef(-1)
   const draggedObj = useRef(null)
   const draggedRef = useRef(null)
   const mousePos = useRef({})
@@ -25,29 +25,22 @@ function useSortableList (items, onChange, dragClass) {
     setState(newState)
   }
 
-  function findRect (index) {
-  }
-
   function finishDrag (e) {
     console.log('finished drag')
-    const { index, rect, pos, dragRect } = findInsertIndex(e)
+    const { index, x, y } = findInsertIndex(e)
+    console.log(findInsertIndex(e))
 
     document.removeEventListener('mousemove', moveDrag)
     document.removeEventListener('mouseup', finishDrag)
 
-    draggedPos.current = {
-      x: rect.left,
-      y: pos === 'above'
-        ? rect.top
-        : rect.top + dragRect.height
-    }
-    draggedObj.current = null
+    draggedPos.current = { x, y }
     state.draggedPos = draggedPos.current
     state.animDrag = true
 
     setTimeout(() => {
       removeGhosts()
       state.dragged = null
+      draggedObj.current = null
       listRef.current.splice(
         index === -1 ? draggedOldIndex.current : index,
         0,
@@ -58,14 +51,6 @@ function useSortableList (items, onChange, dragClass) {
     updateState(state)
   }
 
-  function getEstimatedLength () {
-    let res = listRef.current.length
-    for (const key of Object.keys(ghostsRef.current)) {
-      if (ghostsRef.current[key].active === true) res += 1
-    }
-    return res
-  }
-
   function findInsertIndex (e) {
     const obj = findDraggedObject(e)
     if (obj === null && draggedObj.current === null) return prevInsert.current
@@ -74,36 +59,37 @@ function useSortableList (items, onChange, dragClass) {
     const rect = draggedObj.current.getBoundingClientRect()
     const y = (rect.top + rect.bottom) / 2
     const itemObjects = parentDiv.current.children
-    let ghostOffset = 0
 
     let data = { index: -1, dragRect: rect }
 
-    if (itemObjects.length !== getEstimatedLength()) { return prevInsert.current }
+    // Make sure the item is between the list borders
+    const firstRect = itemObjects[0].getBoundingClientRect()
+    if (rect.left > firstRect.right || firstRect.left > rect.right) return prevInsert.current
 
     for (let idx = 0; idx < itemObjects.length; idx++) {
-      const isGhost = itemObjects[idx].classList.contains('sortable-list-item-ghost')
       const itemRect = itemObjects[idx].getBoundingClientRect()
-      if (itemRect.top > y || itemRect.bottom < y) continue
-      if (rect.left > itemRect.right || itemRect.left > rect.right) continue
+      if (y > itemRect.bottom) continue
+
+      // Now we now this is for which the dragged item
+      // is lower than the list item
 
       const middle = (itemRect.top + itemRect.bottom) / 2
-      let index
-      if (isGhost) {
-        index = idx
-      } else {
-        index = y > middle ? idx + 1 : idx
-      }
 
-      index -= ghostOffset
-      if (isGhost) ghostOffset += 1
+      const yTop = y < middle
+        ? (idx !== 0
+            ? itemObjects[idx - 1].getBoundingClientRect().bottom
+            : parentDiv.current.getBoundingClientRect().top)
+        : itemRect.bottom
 
       data = {
-        index: index,
+        index: y > middle ? idx + 1 : idx,
+        x: itemRect.left,
+        y: yTop,
         rect: itemRect,
         pos: y > middle ? 'below' : 'above',
-        dragRect: rect,
-        isGhost: isGhost
+        dragRect: rect
       }
+      break
     }
 
     prevInsert.current = data
@@ -115,25 +101,8 @@ function useSortableList (items, onChange, dragClass) {
   }
 
   function removeGhosts () {
-    ghostsRef.current = {}
-    state.ghosts = ghostsRef.current
-  }
-
-  function disableGhosts (index) {
-    for (const ghostIndex of Object.keys(ghostsRef.current)) {
-      if (Number(ghostIndex) !== index) {
-        if (ghostsRef.current[ghostIndex] !== undefined) {
-          ghostsRef.current[ghostIndex].active = false
-        }
-      }
-    }
-  }
-
-  function createGhost (component, index, key = null) {
-    return {
-      component: React.cloneElement(component, { key: key || uuid(), ghost: 'true', index: index }),
-      active: true
-    }
+    ghost.current = -1
+    state.ghost = ghost.current
   }
 
   function moveDrag (e) {
@@ -147,20 +116,8 @@ function useSortableList (items, onChange, dragClass) {
     mousePos.current = { x: e.clientX, y: e.clientY }
 
     const { index } = findInsertIndex(e)
-    disableGhosts(index)
-    state.ghosts = ghostsRef.current
-
-    if (ghostsRef.current[index] !== undefined && !ghostsRef.current[index].active) {
-      ghostsRef.current[index].active = true
-    }
-
-    if (index === -1 || ghostsRef.current[index] !== undefined) {
-      updateState(state)
-      return
-    }
-
-    ghostsRef.current[index] = createGhost(draggedRef.current, index)
-    state.ghosts = ghostsRef.current
+    ghost.current = index
+    state.ghost = ghost.current
     updateState(state)
   }
 
@@ -182,9 +139,8 @@ function useSortableList (items, onChange, dragClass) {
     state.draggedPos = draggedPos.current
     state.animDrag = false
 
-    const ghost = createGhost(listRef.current[idx], idx, listRef.current[idx].key)
-    ghostsRef.current[idx] = ghost
-    state.ghosts = ghostsRef.current
+    ghost.current = idx
+    state.ghost = ghost.current
 
     listRef.current.splice(idx, 1)
     prevInsert.current = { index: -1 }
@@ -200,44 +156,25 @@ function useSortableList (items, onChange, dragClass) {
     return (e) => startDrag(e, idx)
   }
 
-  const totalList = []
+  const list = []
   const listeners = []
   const ids = []
   for (let idx = 0; idx < state.list.length; idx++) {
     if (state.list[idx] === undefined) continue
     ids.push(state.list[idx].key)
     listeners.push(getDragListener(idx))
-    totalList.push(state.list[idx])
+    list.push(state.list[idx])
   }
-
-  let offset = 0
-  for (let index of Object.keys(state.ghosts)) {
-    if (!state.ghosts[index].active) continue
-
-    index = Number(index)
-    ids.splice(index + offset, 0, state.ghosts[index].component.key)
-    listeners.splice(index + offset, 0, null)
-    totalList.splice(index + offset, 0, state.ghosts[index].component)
-    offset += 1
-  }
-
-  function getStringState (totalList) {
-    const res = []
-    for (const ele of totalList) {
-      res.push(ele.props.ghost ? 'Ghost' : ele.props.children)
-    }
-    return res
-  }
-
-  // console.log(getStringState(totalList))
 
   return {
     dragged: state.dragged,
     draggedPos: state.draggedPos,
-    list: totalList,
+    list,
+    ghost: state.ghost,
     listeners,
     ids,
-    animDrag: state.animDrag
+    animDrag: state.animDrag,
+    ghostHeight: draggedObj.current ? draggedObj.current.getBoundingClientRect().height : 0
   }
 }
 

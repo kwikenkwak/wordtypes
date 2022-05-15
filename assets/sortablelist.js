@@ -17,14 +17,21 @@ function RenderRoot ({ children, pos, animate = false }) {
 }
 
 function SortableList ({ items, onChange, dragClass }) {
-  const { listeners, list, dragged, draggedPos, ids, animDrag } = useSortableList(items, onChange, dragClass)
+  const {
+    listeners, list, dragged, draggedPos, ids,
+    animDrag, ghost, ghostHeight
+  } = useSortableList(items, onChange, dragClass)
   return (
     <>
     <TransitionGroup className="sortable-list">
     { list.map((ele, idx) =>
       (<CSSTransition timeout={200} classNames="sortable-list-item" key={ids[idx]}>
-        <div className={ele.props.ghost === 'true' ? 'sortable-list-item sortable-list-item-ghost' : 'sortable-list-item'}
-             onMouseDown={listeners[idx]}>
+        <div className={ghost === idx
+          ? 'sortable-list-item sortable-list-item-ghost'
+          : 'sortable-list-item'}
+             onMouseDown={listeners[idx]}
+            style={{ marginTop: ghost === idx ? ghostHeight + 'px' : '0' }}
+        >
         <div className="sortable-list-item-inner">
         {ele}
         </div>

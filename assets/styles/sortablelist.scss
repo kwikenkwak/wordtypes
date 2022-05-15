@@ -12,6 +12,8 @@
 .sortable-list-item {
   overflow: hidden;
   background-color: red;
+  margin-bottom: 0;
+  transition: margin-top .2s ease;
 }
 
 .sortable-list-item-inner {
@@ -34,8 +36,3 @@
   margin-top: -100%;
   transition: margin-top .2s ease;
 }
-
-.sortable-list-item-ghost {
-  opacity: 0
-}
-
