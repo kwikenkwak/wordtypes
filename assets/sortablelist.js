@@ -5,6 +5,16 @@ import { useSortableList } from './sortablelistlogic.js'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import './styles/sortablelist.scss'
 
+function cNames (names) {
+  const classes = []
+  for (const name of names) {
+    if (name[1]) {
+      classes.push(name[0])
+    }
+  }
+  return classes.join(' ')
+}
+
 function RenderRoot ({ children, pos, animate = false }) {
   return ReactDOM.createPortal(
     <div className={animate
@@ -19,18 +29,20 @@ function RenderRoot ({ children, pos, animate = false }) {
 function SortableList ({ items, onChange, dragClass }) {
   const {
     listeners, list, dragged, draggedPos, ids,
-    animDrag, ghost, ghostHeight
+    animDrag, ghost, ghostHeight, animDisabled, inserted,
+    hidden
   } = useSortableList(items, onChange, dragClass)
   return (
     <>
     <TransitionGroup className="sortable-list">
     { list.map((ele, idx) =>
       (<CSSTransition timeout={200} classNames="sortable-list-item" key={ids[idx]}>
-        <div className={ghost === idx
-          ? 'sortable-list-item sortable-list-item-ghost'
-          : 'sortable-list-item'}
-             onMouseDown={listeners[idx]}
-            style={{ marginTop: ghost === idx ? ghostHeight + 'px' : '0' }}
+        <div
+          className={cNames([['sortable-list-item', true],
+            ['sortable-list-item-animated', animDisabled !== idx && inserted !== idx],
+            ['sortable-list-item-hidden', hidden === idx]])}
+          onMouseDown={listeners[idx]}
+          style={{ marginTop: ghost === idx ? ghostHeight + 'px' : '0' }}
         >
         <div className="sortable-list-item-inner">
         {ele}

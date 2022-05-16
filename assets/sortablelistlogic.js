@@ -10,6 +10,9 @@ function useSortableList (items, onChange, dragClass) {
     list: items.slice()
   })
 
+  const frozen = useRef(false)
+  const inserted = useRef(-1)
+  const animDisabled = useRef(-1)
   const ghost = useRef(-1)
   const draggedObj = useRef(null)
   const draggedRef = useRef(null)
@@ -27,28 +30,51 @@ function useSortableList (items, onChange, dragClass) {
 
   function finishDrag (e) {
     console.log('finished drag')
-    const { index, x, y } = findInsertIndex(e)
+    let { index, x, y } = findInsertIndex(e)
     console.log(findInsertIndex(e))
 
     document.removeEventListener('mousemove', moveDrag)
     document.removeEventListener('mouseup', finishDrag)
 
-    draggedPos.current = { x, y }
+    if (index === -1) {
+      index = draggedOldIndex.current
+      ghost.current = index
+      state.ghost = ghost.current
+
+      draggedPos.current = {
+        x: parentDiv.current.getBoundingClientRect().left,
+        y: index === 0
+          ? parentDiv.current.getBoundingClientRect().top
+          : parentDiv.current.children[index - 1].getBoundingClientRect().bottom
+      }
+    } else {
+      draggedPos.current = { x, y }
+    }
+
     state.draggedPos = draggedPos.current
     state.animDrag = true
+    updateState(state)
+    frozen.current = true
 
     setTimeout(() => {
+      window.requestAnimationFrame(() => {
+        inserted.current = -1
+        animDisabled.current = -1
+        updateState(state)
+        frozen.current = false
+      })
+      animDisabled.current = index + 1
       removeGhosts()
-      state.dragged = null
       draggedObj.current = null
+      state.dragged = null
+      inserted.current = index
       listRef.current.splice(
-        index === -1 ? draggedOldIndex.current : index,
+        index,
         0,
         draggedRef.current)
       state.list = listRef.current
       updateState(state)
     }, 200)
-    updateState(state)
   }
 
   function findInsertIndex (e) {
@@ -62,34 +88,34 @@ function useSortableList (items, onChange, dragClass) {
 
     let data = { index: -1, dragRect: rect }
 
-    // Make sure the item is between the list borders
     const firstRect = itemObjects[0].getBoundingClientRect()
-    if (rect.left > firstRect.right || firstRect.left > rect.right) return prevInsert.current
+    // Make sure the item is between the list borders
+    if (rect.left < firstRect.right && firstRect.left < rect.right) {
+      for (let idx = 0; idx < itemObjects.length; idx++) {
+        const itemRect = itemObjects[idx].getBoundingClientRect()
+        if (y > itemRect.bottom) continue
 
-    for (let idx = 0; idx < itemObjects.length; idx++) {
-      const itemRect = itemObjects[idx].getBoundingClientRect()
-      if (y > itemRect.bottom) continue
+        // Now we now this is for which the dragged item
+        // is lower than the list item
 
-      // Now we now this is for which the dragged item
-      // is lower than the list item
+        const middle = (itemRect.top + itemRect.bottom) / 2
 
-      const middle = (itemRect.top + itemRect.bottom) / 2
+        const yTop = y < middle
+          ? (idx !== 0
+              ? itemObjects[idx - 1].getBoundingClientRect().bottom
+              : parentDiv.current.getBoundingClientRect().top)
+          : itemRect.bottom
 
-      const yTop = y < middle
-        ? (idx !== 0
-            ? itemObjects[idx - 1].getBoundingClientRect().bottom
-            : parentDiv.current.getBoundingClientRect().top)
-        : itemRect.bottom
-
-      data = {
-        index: y > middle ? idx + 1 : idx,
-        x: itemRect.left,
-        y: yTop,
-        rect: itemRect,
-        pos: y > middle ? 'below' : 'above',
-        dragRect: rect
+        data = {
+          index: y > middle ? idx + 1 : idx,
+          x: itemRect.left,
+          y: yTop,
+          rect: itemRect,
+          pos: y > middle ? 'below' : 'above',
+          dragRect: rect
+        }
+        break
       }
-      break
     }
 
     prevInsert.current = data
@@ -122,6 +148,10 @@ function useSortableList (items, onChange, dragClass) {
   }
 
   function startDrag (e, idx) {
+    if (frozen.current) {
+      console.warn('Neglected drag click as the list was frozen')
+      return
+    }
     e.preventDefault()
     const rect = findDraggedObject(e).getBoundingClientRect()
     draggedPos.current = ({
@@ -139,12 +169,16 @@ function useSortableList (items, onChange, dragClass) {
     state.draggedPos = draggedPos.current
     state.animDrag = false
 
-    ghost.current = idx
-    state.ghost = ghost.current
+    // ghost.current = idx
+    // state.ghost = ghost.current
+    inserted.current = -1
+    animDisabled.current = -1
 
     listRef.current.splice(idx, 1)
     prevInsert.current = { index: -1 }
     state.list = listRef.current
+
+    // moveDrag(e)
 
     updateState(state)
 
@@ -174,7 +208,9 @@ function useSortableList (items, onChange, dragClass) {
     listeners,
     ids,
     animDrag: state.animDrag,
-    ghostHeight: draggedObj.current ? draggedObj.current.getBoundingClientRect().height : 0
+    ghostHeight: draggedObj.current ? draggedObj.current.getBoundingClientRect().height : 0,
+    inserted: inserted.current,
+    animDisabled: animDisabled.current
   }
 }
 
