@@ -5,7 +5,11 @@ import { CSSTransition } from 'react-transition-group'
 
 import './styles/selectbutton.scss'
 
-function Choices ({ parentRef, choices, current, onSelect }) {
+function toTitle (str) {
+  return str[0].toUpperCase() + str.substr(1, str.length - 1)
+}
+
+function Choices ({ parentRef, choices, current, onSelect, title }) {
   const rect = parentRef.current.getBoundingClientRect()
   return ReactDOM.createPortal(
       <div className="select-options"
@@ -13,7 +17,9 @@ function Choices ({ parentRef, choices, current, onSelect }) {
       <div className="slide-wrapper">
       { choices.map((choice, idx) =>
           <div key={idx} onClick={() => onSelect(choice) }
-               className="select-option">{choice}</div>
+               className="select-option">
+               {title ? toTitle(choice) : choice}
+          </div>
       )}
       </div>
       </div>,
@@ -24,10 +30,11 @@ Choices.propTypes = {
   parentRef: PropTypes.object,
   choices: PropTypes.array.isRequired,
   current: PropTypes.string.isRequired,
-  onSelect: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
+  title: PropTypes.bool.isRequired
 }
 
-function SelectButton ({ onChange, choices, current }) {
+function SelectButton ({ onChange, choices, current, title = true }) {
   const [isOpen, setIsOpen] = useState(false)
   const parentRef = useRef(null)
 
@@ -56,11 +63,13 @@ function SelectButton ({ onChange, choices, current }) {
 
   return (
     <>
-      <div className="select-button" ref={parentRef} onClick={openChoices}>{current}</div>
+      <div className="select-button" ref={parentRef} onClick={openChoices}>
+    {title ? toTitle(current) : current}</div>
       <CSSTransition in={isOpen} classNames="select-options"
                       timeout={100} unmountOnExit >
             <Choices parentRef={parentRef} choices={choices}
-                     onSelect={chooseChoice} current={current} />
+                     onSelect={chooseChoice} current={current}
+                     title={title}/>
             </CSSTransition>
     </>
   )
@@ -69,7 +78,8 @@ function SelectButton ({ onChange, choices, current }) {
 SelectButton.propTypes = {
   onChange: PropTypes.func.isRequired,
   choices: PropTypes.array.isRequired,
-  current: PropTypes.string.isRequired
+  current: PropTypes.string.isRequired,
+  title: PropTypes.bool
 }
 
 export { SelectButton }
