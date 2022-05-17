@@ -1,3 +1,4 @@
+import { calcWpm, calcAccuracy } from './statutils.js'
 import { StatsManager } from './statsmanager.js'
 class StatTracker {
   constructor (name) {
@@ -38,12 +39,18 @@ class StatTracker {
   }
 
   getData () {
-    return {
+    const baseData = {
       word: this.name,
       total: this.totalTypeCount,
       correct: this.correctTypeCount,
       keysData: this.keysData,
       date: new Date()
+    }
+
+    return {
+      ...baseData,
+      wpm: calcWpm(baseData),
+      accuracy: calcAccuracy(baseData)
     }
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { mRound, calcWPM, calcAccuracy } from './statutils.js'
+import { mRound } from './statutils.js'
 import { PropTypes } from 'prop-types'
 import { AccuracyBar } from './accuracybar.js'
 import { TabWindow } from '../tabwindow.js'
@@ -30,7 +30,7 @@ function SpeedTab ({ stats }) {
   return (
     <div className="speed-tab">
     <div className="speed-header">
-    Your average wmp is {mRound(calcWPM(stats), 2)}
+    Your average wmp is {mRound(stats.wpm, 2)}
     <div className="speed-header-info">
     <InfoButton text='WPM stands for words per minute and indicates how fast you type' />
     </div>
@@ -66,7 +66,7 @@ function AccuracyTab ({ stats }) {
   return (
     <div className="accuracy-tab">
     <div className="accuracy-header">
-    Your accuracy was {calcAccuracy(stats)}%
+    Your accuracy was {stats.accuracy}%
     <div className="accuracy-header-info">
     <InfoButton text='Accuracy is the most important metric when learning to type, it is best to focus on accuracy instead of speed' />
     </div>
@@ -78,7 +78,7 @@ function AccuracyTab ({ stats }) {
     </div>
     </div>
 
-    {calcAccuracy(stats) !== 100
+    {stats.accuracy !== 100
       ? <div className="speed-graph-wrapper">
     <p className="graph-description"> Errors by character </p>
     <div className="stats-flex-graph">

@@ -1,6 +1,4 @@
 import React, { useState, useMemo } from 'react'
-import { PropTypes } from 'prop-types'
-import { mRound, calcWPM, calcAccuracy } from '../statutils'
 import { StatsManager } from '../statsmanager'
 import { VocabularyWord } from '../vocabularyword/vocabularyword'
 import { SelectButton } from '../../selectbutton'
@@ -38,8 +36,8 @@ const compareName = (a, b) => {
   }
   return a.word < b.word ? -1 : 1
 }
-const compareWpm = (a, b) => calcWPM(a) - calcWPM(b)
-const compareAccuracy = (a, b) => calcAccuracy(a) - calcAccuracy(b)
+const compareWpm = (a, b) => a.wpm - b.wpm
+const compareAccuracy = (a, b) => a.accuracy - b.accuracy
 
 function sortWords (words, method, dir) {
   words = words.slice()
