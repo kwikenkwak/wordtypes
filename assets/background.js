@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import './styles/background.scss'
-import React, { useRef } from 'react'
+import React, { useState, useCallback, useRef } from 'react'
 
 function randInt (start, end) {
   return Math.floor(Math.random() * (end - start) + start)
@@ -33,26 +33,12 @@ BackgroundParticle.propTypes = {
   correct: PropTypes.bool.isRequired
 }
 
-class Background extends React.Component {
-  constructor () {
-    super()
-    this.particles = []
-  }
+const useBackground = () => {
+  const [particles, setParticles] = useState([])
 
-  addParticle (args) {
-    this.particles.push(args)
-    this.setState({})
-  }
+  const addParticle = useCallback((particle) => setParticles((ps) => [...ps, particle]), [])
 
-  render () {
-    return (
-    <div className="background">
-    <div className="particles">
-    {this.particles.map((value, idx) => <BackgroundParticle key={idx} charTyped={value.charTyped} correct={value.correct}/>)}
-    </div>
-    </div>
-    )
-  }
+  return { addParticle, particles }
 }
 
-export { Background }
+export { useBackground, BackgroundParticle }

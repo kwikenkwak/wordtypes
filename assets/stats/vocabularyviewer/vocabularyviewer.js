@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react'
 import { StatsManager } from '../statsmanager'
-import { VocabularyWord } from '../vocabularyword/vocabularyword'
+import { VocabularyWord } from '../vocabularyword/vocword.js'
 import { SelectButton } from '../../selectbutton'
+import { darken } from 'polished'
 import styled from 'styled-components'
 
 const VocContainer = styled.div`
@@ -9,7 +10,6 @@ const VocContainer = styled.div`
   flex-flow: column;
   overflow: auto;
   flex-grow: 1;
-  max-height: 80vh;
 `
 
 const VocWordList = styled.div`
@@ -18,15 +18,23 @@ const VocWordList = styled.div`
   display: flex;
   flex-flow: column;
   overflow: auto;
+  padding: 5px;
+  background-color: ${props => darken(0.3, props.theme.bg)};
 `
 
 const SortOpts = styled.div`
   display: flex;
-  align-items: stretch;
+  align-items: center;
 `
 
 const OptButton = styled.div`
   margin-right: .3em;
+`
+
+const Header = styled.div`
+  font-size: 1.5em;
+  margin-right: auto;
+  text-transform: uppercase;
 `
 
 const compareDate = (a, b) => new Date(a.date) - new Date(b.date)
@@ -60,6 +68,7 @@ function VocabularyViewer () {
   return (
     <VocContainer>
     <SortOpts>
+    <Header>The vocabulary you have learnt to far</Header>
     <OptButton><SelectButton style={{ marginRight: '.3em' }}
                   onChange={(m) => setSortMethod(m)}
                   choices={['date', 'name', 'wpm', 'accuracy']}

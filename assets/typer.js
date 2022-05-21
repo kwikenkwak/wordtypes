@@ -11,7 +11,7 @@ import { StatTracker } from './stats/stattracker.js'
 import { SessionStatViewer } from './stats/sessionstatviewer.js'
 import { ProgressBar } from './progressbar.js'
 import { TabWindow } from './tabwindow.js'
-import { StatsButton, HomeButton, BaseButton, FloatingNavButton } from './buttons.js'
+import { StatsButton, HomeButton, BaseNavButton, FloatingNavButton } from './buttons.js'
 import { urls } from './resourceurls.js'
 
 function getMeaningLength (meaning) {
@@ -73,7 +73,7 @@ TyperTypeWindow.propTypes = {
   progress: PropTypes.number.isRequired
 }
 
-function Typer ({ background, jumpPage }) {
+function Typer ({ addParticle }) {
   const [isLoadingWord, setIsLoadingWord] = useState(true)
   const [wordInfo, setWordInfo] = useState('')
   const [tracker, setTracker] = useState(new StatTracker(''))
@@ -113,12 +113,11 @@ function Typer ({ background, jumpPage }) {
   function onWordComplete () {
     tracker.dumpData()
     setRunning(false)
-    // jumpPage('typer')
   }
 
   const onType = (args) => {
     if (tracker.totalTypeCount === 0) { tracker.startTimer() }
-    background.addParticle(args)
+    addParticle(args)
     tracker.registerKey(args.charTyped, args.correct)
     updateProgress()
   }
@@ -150,18 +149,17 @@ function Typer ({ background, jumpPage }) {
 
     {isLoadingWord && <LoadingAnimation />}
     <div className='typer-buttons'>
-    <StatsButton jumpPage={jumpPage}/>
-    <HomeButton jumpPage={jumpPage}/>
-    <BaseButton text={running ? 'Skip' : 'Next'} onClick={() => jumpPage('typer')}
-                url={running ? urls.skipIcon : urls.typerIcon }/>
+    <StatsButton />
+    <HomeButton />
+    <BaseNavButton text={running ? 'Skip' : 'Next'} targetPage={'/typer'}
+                iconUrl={running ? urls.skipIcon : urls.typerIcon }/>
     </div>
     </div>
   )
 }
 
 Typer.propTypes = {
-  background: PropTypes.object.isRequired,
-  jumpPage: PropTypes.func.isRequired
+  addParticle: PropTypes.func.isRequired
 }
 
 export { Typer }

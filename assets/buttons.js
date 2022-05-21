@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { urls } from './resourceurls.js'
 import { Icon } from './icon.js'
+import { useNavigate } from 'react-router-dom'
 
 import './styles/buttons.scss'
 
@@ -18,38 +19,38 @@ BaseButton.propTypes = {
   text: PropTypes.string.isRequired
 }
 
-function BaseNavButton ({ jumpPage, targetPage, iconUrl, text }) {
+function BaseNavButton ({ targetPage, iconUrl, text }) {
+  const navigate = useNavigate()
   return (
-    <a className="nav-button" onClick={() => jumpPage(targetPage)}>
+    <div className="nav-button" onClick={() => navigate(targetPage)}>
       {text}<Icon className="home-button-icon" size={'1.5em'} src={iconUrl} />
-    </a>
+    </div>
   )
 }
 
 BaseNavButton.propTypes = {
-  jumpPage: PropTypes.func.isRequired,
   targetPage: PropTypes.string.isRequired,
   iconUrl: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired
 }
 
-function StatsButton ({ jumpPage }) {
-  return <BaseNavButton jumpPage={jumpPage} targetPage={'stats'} iconUrl={urls.statsIcon}
+function StatsButton () {
+  return <BaseNavButton targetPage={'/stats'} iconUrl={urls.statsIcon}
           text={'Stats'}/>
 }
 
-function TyperButton ({ jumpPage }) {
-  return <BaseNavButton jumpPage={jumpPage} targetPage={'typer'} iconUrl={urls.typerIcon}
+function TyperButton () {
+  return <BaseNavButton targetPage={'/typer'} iconUrl={urls.typerIcon}
           text={'Start'}/>
 }
 
-function SkipButton ({ jumpPage }) {
-  return <BaseNavButton jumpPage={jumpPage} targetPage={'typer'} iconUrl={urls.skipIcon}
+function SkipButton () {
+  return <BaseNavButton targetPage={'/typer'} iconUrl={urls.skipIcon}
           text={'Skip'}/>
 }
 
-function HomeButton ({ jumpPage }) {
-  return <BaseNavButton jumpPage={jumpPage} targetPage={'welcome'} iconUrl={urls.homeIcon}
+function HomeButton () {
+  return <BaseNavButton targetPage={'/'} iconUrl={urls.homeIcon}
           text={'Home'}/>
 }
 
@@ -66,9 +67,4 @@ FloatingNavButton.propTypes = {
   text: PropTypes.string.isRequired
 }
 
-TyperButton.propTypes = StatsButton.propTypes = SkipButton.propTypes =
-  HomeButton.propTypes = {
-    jumpPage: PropTypes.func.isRequired
-  }
-
-export { StatsButton, TyperButton, SkipButton, HomeButton, BaseButton, FloatingNavButton }
+export { StatsButton, TyperButton, SkipButton, HomeButton, BaseButton, FloatingNavButton, BaseNavButton }

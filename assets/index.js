@@ -1,16 +1,17 @@
 import './styles/background.scss'
-import React, { useState, useRef } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 import PropTypes from 'prop-types'
 
-import { CSSTransition } from 'react-transition-group'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import styled, { ThemeProvider } from 'styled-components'
+import { Route, Routes, BrowserRouter, useLocation } from 'react-router-dom'
 
 import { baseTheme } from './themes.js'
+import { BackgroundParticle, useBackground } from './background'
 
 import { Typer } from './typer.js'
 import { StatsViewer } from './stats/statsviewer.js'
-import { Background } from './background.js'
 import { WelcomePage } from './welcomepage.js'
 
 const AppDiv = styled.div`
@@ -32,24 +33,56 @@ Page.propTypes = {
   isIn: PropTypes.bool.isRequired
 }
 
-function App () {
-  const [page, setPage] = useState('welcome')
-  const background = useRef(null)
+function Pages ({ addParticle }) {
+  const location = useLocation()
+  return (
+  <TransitionGroup>
+      <CSSTransition key={location.key} unmountOnExit classNames="page" timeout={2000}>
 
+      <Routes location={location}>
+      <Route exactPath path="/" element={
+        <div className="page">
+        <WelcomePage />
+        </div>
+      }
+      />
+      <Route path="/typer" element={
+        <div className="page">
+        <Typer addParticle={addParticle} />
+        </div>}
+      />
+      <Route path="/stats" element={
+        <div className="page">
+        <StatsViewer />
+        </div>}
+      />
+
+      </Routes>
+      </CSSTransition>
+      </TransitionGroup>
+  )
+}
+
+Pages.propTypes = {
+  addParticle: PropTypes.func.isRequired
+}
+
+function App () {
+  const { particles, addParticle } = useBackground()
   return (
     <AppDiv>
-    <ThemeProvider theme={baseTheme}>
-    <Background ref={background}/>
-    <Page setPage={setPage} isIn={page === 'welcome'}>
-      <WelcomePage jumpPage={setPage}/>
-    </Page>
-    <Page setPage={setPage} isIn={page === 'typer'}>
-      { page === 'typer' && <Typer jumpPage={setPage} background={background.current}/> }
-    </Page>
-    <Page setPage={setPage} isIn={page === 'stats'}>
-      <StatsViewer jumpPage={setPage} />
-    </Page>
-    </ThemeProvider>
+      <ThemeProvider theme={baseTheme}>
+        <BrowserRouter>
+          <Pages addParticle={addParticle}/>
+        </BrowserRouter>
+        <div className="background">
+          <div className="particles">
+          { particles.map((args, idx) =>
+             <BackgroundParticle key={idx} {...args} />
+          )}
+          </div>
+        </div>
+      </ThemeProvider>
     </AppDiv>
   )
 }
