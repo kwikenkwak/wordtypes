@@ -6,8 +6,11 @@ import json
 import os
 
 
-def get_definitions(word):
+def definitions(request):
+    info = json.loads(request.body)
     definitions = []
+    word = info["word"]
+    print(word)
     for syn in wordnet.synsets(word):
         # Limit the syns a bit because sometimes they're just
         # only words that are a bit related
@@ -20,20 +23,18 @@ def get_definitions(word):
         definitions.append({'type': word_type,
                             'definition': definition,
                             'examples': examples})
+    return JsonResponse({'word': word, 'definitions': definitions})
 
-    return definitions
 
-
-def findwords(request):
+def findword(request):
     info = json.loads(request.body)
 
     filepath = os.path.abspath(os.path.dirname(__file__)) + "/wordsrawsorted.json"
     with open(filepath) as f:
         words = json.load(f)["words"]
 
-    definitions = []
     word = 'A'
-    while (not definitions) or word[0].isupper():
+    while word[0].isupper():
         index = random.randint(info["min"], info["max"])
         word = words[index]
 
@@ -41,8 +42,5 @@ def findwords(request):
         # word = 'descending'
         # word = 'heap'
 
-        definitions = get_definitions(word)
-
     # word = "across"
-    return JsonResponse({'word': word, 'rank': index,
-                         'definitions': definitions})
+    return JsonResponse({'word': word, 'rank': index})

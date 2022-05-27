@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react'
-import { useParams, useNavigate, Route, Routes, useSearchParams } from 'react-router-dom'
+import React, { useRef } from 'react'
+import { Route, Routes, useSearchParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import './styles/tabwindow.scss'
@@ -44,15 +44,15 @@ TabWindowTabs.propTypes = {
 }
 
 function TabWindowButtons ({ buttons = [], useUrls }) {
-  const [searchParams] = useSearchParams()
-  const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
   const current = searchParams.get('tab')
   return (
     <div className="tab-window-buttons">
     {buttons.map((button, index) =>
       <TabWindowButton key={index}
       onClick={() => {
-        navigate(`./?tab=${index}`)
+        searchParams.set('tab', index)
+        setSearchParams(searchParams)
       }}
         active={current === String(index)} >
       {button}

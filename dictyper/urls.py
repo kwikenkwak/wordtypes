@@ -21,7 +21,8 @@ from words import views as words_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('loadwords', words_views.findwords),
+    path('loadword', words_views.findword),
+    path('loaddefinitions', words_views.definitions),
     path('<path:path>', ensure_csrf_cookie(TemplateView.as_view(template_name='home.html'))),
     path('', ensure_csrf_cookie(TemplateView.as_view(template_name='home.html'))),
 ]

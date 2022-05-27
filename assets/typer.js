@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import Cookies from 'js-cookie'
+import { loadDefinition } from './wordloading'
+import { useSearchParams } from 'react-router-dom'
 
 import './styles/buttons.scss'
 import './styles/typer.scss'
@@ -11,7 +12,10 @@ import { StatTracker } from './stats/stattracker.js'
 import { SessionStatViewer } from './stats/sessionstatviewer.js'
 import { ProgressBar } from './progressbar.js'
 import { TabWindow } from './tabwindow.js'
-import { StatsButton, HomeButton, BaseNavButton, FloatingNavButton } from './buttons.js'
+import {
+  StatsButton, HomeButton, BaseNavButton, FloatingNavButton,
+  SkipWordButton, NextWordButton
+} from './buttons.js'
 import { urls } from './resourceurls.js'
 
 function getMeaningLength (meaning) {
@@ -81,6 +85,7 @@ function Typer ({ addParticle }) {
   const [currentMeaning, setCurrentMeaning] = useState(0)
   const [progress, setProgress] = useState(0)
   const [running, setRunning] = useState(true)
+  const [searchParam] = useSearchParams()
 
   const onWordLoaded = (wordInfo) => {
     console.log(wordInfo)
@@ -88,26 +93,6 @@ function Typer ({ addParticle }) {
     setTracker(newTracker)
     setWordInfo(wordInfo)
     setIsLoadingWord(false)
-  }
-
-  const loadWord = (min = 10000, max = 15000) => {
-    console.log('starting word loading...')
-    setIsLoadingWord(true)
-    fetch('/loadwords', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'X-CSRFToken': Cookies.get('csrftoken')
-      },
-      body: JSON.stringify({ min: min, max: max })
-    })
-      .then(res => res.json())
-      .then(onWordLoaded)
-      .catch(
-        (error) => {
-          console.log(error)
-        }
-      )
   }
 
   function onWordComplete () {
@@ -123,7 +108,8 @@ function Typer ({ addParticle }) {
   }
 
   useEffect(() => {
-    loadWord()
+    setIsLoadingWord(true)
+    loadDefinition(onWordLoaded, searchParam.get('word'))
   }, [])
 
   function updateProgress () {
@@ -151,8 +137,7 @@ function Typer ({ addParticle }) {
     <div className='typer-buttons'>
     <StatsButton />
     <HomeButton />
-    <BaseNavButton text={running ? 'Skip' : 'Next'} targetPage={'/typer'}
-                iconUrl={running ? urls.skipIcon : urls.typerIcon }/>
+    { running ? <SkipWordButton /> : <NextWordButton /> }
     </div>
     </div>
   )

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import styled, { ThemeProvider } from 'styled-components'
-import { Route, Routes, BrowserRouter, useLocation } from 'react-router-dom'
+import { useSearchParams, Route, Routes, BrowserRouter, useLocation } from 'react-router-dom'
 
 import { baseTheme } from './themes.js'
 import { BackgroundParticle, useBackground } from './background'
@@ -21,19 +21,14 @@ const AppDiv = styled.div`
   height: 100%;
 `
 
-function getUniqueKey (location) {
-  if (location.pathname.includes('/stats/')) {
-    return 'stats'
-  } else if (location.pathname.includes('/typer')) {
-    return 'typer'
-  } else {
-    return uuid()
-  }
+function removeTrailing (path) {
+  return path[path.length - 1] !== '/' ? path : path.substr(0, path.length - 1)
 }
 
 function Pages ({ addParticle }) {
   const location = useLocation()
-  const unique = useMemo(() => getUniqueKey(location), [location])
+  const [searchParams] = useSearchParams()
+  const unique = useMemo(uuid, [removeTrailing(location.pathname) + searchParams.get('word')])
   return (
   <TransitionGroup>
       <CSSTransition key={unique} unmountOnExit classNames="page" timeout={2000}>

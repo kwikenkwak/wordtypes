@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { urls } from './resourceurls.js'
-import { Icon } from './icon.js'
+import { urls } from './resourceurls'
+import { Icon } from './icon'
 import { useNavigate } from 'react-router-dom'
+import { launchTyper } from './navutils'
 
 import './styles/buttons.scss'
 
@@ -17,6 +18,20 @@ BaseButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   url: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired
+}
+
+function CustomNavButton ({ iconUrl, text, onclick }) {
+  return (
+    <div className="nav-button" onClick={onclick} >
+      {text}<Icon className="home-button-icon" size={'1.5em'} src={iconUrl} />
+    </div>
+  )
+}
+
+CustomNavButton.propTypes = {
+  iconUrl: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  onclick: PropTypes.func.isRequired
 }
 
 function BaseNavButton ({ targetPage, iconUrl, text }) {
@@ -40,13 +55,21 @@ function StatsButton () {
 }
 
 function TyperButton () {
-  return <BaseNavButton targetPage={'/typer'} iconUrl={urls.typerIcon}
+  const navigate = useNavigate()
+  return <CustomNavButton onclick={() => launchTyper(navigate)} iconUrl={urls.typerIcon}
           text={'Start'}/>
 }
 
-function SkipButton () {
-  return <BaseNavButton targetPage={'/typer'} iconUrl={urls.skipIcon}
+function SkipWordButton () {
+  const navigate = useNavigate()
+  return <CustomNavButton onclick={() => launchTyper(navigate)} iconUrl={urls.skipIcon}
           text={'Skip'}/>
+}
+
+function NextWordButton () {
+  const navigate = useNavigate()
+  return <CustomNavButton onclick={() => launchTyper(navigate)} iconUrl={urls.skipIcon}
+          text={'Next'}/>
 }
 
 function HomeButton () {
@@ -67,4 +90,13 @@ FloatingNavButton.propTypes = {
   text: PropTypes.string.isRequired
 }
 
-export { StatsButton, TyperButton, SkipButton, HomeButton, BaseButton, FloatingNavButton, BaseNavButton }
+export {
+  StatsButton,
+  TyperButton,
+  SkipWordButton,
+  NextWordButton,
+  HomeButton,
+  BaseButton,
+  FloatingNavButton,
+  BaseNavButton
+}
