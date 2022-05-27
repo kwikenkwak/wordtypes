@@ -19,9 +19,8 @@
 }
 
 .tab-window-tab {
-  width: 100%;
+  min-width: 100%;
   height: 100%;
-  flex-shrink: 0;
   margin-left: 0;
   transition: margin-left ease 1s;
   display: flex;
@@ -32,7 +31,6 @@
   width: 100%;
   margin-bottom: .5em;
 }
-
 
 .tab-window-button {
   flex-grow: 1;

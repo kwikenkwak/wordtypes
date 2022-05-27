@@ -9,7 +9,11 @@ function calcAverageAccuracy (stats) {
 function AccuracyViewer () {
   return (
     <>
-    <ActivityHistogram calculator={calcAverageAccuracy} dataName={'accuracy'}/>
+    <ActivityHistogram calculator={calcAverageAccuracy} dataName={'accuracy'}
+    infoText={`Accuracy is the most important metric if you want to improve your typing skills.
+      It is better to slow down a bit to make sure you have an accuray of at least 99% every time.
+      Your speed will automatically increase as you do more typing practice.`}
+    />
     </>
   )
 }

@@ -1,4 +1,4 @@
-function mRound (a, n) {
+function mRound (a, n = 0) {
   return Math.round(Math.pow(10, n) * a) / Math.pow(10, n)
 }
 

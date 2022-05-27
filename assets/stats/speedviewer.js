@@ -7,9 +7,16 @@ function calcAverageWPM (stats) {
 }
 
 function SpeedViewer () {
+  console.log('rerendered speed viewer')
   return (
     <>
-    <ActivityHistogram calculator={calcAverageWPM} dataName={'WPM'}/>
+    <ActivityHistogram
+      calculator={calcAverageWPM} dataName={'WPM'}
+      infoText={`Your WPM stands for words per minute and indicates how fast
+        you type. You should not worry too much about your typing speed but
+        instead focus on your accuracy, your speed will then automatically
+        improve too`}
+      />
     </>
   )
 }

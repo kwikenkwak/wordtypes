@@ -35,7 +35,7 @@ BaseNavButton.propTypes = {
 }
 
 function StatsButton () {
-  return <BaseNavButton targetPage={'/stats'} iconUrl={urls.statsIcon}
+  return <BaseNavButton targetPage={'/stats/?tab=0'} iconUrl={urls.statsIcon}
           text={'Stats'}/>
 }
 

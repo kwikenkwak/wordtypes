@@ -1,8 +1,7 @@
-import React, { useState, useMemo } from 'react'
-import { StatsManager } from '../statsmanager'
-import { VocabularyWord } from '../vocabularyword/vocword.js'
+import React from 'react'
+import { useVocabularyViewer } from './usevocabularyviewer'
+import { VocabularyWord } from '../vocabularyword/VocabularyWord'
 import { SelectButton } from '../../selectbutton'
-import { darken } from 'polished'
 import styled from 'styled-components'
 
 const VocContainer = styled.div`
@@ -14,12 +13,13 @@ const VocContainer = styled.div`
 
 const VocWordList = styled.div`
   flex-grow: 1;
-  border: 1px solid white;
+  border: 1px solid ${props => props.theme.colors.base};
   display: flex;
   flex-flow: column;
   overflow: auto;
   padding: 5px;
-  background-color: ${props => darken(0.3, props.theme.bg)};
+  background-color: ${props => props.theme.colors.bg};
+  margin-top: .1em;
 `
 
 const SortOpts = styled.div`
@@ -35,47 +35,45 @@ const Header = styled.div`
   font-size: 1.5em;
   margin-right: auto;
   text-transform: uppercase;
+  width: 100%;
+  text-align: center;
 `
 
-const compareDate = (a, b) => new Date(a.date) - new Date(b.date)
-const compareName = (a, b) => {
-  if (a.word === b.word) {
-    return 0
-  }
-  return a.word < b.word ? -1 : 1
-}
-const compareWpm = (a, b) => a.wpm - b.wpm
-const compareAccuracy = (a, b) => a.accuracy - b.accuracy
-
-function sortWords (words, method, dir) {
-  words = words.slice()
-  words.sort({
-    date: compareDate,
-    name: compareName,
-    wpm: compareWpm,
-    accuracy: compareAccuracy
-  }[method])
-  if (dir === 'descending') words.reverse()
-  return words
-}
+const Input = styled.input`
+  flex-grow: 1;
+  background: none;
+  outline: none;
+  border: none;
+  color: inherit;
+  font-size: 1.5rem;
+  border-bottom: 1px solid currentColor;
+  margin-right: 1em;
+`
 
 function VocabularyViewer () {
-  const stats = useMemo(() => StatsManager.loadStats(), [])
-  const [sortMethod, setSortMethod] = useState('date')
-  const [sortDir, setSortDir] = useState('descending')
+  const {
+    words,
+    sortDirChoices,
+    onSortDirChange,
+    sortMethodChoices,
+    onSortMethodChange,
+    sortDir,
+    sortMethod,
+    onSearchChange
+  } = useVocabularyViewer()
 
-  const words = sortWords(Object.values(stats), sortMethod, sortDir)
   return (
     <VocContainer>
+    <Header>The vocabulary you have learnt so far</Header>
     <SortOpts>
-    <Header>The vocabulary you have learnt to far</Header>
+    <Input type="text" onChange={onSearchChange} placeholder={'Search for a word...'} />
     <OptButton><SelectButton style={{ marginRight: '.3em' }}
-                  onChange={(m) => setSortMethod(m)}
-                  choices={['date', 'name', 'wpm', 'accuracy']}
+                  onChange={onSortMethodChange}
+                  choices={sortMethodChoices}
                   current={sortMethod} /></OptButton>
     <OptButton>
-    <SelectButton onChange={(d) => setSortDir(d)}
-                  choices={['ascending', 'descending']}
+    <SelectButton onChange={onSortDirChange}
+                  choices={sortDirChoices}
                   current={sortDir} />
     </OptButton>
     </SortOpts>

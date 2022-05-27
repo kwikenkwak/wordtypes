@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { PropTypes } from 'prop-types'
-import { mRound, calcWPM, calcAccuracy } from './statutils.js'
 import { StatsManager } from './statsmanager.js'
 import { SelectButton } from '../selectbutton.js'
 import { Histogram } from './histogram.js'
+import { InfoButton } from '../infobutton.js'
+import { title } from '../utils.js'
+import styled from 'styled-components'
 
 import '../styles/activityhistogram.scss'
 
@@ -28,6 +30,8 @@ function tooltipText (value, label, payload) {
   return [value, description]
 }
 
+// Helper function to delete all stat without a date
+// not so usefull anymore
 function cleanStats () {
   const stats = JSON.parse(localStorage.getItem(StatsManager.wordStatsName))
   for (const key of Object.keys(stats)) {
@@ -88,6 +92,17 @@ function getMinDate (periodType) {
     'Last year': 'Per year'
   }[periodType]).groupDate
 }
+
+const StatTitle = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const StatTitleText = styled.span`
+  margin-right: .2em;
+  padding-top: .1em;
+  line-height: .5em;
+`
 
 class DataGrouper {
   constructor (groupType, periodType) {
@@ -166,29 +181,33 @@ class DataGrouper {
   }
 }
 
-function title (name) {
-  return name[0].toUpperCase() + name.substr(1, name.length - 1)
-}
-
-function ActivityHistogram ({ calculator, dataName }) {
+function ActivityHistogram ({ calculator, dataName, infoText = '' }) {
   const [groupType, setGroupType] = useState(groupTypes[0])
   const [periodType, setPeriodType] = useState(periodTypes[0])
-  const grouper = new DataGrouper(groupType, periodType)
-  grouper.calcValues(calculator, dataName)
+  const groups = useMemo(() => {
+    const grouper = new DataGrouper(groupType, periodType)
+    grouper.calcValues(calculator, dataName)
+    return grouper.groups
+  }, [groupType, periodType])
+
+  const histogram = useMemo(() => <Histogram data={groups} xKey={'name'} yKey={dataName}
+      createTooltipText={tooltipText} />, [groups])
+
   return (
     <div className="activity-viewer">
         <div className="activity-histogram-wrapper">
     <div className="activity-select-buttons">
     <SelectButton current={groupType} choices={groupTypes}
                   onChange={(type) => setGroupType(type)}/>
-    <div>{title(dataName)}</div>
+    <StatTitle>
+      <StatTitleText>{title(dataName)}</StatTitleText>
+      { infoText && <InfoButton text={infoText} />}
+    </StatTitle>
     <SelectButton current={periodType} choices={periodTypes}
                   onChange={(type) => setPeriodType(type)}/>
     </div>
-
     <div className="activity-histogram">
-    <Histogram data={grouper.groups} xKey={'name'} yKey={dataName}
-      createTooltipText={tooltipText} />
+      {histogram}
     </div>
     </div>
         </div>
@@ -197,7 +216,8 @@ function ActivityHistogram ({ calculator, dataName }) {
 
 ActivityHistogram.propTypes = {
   calculator: PropTypes.func.isRequired,
-  dataName: PropTypes.string.isRequired
+  dataName: PropTypes.string.isRequired,
+  infoText: PropTypes.string
 }
 
 export { ActivityHistogram }

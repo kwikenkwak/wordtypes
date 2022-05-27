@@ -1,9 +1,7 @@
 const baseTheme = {
-  bg: '#EBB914',
-  base: 'rgba(FFF, 80%)',
   colors: {
     bg: '#EBB914',
-    base: 'rgba(FFF, 80%)'
+    base: 'rgba(255, 255, 255, 80%)'
   }
 }
 

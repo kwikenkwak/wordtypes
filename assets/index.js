@@ -1,5 +1,6 @@
 import './styles/background.scss'
-import React from 'react'
+// import './styles/reset.css'
+import React, { useMemo } from 'react'
 import ReactDOM from 'react-dom/client'
 import PropTypes from 'prop-types'
 
@@ -13,31 +14,29 @@ import { BackgroundParticle, useBackground } from './background'
 import { Typer } from './typer.js'
 import { StatsViewer } from './stats/statsviewer.js'
 import { WelcomePage } from './welcomepage.js'
+import uuid from 'uuid'
 
 const AppDiv = styled.div`
   width: 100%;
   height: 100%;
 `
 
-function Page ({ children, setPage, isIn }) {
-  return (<CSSTransition in={isIn} unmountOnExit classNames="page" timeout={2000}>
-    <div className="page">
-    { children }
-    </div>
-    </CSSTransition>)
-}
-
-Page.propTypes = {
-  children: PropTypes.array.isRequired,
-  setPage: PropTypes.func.isRequired,
-  isIn: PropTypes.bool.isRequired
+function getUniqueKey (location) {
+  if (location.pathname.includes('/stats/')) {
+    return 'stats'
+  } else if (location.pathname.includes('/typer')) {
+    return 'typer'
+  } else {
+    return uuid()
+  }
 }
 
 function Pages ({ addParticle }) {
   const location = useLocation()
+  const unique = useMemo(() => getUniqueKey(location), [location])
   return (
   <TransitionGroup>
-      <CSSTransition key={location.key} unmountOnExit classNames="page" timeout={2000}>
+      <CSSTransition key={unique} unmountOnExit classNames="page" timeout={2000}>
 
       <Routes location={location}>
       <Route exactPath path="/" element={
@@ -46,12 +45,12 @@ function Pages ({ addParticle }) {
         </div>
       }
       />
-      <Route path="/typer" element={
+      <Route path="typer/*" element={
         <div className="page">
         <Typer addParticle={addParticle} />
         </div>}
       />
-      <Route path="/stats" element={
+      <Route path='stats/*' element={
         <div className="page">
         <StatsViewer />
         </div>}
