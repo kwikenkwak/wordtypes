@@ -50,6 +50,11 @@ const Input = styled.input`
   margin-right: 1em;
 `
 
+const ExpandTrigger = styled.div`
+  width: 100%;
+  min-height: 10px;
+`
+
 function VocabularyViewer () {
   const {
     words,
@@ -59,7 +64,9 @@ function VocabularyViewer () {
     onSortMethodChange,
     sortDir,
     sortMethod,
-    onSearchChange
+    onSearchChange,
+    expandTriggerRef,
+    rootScrollRef
   } = useVocabularyViewer()
 
   return (
@@ -77,10 +84,11 @@ function VocabularyViewer () {
                   current={sortDir} />
     </OptButton>
     </SortOpts>
-    <VocWordList>
+    <VocWordList ref={rootScrollRef}>
     { words.map((word, idx) =>
       <VocabularyWord key={idx} stat={word} />
     )}
+    <ExpandTrigger ref={expandTriggerRef} />
     </VocWordList>
     </VocContainer>
   )

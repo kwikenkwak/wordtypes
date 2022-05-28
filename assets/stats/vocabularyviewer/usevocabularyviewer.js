@@ -1,5 +1,8 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useCallback } from 'react'
+import { useIntersectionObserver } from '../../useintersectionobserver'
 import { StatsManager } from '../statsmanager.js'
+
+const WORDS_PER_LOAD = 20
 
 const compareDate = (a, b) => new Date(a.date) - new Date(b.date)
 const compareName = (a, b) => {
@@ -11,7 +14,7 @@ const compareName = (a, b) => {
 const compareWpm = (a, b) => a.wpm - b.wpm
 const compareAccuracy = (a, b) => a.accuracy - b.accuracy
 
-function getWordList (words, method, dir, search) {
+function getWordList (words, method, dir, search, amount) {
   words = words.filter((word) => word.word.startsWith(search))
   words = words.slice()
   words.sort({
@@ -21,40 +24,53 @@ function getWordList (words, method, dir, search) {
     accuracy: compareAccuracy
   }[method])
   if (dir === 'descending') words.reverse()
-  return words
+  return words.slice(0, amount)
 }
 
 function useVocabularyViewer () {
   const stats = useMemo(() => StatsManager.loadStats(), [])
+  const expandTriggerRef = useRef()
+  const rootScrollRef = useRef()
+  const [visibleWordsAmount, setVisibleWordsAmount] = useState(30)
   const [sortMethod, setSortMethod] = useState('date')
   const [sortDir, setSortDir] = useState('descending')
+  const [search, setSearch] = useState('')
 
-  const [words, setWords] = useState(getWordList(Object.values(stats),
-    'date', 'descending', ''))
+  const expandList = useCallback(() => {
+    if (visibleWordsAmount < Object.keys(stats).length) {
+      setVisibleWordsAmount((a) => a + WORDS_PER_LOAD)
+    }
+  }, [])
+
+  const words = useMemo(() =>
+    getWordList(
+      Object.values(stats),
+      sortMethod,
+      sortDir,
+      search,
+      visibleWordsAmount)
+  , [stats, sortMethod, sortDir, search, visibleWordsAmount])
+
+  useIntersectionObserver(rootScrollRef.current, expandTriggerRef.current, expandList, 0.30)
 
   const sortDirChoices = ['ascending', 'descending']
   const sortMethodChoices = ['date', 'name', 'wpm', 'accuracy']
-  const [search, setSearch] = useState('')
 
   const onSearchChange = (e) => {
     // Use set timeout because we want the input to
     // refresh as quickly as possible even when the list
     // is not yet updated
     setTimeout(() => {
-      const newSearch = e.target.value
-      setSearch(newSearch)
-      setWords(getWordList(Object.values(stats), sortMethod, sortDir, newSearch))
+      setSearch(e.target.value)
     })
   }
 
   const onSortDirChange = (newDir) => {
     setSortDir(newDir)
-    setWords(getWordList(Object.values(stats), sortMethod, newDir, search))
   }
 
   const onSortMethodChange = (newMethod) => {
     setSortMethod(newMethod)
-    setWords(getWordList(Object.values(stats), newMethod, sortDir, search))
   }
 
   return {
@@ -66,7 +82,9 @@ function useVocabularyViewer () {
     sortDir,
     sortMethod,
     onSearchChange,
-    search
+    search,
+    expandTriggerRef,
+    rootScrollRef
   }
 }
 
