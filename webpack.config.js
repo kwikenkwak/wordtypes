@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-  entry: './assets/index.js', // path to our input file
+  entry: './src/index.js', // path to our input file
   output: {
     filename: 'index-bundle.js', // output bundle file name
     path: path.resolve(__dirname, './static') // path to our Django static directory
@@ -19,5 +19,15 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
+  },
+  resolve: {
+    alias: {
+      src: path.resolve(__dirname, './src'),
+      components: path.resolve(__dirname, './src/components'),
+      hooks: path.resolve(__dirname, './src/hooks'),
+      utils: path.resolve(__dirname, './src/utils'),
+      pages: path.resolve(__dirname, './src/pages'),
+      themes: path.resolve(__dirname, './src/themes')
+    }
   }
 }
