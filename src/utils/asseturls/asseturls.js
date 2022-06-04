@@ -2,17 +2,26 @@
 // allows autocompletion because these urls
 // are being passed to js by a inline script in
 // the home.html django template
+
+function createUrl (filepath) {
+  return assetUrl.replace('ASSETPATH', filepath)
+}
+
 const urls = {
-  statsIcon: statsIconUrl,
-  typerIcon: typerIconUrl,
-  trees: treesUrl,
-  enterIcon: enterIconUrl,
-  homeIcon: homeIconUrl,
-  skipIcon: skipIconUrl,
-  infoIcon: infoIconUrl,
-  perfectImage: perfectImageUrl,
-  backToWord: backToWordUrl,
-  loadingBalls: loadingBallsUrl
+  statsIcon: createUrl('icons/statsiconsimple.svg'),
+  typerIcon: createUrl('icons/typericon.svg'),
+  trees: createUrl('animations/trees.riv'),
+  enterIcon: createUrl('icons/enterkeybox.svg'),
+  homeIcon: createUrl('icons/home.svg'),
+  skipIcon: createUrl('icons/skipicon.svg'),
+  infoIcon: createUrl('icons/infoicon.svg'),
+  perfectImage: createUrl('pictures/perfectimage.svg'),
+  backToWord: createUrl('icons/backtoword.svg'),
+  loadingBalls: createUrl('animations/loadingballs.riv'),
+  retry: createUrl('icons/retry.svg'),
+  addQueue: createUrl('icons/addqueue.svg'),
+  wpm: createUrl('icons/wpm.svg'),
+  accuracy: createUrl('icons/accuracy.svg')
 }
 
 export { urls }
