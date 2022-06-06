@@ -3,14 +3,11 @@ import TabWindow from 'components/TabWindow'
 import SpeedViewer from 'components/SpeedViewer'
 import AccuracyViewer from 'components/AccuracyViewer'
 import VocViewer from 'components/VocViewer'
-import { FloatingNavButton } from 'components/Buttons'
-import urls from 'utils/asseturls'
-import { useNavigate } from 'react-router-dom'
+import { BackToHomeButton } from 'components/Buttons'
 import * as S from './StatsPage.style.js'
 
 function StatsPage () {
   const buttons = ['Accuracy', 'Speed', 'Vocabulary']
-  const navigate = useNavigate()
   return (
     <S.StatsPage>
     <S.StatsPageContent>
@@ -19,8 +16,7 @@ function StatsPage () {
       <SpeedViewer />
       <VocViewer />
     </TabWindow>
-    <FloatingNavButton onClick={() => navigate('/')}
-      text={'Back to home'} url={urls.homeIcon} />
+    <BackToHomeButton />
     </S.StatsPageContent>
     </S.StatsPage>)
 }

@@ -13,8 +13,9 @@ import { BackgroundParticle, useBackground, BackgroundDiv } from 'components/Bac
 import TyperPage from 'pages/TyperPage'
 import StatsPage from 'pages/StatsPage'
 import WelcomePage from 'pages/WelcomePage'
+import QueuePage from 'pages/QueuePage'
 import * as S from './index.style.js'
-import uuid from 'uuid'
+import { v4 as uuid } from 'uuid'
 
 const AppDiv = styled.div`
   width: 100%;
@@ -32,28 +33,30 @@ function Pages ({ addParticle }) {
   return (
   <TransitionGroup>
       <CSSTransition key={unique} unmountOnExit classNames="page" timeout={2000}>
-      { state =>
-
       <Routes location={location}>
       <Route exactPath path="/" element={
-        <S.Page state={state}>
+        <S.Page>
         <WelcomePage />
         </S.Page>
       }
       />
       <Route path="typer/*" element={
-        <S.Page state={state}>
+        <S.Page>
         <TyperPage addParticle={addParticle} />
         </S.Page>}
       />
       <Route path='stats/*' element={
-        <S.Page state={state}>
+        <S.Page>
         <StatsPage />
+        </S.Page>}
+      />
+      <Route path='queue/*' element={
+        <S.Page>
+        <QueuePage />
         </S.Page>}
       />
 
       </Routes>
-      }
       </CSSTransition>
       </TransitionGroup>
   )

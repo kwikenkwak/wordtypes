@@ -74,6 +74,12 @@ function FloatingNavButton ({ onClick, url, text }) {
   )
 }
 
+function BackToHomeButton () {
+  const navigate = useNavigate()
+  return <FloatingNavButton onClick={() => navigate('/')}
+      text={'Back to home'} url={urls.homeIcon} />
+}
+
 FloatingNavButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   url: PropTypes.string.isRequired,
@@ -87,5 +93,6 @@ export {
   NextWordButton,
   HomeButton,
   FloatingNavButton,
-  BaseNavButton
+  BaseNavButton,
+  BackToHomeButton
 }

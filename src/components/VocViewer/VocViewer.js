@@ -3,6 +3,7 @@ import useVocViewer from './useVocViewer'
 import VocabularyWord from 'components/VocWord'
 import SelectButton from 'components/SelectButton'
 import * as S from './VocViewer.style.js'
+import StyledInput from 'components/StyledInput'
 
 function VocViewer () {
   const {
@@ -22,7 +23,7 @@ function VocViewer () {
     <S.VocContainer>
     <S.Header>The vocabulary you have learnt so far</S.Header>
     <S.SortOpts>
-    <S.Input type="text" onChange={onSearchChange} placeholder={'Search for a word...'} />
+    <StyledInput type="text" onChange={onSearchChange} placeholder={'Search for a word...'} />
     <S.OptButton><SelectButton style={{ marginRight: '.3em' }}
                   onChange={onSortMethodChange}
                   choices={sortMethodChoices}

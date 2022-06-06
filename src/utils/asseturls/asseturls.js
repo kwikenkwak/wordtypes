@@ -21,7 +21,9 @@ const urls = {
   retry: createUrl('icons/retry.svg'),
   addQueue: createUrl('icons/addqueue.svg'),
   wpm: createUrl('icons/wpm.svg'),
-  accuracy: createUrl('icons/accuracy.svg')
+  accuracy: createUrl('icons/accuracy.svg'),
+  queueItemGo: createUrl('icons/queueitemgo.svg'),
+  drag: createUrl('icons/drag.svg')
 }
 
 export { urls }

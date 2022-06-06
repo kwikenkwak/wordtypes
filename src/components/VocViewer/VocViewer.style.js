@@ -36,17 +36,6 @@ export const Header = styled.div`
   text-align: center;
 `
 
-export const Input = styled.input`
-  flex-grow: 1;
-  background: none;
-  outline: none;
-  border: none;
-  color: inherit;
-  font-size: 1.5rem;
-  border-bottom: 1px solid currentColor;
-  margin-right: 1em;
-`
-
 export const ExpandTrigger = styled.div`
   width: 100%;
   min-height: 10px;
