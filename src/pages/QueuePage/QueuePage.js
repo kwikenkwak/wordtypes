@@ -4,6 +4,7 @@ import { BackToHomeButton } from 'components/Buttons'
 import * as S from './QueuePage.style.js'
 import useQueue from 'hooks/useQueue'
 import EnterInput from 'components/EnterInput'
+import SortableList from 'components/SortableList'
 
 function QueuePage () {
   const { queue, addWord, removeWord } = useQueue()
@@ -19,9 +20,12 @@ function QueuePage () {
               <S.NormalText>The word queue shows you which words are waiting to be learned. The next time you start the typer the top word of the queue will be chosen instead of a random word. Here you can add a word you would like to learn. You can also add a word from another definition when you are typing by just clicking on it.</S.NormalText>
             </S.InfoTab>
             <S.QueueItemList>
-            {queue.map((word, idx) =>
-              <QueueItem key={idx} word={word}/>
-            )}
+              <SortableList items=
+                {queue.map((word, idx) =>
+                  <QueueItem key={idx} word={word}/>
+                )}
+                dragClass={'draghandle'}
+              />
             </S.QueueItemList>
             <S.AddTab>
             <EnterInput placeholder="Add a word..."

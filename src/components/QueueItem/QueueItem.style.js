@@ -12,7 +12,6 @@ export const QueueItem = styled.div`
   align-items: center;
   justify-content: space-between;
   border: 2px solid ${props => props.theme.colors.base};
-  width: 100%;
 `
 export const WordPart = styled.div`
   display: flex;
@@ -27,4 +26,8 @@ export const Word = styled.p`
   margin: 0px;
   margin-right: 8px;
   margin-top: 4px;
+`
+
+export const IconWrapper = styled.div`
+  cursor: pointer;
 `

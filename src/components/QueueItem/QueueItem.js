@@ -14,7 +14,9 @@ function QueueItem ({ word }) {
           size={'1em'}
         />
       </S.WordPart>
-      <Icon src={urls.drag} size={'1em'} />
+      <S.IconWrapper>
+      <Icon src={urls.drag} size={'1em'} className="draghandle"/>
+      </S.IconWrapper>
     </S.QueueItem>
   )
 }
