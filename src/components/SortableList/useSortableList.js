@@ -1,17 +1,14 @@
-import { useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 function useSortableList (items, onChange, dragClass) {
-  const [state, setState] = useState({
+  const defaultState = {
     dragged: null,
     draggedPos: {},
     ghost: -1,
-    animDrag: false,
     list: items.slice()
-  })
+  }
+  const [state, setState] = useState(defaultState)
 
-  const frozen = useRef(false)
-  const inserted = useRef(-1)
-  const animDisabled = useRef(-1)
   const ghost = useRef(-1)
   const draggedObj = useRef(null)
   const draggedRef = useRef(null)
@@ -23,6 +20,25 @@ function useSortableList (items, onChange, dragClass) {
   const listRef = useRef(items.slice())
   const isFirst = useRef(false)
 
+  function reset () {
+    if (draggedObj.current) {
+      console.warn("Calling 'reset()' when dragging!!!")
+    }
+    ghost.current = -1
+    draggedObj.current = null
+    draggedRef.current = null
+    mousePos.current = {}
+    draggedPos.current = {}
+    parentDiv.current = {}
+    draggedOldIndex.current = 0
+    prevInsert.current = { index: -1 }
+    listRef.current = items.slice()
+    isFirst.current = false
+    setState(defaultState)
+  }
+
+  useEffect(reset, [items])
+
   function updateState (state) {
     const newState = { ...state }
     setState(newState)
@@ -30,64 +46,47 @@ function useSortableList (items, onChange, dragClass) {
 
   function finishDrag (e) {
     console.log('finished drag')
-    let { index, x, y } = findInsertIndex(e)
-    console.log(findInsertIndex(e))
 
     document.removeEventListener('mousemove', moveDrag)
     document.removeEventListener('mouseup', finishDrag)
 
-    if (index === -1) {
-      index = draggedOldIndex.current
-      ghost.current = index
-      state.ghost = ghost.current
+    const { index } = findInsertIndex(e)
 
-      draggedPos.current = {
-        x: parentDiv.current.getBoundingClientRect().left,
-        y: index === 0
-          ? parentDiv.current.getBoundingClientRect().top
-          : parentDiv.current.children[index - 1].getBoundingClientRect().bottom
-      }
-    } else {
-      draggedPos.current = { x, y }
-    }
+    removeGhosts()
 
     isFirst.current = false
-    state.draggedPos = draggedPos.current
-    state.animDrag = true
-    updateState(state)
-    frozen.current = true
+    draggedObj.current = null
+    state.dragged = null
+    listRef.current.splice(
+      index,
+      0,
+      draggedRef.current)
 
-    setTimeout(() => {
-      window.requestAnimationFrame(() => {
-        inserted.current = -1
-        animDisabled.current = -1
-        updateState(state)
-        frozen.current = false
-      })
-      animDisabled.current = index + 1
-      removeGhosts()
-      draggedObj.current = null
-      state.dragged = null
-      inserted.current = index
-      listRef.current.splice(
-        index,
-        0,
-        draggedRef.current)
-      state.list = listRef.current
-      updateState(state)
-    }, 0)
+    state.list = listRef.current
+
+    updateState(state)
+
+    onChange(draggedOldIndex.current, index)
   }
 
   function findInsertIndex (e) {
+    let data = { index: -1 }
+
     const obj = findDraggedObject(e)
-    if (obj === null && draggedObj.current === null) return prevInsert.current
     if (obj !== null) { draggedObj.current = obj }
+
+    // If there is only the currently dragged item
+    // in the list then whe should not be searching
+    // for one
+    if (listRef.current.length === 0) return data
+
+    // If we couldn't find the dragged item and
+    // the backup is empty then return
+    if (obj === null && draggedObj.current === null) return prevInsert.current
 
     const rect = draggedObj.current.getBoundingClientRect()
     const y = (rect.top + rect.bottom) / 2
     const itemObjects = parentDiv.current.children
-
-    let data = { index: -1, dragRect: rect }
 
     const firstRect = itemObjects[0].getBoundingClientRect()
     // Make sure the item is between the horizontal list borders
@@ -101,16 +100,8 @@ function useSortableList (items, onChange, dragClass) {
 
         const middle = (itemRect.top + itemRect.bottom) / 2
 
-        const yTop = y < middle
-          ? (idx !== 0
-              ? itemObjects[idx - 1].getBoundingClientRect().bottom
-              : parentDiv.current.getBoundingClientRect().top)
-          : itemRect.bottom
-
         data = {
-          index: y > middle ? idx + 1 : idx,
-          x: itemRect.left,
-          y: yTop
+          index: y > middle ? idx + 1 : idx
         }
         break
       }
@@ -121,7 +112,7 @@ function useSortableList (items, onChange, dragClass) {
   }
 
   function findDraggedObject (e) {
-    return e.target.closest('.sortable-list-item')
+    return e.target.closest ? e.target.closest('.sortable-list-item') : null
   }
 
   function removeGhosts () {
@@ -136,7 +127,6 @@ function useSortableList (items, onChange, dragClass) {
   }
 
   function moveDrag (e) {
-    // console.log('moved')
     draggedPos.current = {
       x: draggedPos.current.x + e.clientX - mousePos.current.x,
       y: draggedPos.current.y + e.clientY - mousePos.current.y
@@ -151,11 +141,7 @@ function useSortableList (items, onChange, dragClass) {
   }
 
   function startDrag (e, idx) {
-    if (!e.target.classList.contains(dragClass)) return
-    if (frozen.current) {
-      console.warn('Neglected drag click as the list was frozen')
-      return
-    }
+    if (!e.target.closest(`.${dragClass}`)) return
     e.preventDefault()
     const rect = findDraggedObject(e).getBoundingClientRect()
     draggedPos.current = ({
@@ -171,19 +157,11 @@ function useSortableList (items, onChange, dragClass) {
     mousePos.current = { x: e.clientX, y: e.clientY }
 
     state.draggedPos = draggedPos.current
-    state.animDrag = false
-
-    // ghost.current = idx
-    // state.ghost = ghost.current
-    inserted.current = -1
-    animDisabled.current = -1
 
     listRef.current.splice(idx, 1)
     prevInsert.current = { index: -1 }
     state.list = listRef.current
     isFirst.current = true
-
-    // moveDrag(e)
 
     setGhost(e)
     updateState(state)
@@ -221,10 +199,7 @@ function useSortableList (items, onChange, dragClass) {
     ghost: state.ghost,
     listeners,
     ids,
-    animDrag: state.animDrag,
-    ghostRect: getGhostRect(),
-    inserted: inserted.current,
-    animDisabled: animDisabled.current
+    ghostRect: getGhostRect()
   }
 }
 

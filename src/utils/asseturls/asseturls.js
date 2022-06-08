@@ -23,7 +23,9 @@ const urls = {
   wpm: createUrl('icons/wpm.svg'),
   accuracy: createUrl('icons/accuracy.svg'),
   queueItemGo: createUrl('icons/queueitemgo.svg'),
-  drag: createUrl('icons/drag.svg')
+  queue: createUrl('icons/queue.svg'),
+  drag: createUrl('icons/drag.svg'),
+  trash: createUrl('icons/trash.svg')
 }
 
 export { urls }

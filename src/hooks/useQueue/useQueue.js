@@ -3,6 +3,10 @@ import useStore from 'hooks/useStore'
 export const useQueue = () => {
   const [queue, setQueue] = useStore('queue', [])
   const addWord = (word) => {
+    if (queue.includes(word)) {
+      console.warn('Tried to add a word to the queue but it was already in the queue')
+      return
+    }
     const newQueue = [...queue, word]
     setQueue(newQueue)
   }
@@ -18,5 +22,11 @@ export const useQueue = () => {
     return value
   }
 
-  return { queue, addWord, removeWord, popWord }
+  const moveWord = (oldIdx, newIdx) => {
+    const removed = queue.splice(oldIdx, 1)
+    queue.splice(newIdx, 0, removed[0])
+    setQueue(queue)
+  }
+
+  return { queue, addWord, removeWord, popWord, moveWord }
 }

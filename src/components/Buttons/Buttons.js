@@ -6,38 +6,49 @@ import { useNavigate } from 'react-router-dom'
 import { launchTyper } from 'utils/navutils'
 import * as S from './Buttons.style.js'
 
-function BaseButton ({ onClick, url, text }) {
+function BaseButton ({ onClick, url, text, invert = true }) {
   return (
   <S.NavButton onClick={onClick}>
     {text}
-    <S.InvertIcon>
-    <Icon size={'1.5em'} src={url} />
-    </S.InvertIcon>
+    { invert
+      ? <S.InvertIcon>
+          <Icon size={'1.5em'} src={url} />
+        </S.InvertIcon>
+      : <Icon size={'1.5em'} src={url} />
+    }
+
   </S.NavButton>)
 }
 
 BaseButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   url: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
+  invert: PropTypes.bool
 }
 
-function BaseNavButton ({ targetPage, iconUrl, text }) {
+function BaseNavButton ({ targetPage, iconUrl, text, invert = true }) {
   const navigate = useNavigate()
   return (
-    <BaseButton url={iconUrl} onClick={() => navigate(targetPage)} text={text}/>
+    <BaseButton invert={invert} url={iconUrl} onClick={() => navigate(targetPage)} text={text}/>
   )
 }
 
 BaseNavButton.propTypes = {
   targetPage: PropTypes.string.isRequired,
   iconUrl: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
+  invert: PropTypes.bool
 }
 
 function StatsButton () {
   return <BaseNavButton targetPage={'/stats/?tab=0'} iconUrl={urls.statsIcon}
           text={'Stats'}/>
+}
+
+function QueueButton () {
+  return <BaseNavButton invert={false} targetPage={'/queue'} iconUrl={urls.queue}
+          text={'Queue'}/>
 }
 
 function TyperButton () {
@@ -88,6 +99,7 @@ FloatingNavButton.propTypes = {
 
 export {
   StatsButton,
+  QueueButton,
   TyperButton,
   SkipWordButton,
   NextWordButton,

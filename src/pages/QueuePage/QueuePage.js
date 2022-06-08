@@ -7,7 +7,7 @@ import EnterInput from 'components/EnterInput'
 import SortableList from 'components/SortableList'
 
 function QueuePage () {
-  const { queue, addWord, removeWord } = useQueue()
+  const { queue, addWord, removeWord, moveWord } = useQueue()
   return (
     <S.QueuePage>
       <BackToHomeButton />
@@ -22,9 +22,10 @@ function QueuePage () {
             <S.QueueItemList>
               <SortableList items=
                 {queue.map((word, idx) =>
-                  <QueueItem key={idx} word={word}/>
+                  <QueueItem key={idx} word={word} onRemove={() => removeWord(word)}/>
                 )}
                 dragClass={'draghandle'}
+                onChange={moveWord}
               />
             </S.QueueItemList>
             <S.AddTab>

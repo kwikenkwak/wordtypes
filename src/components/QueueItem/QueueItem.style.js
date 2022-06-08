@@ -28,6 +28,11 @@ export const Word = styled.p`
   margin-top: 4px;
 `
 
-export const IconWrapper = styled.div`
+export const EndIcons = styled.div`
+  display: flex;
+  gap: 10px;
+`
+
+export const DragWrapper = styled.div`
   cursor: pointer;
 `

@@ -4,18 +4,18 @@ import StyledInput from 'components/StyledInput'
 
 function EnterInput (props) {
   const [value, setValue] = useState('')
+  const { onEnter, ...otherProps } = props
   const onKeyPress = (e) => {
     if (e.key === 'Enter') {
-      props.onEnter(e.target.value)
+      onEnter(e.target.value)
       setValue('')
     }
   }
-  return <StyledInput onKeyPress={onKeyPress} {...props}
+  return <StyledInput onKeyPress={onKeyPress} {...otherProps}
           value={value} onChange={(e) => setValue(e.target.value)}/>
 }
 
 EnterInput.propTypes = {
-  placeholder: PropTypes.string,
   onEnter: PropTypes.func.isRequired
 }
 

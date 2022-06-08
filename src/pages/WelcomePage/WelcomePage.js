@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useRive, Layout, Fit, Alignment } from 'rive-react'
 import BufferManager from 'utils/BufferManager'
-import { StatsButton, TyperButton } from 'components/Buttons'
+import { StatsButton, TyperButton, QueueButton } from 'components/Buttons'
 import urls from 'utils/asseturls'
 import * as S from './WelcomePage.style.js'
 
@@ -28,6 +28,7 @@ Consectetur velit dignissimos beatae ducimus fuga labore? Sunt provident exceptu
     <S.NavButtons>
       <StatsButton />
       <TyperButton />
+      <QueueButton />
     </S.NavButtons>
     </S.WelcomeContent>
     </>)
