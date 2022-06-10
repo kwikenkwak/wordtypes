@@ -19,7 +19,7 @@ function QueueItem ({ word, onRemove }) {
       </S.WordPart>
       <S.EndIcons>
       <GrowButton onClick={onRemove}>
-        <Icon src={urls.trash} size={'.7em'} />
+        <Icon src={urls.trash} size={'1em'} />
       </GrowButton>
       <S.DragWrapper className="draghandle">
         <Icon src={urls.drag} size={'1em'}/>

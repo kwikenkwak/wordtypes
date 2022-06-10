@@ -21,7 +21,7 @@ function RenderRoot ({ children, pos, ghostRect }) {
 function SortableList ({ items, onChange, dragClass }) {
   const {
     listeners, list, dragged, draggedPos, ids,
-    ghost, ghostRect, isDragging, isFirst
+    ghost, ghostRect, animate
   } = useSortableList(items, onChange, dragClass)
   return (
     <>
@@ -29,7 +29,7 @@ function SortableList ({ items, onChange, dragClass }) {
     { list.map((ele, idx) =>
       (
         <S.SortableListItem
-          anim={isDragging && !isFirst}
+          anim={animate}
           className="sortable-list-item"
           key={ids[idx]}
           onMouseDown={listeners[idx]}

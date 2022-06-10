@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 
-function useSortableList (items, onChange, dragClass) {
+export const useSortableList = (items, onChange, dragClass) => {
   const defaultState = {
     dragged: null,
     draggedPos: {},
@@ -9,159 +9,158 @@ function useSortableList (items, onChange, dragClass) {
   }
   const [state, setState] = useState(defaultState)
 
-  const ghost = useRef(-1)
-  const draggedObj = useRef(null)
-  const draggedRef = useRef(null)
-  const mousePos = useRef({})
-  const draggedPos = useRef({})
-  const parentDiv = useRef({})
-  const draggedOldIndex = useRef(0)
-  const prevInsert = useRef({ index: -1 })
-  const listRef = useRef(items.slice())
-  const isFirst = useRef(false)
+  const defaultRefState = {
+    ghost: -1,
+    draggedObj: null,
+    dragged: null,
+    mousePos: {},
+    draggedPos: {},
+    parentDiv: {},
+    draggedOldIndex: 0,
+    list: items.slice(),
+    isFirst: false
+  }
+  const refState = useRef(defaultRefState)
+  // Shorthand for the current refState
+  const r = () => refState.current
 
   function reset () {
-    if (draggedObj.current) {
+    if (r().draggedObj) {
       console.warn("Calling 'reset()' when dragging!!!")
     }
-    ghost.current = -1
-    draggedObj.current = null
-    draggedRef.current = null
-    mousePos.current = {}
-    draggedPos.current = {}
-    parentDiv.current = {}
-    draggedOldIndex.current = 0
-    prevInsert.current = { index: -1 }
-    listRef.current = items.slice()
-    isFirst.current = false
+    refState.current = defaultRefState
     setState(defaultState)
   }
-
+  // When there is a change in the items,
+  // reset the whole hook
   useEffect(reset, [items])
 
-  function updateState (state) {
-    const newState = { ...state }
-    setState(newState)
-  }
-
-  function finishDrag (e) {
-    console.log('finished drag')
-
-    document.removeEventListener('mousemove', moveDrag)
-    document.removeEventListener('mouseup', finishDrag)
-
-    const { index } = findInsertIndex(e)
-
-    removeGhosts()
-
-    isFirst.current = false
-    draggedObj.current = null
-    state.dragged = null
-    listRef.current.splice(
-      index,
-      0,
-      draggedRef.current)
-
-    state.list = listRef.current
-
-    updateState(state)
-
-    onChange(draggedOldIndex.current, index)
-  }
+  const updateState = (state) => setState({ ...state })
 
   function findInsertIndex (e) {
-    let data = { index: -1 }
-
     const obj = findDraggedObject(e)
-    if (obj !== null) { draggedObj.current = obj }
+    if (obj !== null) { r().draggedObj = obj }
 
     // If there is only the currently dragged item
     // in the list then whe should not be searching
     // for one
-    if (listRef.current.length === 0) return data
+    if (r().list.length === 0) return -1
 
-    // If we couldn't find the dragged item and
-    // the backup is empty then return
-    if (obj === null && draggedObj.current === null) return prevInsert.current
+    // If we haven't found the dragged object
+    // for some reason (e.g. cursor is moved
+    // out of the dragged object) then just
+    // return -1
+    if (r().draggedObj === null) return -1
 
-    const rect = draggedObj.current.getBoundingClientRect()
+    const rect = r().draggedObj.getBoundingClientRect()
     const y = (rect.top + rect.bottom) / 2
-    const itemObjects = parentDiv.current.children
+    const itemObjects = r().parentDiv.children
 
-    const firstRect = itemObjects[0].getBoundingClientRect()
     // Make sure the item is between the horizontal list borders
+    const firstRect = itemObjects[0].getBoundingClientRect()
     if (rect.left < firstRect.right && firstRect.left < rect.right) {
       for (let idx = 0; idx < itemObjects.length; idx++) {
+        // If the dragged item is below this item and we
+        // aren't the last item in the list, continue
         const itemRect = itemObjects[idx].getBoundingClientRect()
         if (y > itemRect.bottom && idx < itemObjects.length - 1) continue
 
-        // Now we now this is for which the dragged item
-        // is lower than the list item
-
+        // Calculate the insertion index depending on the
+        // position of the dragged item relative to the
+        // center of this list item
         const middle = (itemRect.top + itemRect.bottom) / 2
-
-        data = {
-          index: y > middle ? idx + 1 : idx
-        }
-        break
+        return y > middle ? idx + 1 : idx
       }
+    } else {
+      return -1
     }
-
-    prevInsert.current = data
-    return data
   }
 
   function findDraggedObject (e) {
+    // If closest is undefined the user has moved the cursor out of
+    // the page
     return e.target.closest ? e.target.closest('.sortable-list-item') : null
   }
 
   function removeGhosts () {
-    ghost.current = -1
-    state.ghost = ghost.current
+    state.ghost = r().ghost = -1
   }
 
   function setGhost (e) {
-    const { index } = findInsertIndex(e)
-    ghost.current = index
-    state.ghost = ghost.current
+    state.ghost = r().ghost = findInsertIndex(e)
+  }
+
+  function finishDrag (e) {
+    document.removeEventListener('mousemove', moveDrag)
+    document.removeEventListener('mouseup', finishDrag)
+
+    let index = findInsertIndex(e)
+    // If the dragged item is in an invalid
+    // spot where we can't find an insertion
+    // index, just place it back on its
+    // original spot
+    index = index !== -1 ? index : r().draggedOldIndex
+
+    removeGhosts()
+
+    r().isFirst = false
+    state.dragged = r().draggedObj = null
+
+    r().list.splice(
+      index,
+      0,
+      r().dragged)
+    state.list = r().list
+
+    updateState(state)
+    onChange(r().draggedOldIndex, index)
   }
 
   function moveDrag (e) {
-    draggedPos.current = {
-      x: draggedPos.current.x + e.clientX - mousePos.current.x,
-      y: draggedPos.current.y + e.clientY - mousePos.current.y
+    // Update the position of the dragged item
+    // based on the change in position of the
+    // cursor
+    state.draggedPos = r().draggedPos = {
+      x: r().draggedPos.x + e.clientX - r().mousePos.x,
+      y: r().draggedPos.y + e.clientY - r().mousePos.y
     }
 
-    isFirst.current = false
-    state.draggedPos = draggedPos.current
-    mousePos.current = { x: e.clientX, y: e.clientY }
+    // Set this so that animate will be true
+    r().isFirst = false
+
+    r().mousePos = { x: e.clientX, y: e.clientY }
 
     setGhost(e)
     updateState(state)
   }
 
-  function startDrag (e, idx) {
+  function startDrag (idx, e) {
+    // Check if this element is part of a
+    // drag handle
     if (!e.target.closest(`.${dragClass}`)) return
+
     e.preventDefault()
+
     const rect = findDraggedObject(e).getBoundingClientRect()
-    draggedPos.current = ({
+
+    state.dragged = r().dragged = r().list[idx]
+    state.draggedPos = r().draggedPos = ({
       x: rect.x,
       y: rect.top
     })
-    draggedOldIndex.current = idx
-    parentDiv.current = e.target.closest('.sortable-list')
 
-    state.dragged = listRef.current[idx]
+    // Grab the DOM element of the list for later use
+    r().parentDiv = e.target.closest('.sortable-list')
+    r().draggedOldIndex = idx
+    r().mousePos = { x: e.clientX, y: e.clientY }
 
-    draggedRef.current = listRef.current[idx]
-    mousePos.current = { x: e.clientX, y: e.clientY }
+    r().list.splice(idx, 1)
+    state.list = r().list
 
-    state.draggedPos = draggedPos.current
-
-    listRef.current.splice(idx, 1)
-    prevInsert.current = { index: -1 }
-    state.list = listRef.current
-    isFirst.current = true
+    // Set this so that we don't animate yet
+    // we only want animate to be true
+    // after the first movement of the cursor
+    r().isFirst = true
 
     setGhost(e)
     updateState(state)
@@ -170,37 +169,28 @@ function useSortableList (items, onChange, dragClass) {
     document.addEventListener('mouseup', finishDrag)
   }
 
-  function getDragListener (idx) {
-    return (e) => startDrag(e, idx)
-  }
-
   const list = []
   const listeners = []
   const ids = []
   for (let idx = 0; idx < state.list.length; idx++) {
     if (state.list[idx] === undefined) continue
     ids.push(state.list[idx].key)
-    listeners.push(getDragListener(idx))
+    listeners.push(startDrag.bind(null, idx))
     list.push(state.list[idx])
   }
 
-  function getGhostRect () {
-    return draggedObj.current
-      ? draggedObj.current.getBoundingClientRect()
-      : { height: 0 }
-  }
+  const ghostRect = r().draggedObj
+    ? r().draggedObj.getBoundingClientRect()
+    : { height: 0 }
 
   return {
     dragged: state.dragged,
     draggedPos: state.draggedPos,
-    isDragging: Boolean(state.dragged),
-    isFirst: isFirst.current,
+    animate: Boolean(state.dragged) && !r().isFirst,
     list,
     ghost: state.ghost,
     listeners,
     ids,
-    ghostRect: getGhostRect()
+    ghostRect
   }
 }
-
-export { useSortableList }
