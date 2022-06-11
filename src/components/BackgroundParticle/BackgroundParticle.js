@@ -1,15 +1,10 @@
 import PropTypes from 'prop-types'
-import {
-  BackgroundDiv, ParticleDiv,
-  moving, rotating
-}
-  from './BackgroundParticle.style.js'
-import React, { useState, useCallback, useRef } from 'react'
+import * as S from './BackgroundParticle.style.js'
+import React, { useRef } from 'react'
+import { FALLDURATION } from 'utils/background'
 
 const MINROTDURATION = 7000
 const MAXROTDURATION = 17000
-
-const FALLDURATION = 10000
 
 function randInt (start, end) {
   return Math.floor(Math.random() * (end - start) + start)
@@ -30,9 +25,9 @@ function BackgroundParticle ({ charTyped, correct }) {
   if (charTyped === ' ') charTyped = 'space'
   const style = useRef(createBackgroundBlockStyle({ isError: !correct }))
   return (
-    <ParticleDiv style={style.current} correct={correct}>
+    <S.ParticleDiv style={style.current} correct={correct}>
       {charTyped.toUpperCase()}
-    </ParticleDiv>
+    </S.ParticleDiv>
   )
 }
 
@@ -41,23 +36,4 @@ BackgroundParticle.propTypes = {
   correct: PropTypes.bool.isRequired
 }
 
-const useBackground = () => {
-  const [particles, setParticles] = useState([])
-
-  const removeParticle = (particle) => {
-    console.log('removing particle')
-    setParticles(ps => {
-      ps.splice(ps.indexOf(particle), 1)
-      return ps
-    })
-  }
-
-  const addParticle = useCallback((particle) => {
-    setParticles((ps) => [...ps, particle])
-    setTimeout(() => removeParticle(particle), FALLDURATION)
-  }, [])
-
-  return { addParticle, particles }
-}
-
-export { BackgroundDiv, useBackground, BackgroundParticle }
+export { BackgroundParticle }

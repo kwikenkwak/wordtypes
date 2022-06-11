@@ -73,7 +73,7 @@ function TabWindow ({ children, buttons = [], start = 0, current = -1, useUrls =
   return (
     <S.TabWindow>
     <Routes>
-    <Route index element={
+    <Route path="*" element={
       <>
       { buttons.length > 0 && <TabWindowButtons buttons={buttons} useUrls={useUrls}/> }
       <TabWindowTabs start={start} current={current}>

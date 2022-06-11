@@ -7,7 +7,6 @@ function calcAverageWPM (stats) {
 }
 
 function SpeedViewer () {
-  console.log('rerendered speed viewer')
   return (
     <>
     <ActivityHistogram

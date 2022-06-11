@@ -1,1 +1,1 @@
-export { BackgroundDiv, useBackground, BackgroundParticle } from './BackgroundParticle.js'
+export { BackgroundParticle as default } from './BackgroundParticle.js'

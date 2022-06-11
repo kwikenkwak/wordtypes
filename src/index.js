@@ -2,14 +2,13 @@ import { NotifyProvider } from 'utils/notifications'
 import React, { useMemo } from 'react'
 import GlobalStyle from './GlobalStyle.style.js'
 import ReactDOM from 'react-dom/client'
-import PropTypes from 'prop-types'
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import styled, { ThemeProvider } from 'styled-components'
 import { useSearchParams, Route, Routes, BrowserRouter, useLocation } from 'react-router-dom'
 
 import { baseTheme } from 'themes'
-import { BackgroundParticle, useBackground, BackgroundDiv } from 'components/BackgroundParticle'
+import { BackgroundProvider } from 'utils/background'
 
 import TyperPage from 'pages/TyperPage'
 import StatsPage from 'pages/StatsPage'
@@ -27,7 +26,7 @@ function removeTrailing (path) {
   return path[path.length - 1] !== '/' ? path : path.substr(0, path.length - 1)
 }
 
-function Pages ({ addParticle }) {
+function Pages () {
   const location = useLocation()
   const [searchParams] = useSearchParams()
   const unique = useMemo(uuid, [removeTrailing(location.pathname) + searchParams.get('word')])
@@ -35,7 +34,7 @@ function Pages ({ addParticle }) {
   <TransitionGroup>
       <CSSTransition key={unique} unmountOnExit classNames="page" timeout={2000}>
       <Routes location={location}>
-      <Route exactPath path="/" element={
+      <Route exact path="/" element={
         <S.Page>
         <WelcomePage />
         </S.Page>
@@ -43,7 +42,7 @@ function Pages ({ addParticle }) {
       />
       <Route path="typer/*" element={
         <S.Page>
-        <TyperPage addParticle={addParticle} />
+        <TyperPage />
         </S.Page>}
       />
       <Route path='stats/*' element={
@@ -63,27 +62,17 @@ function Pages ({ addParticle }) {
   )
 }
 
-Pages.propTypes = {
-  addParticle: PropTypes.func.isRequired
-}
-
 function App () {
-  const { particles, addParticle } = useBackground()
   return (
     <AppDiv>
       <ThemeProvider theme={baseTheme}>
       <NotifyProvider>
+      <BackgroundProvider>
         <GlobalStyle />
         <BrowserRouter>
-          <Pages addParticle={addParticle}/>
+          <Pages />
         </BrowserRouter>
-        <BackgroundDiv>
-          <div>
-          { particles.map((args, idx) =>
-             <BackgroundParticle key={idx} {...args} />
-          )}
-          </div>
-        </BackgroundDiv>
+      </BackgroundProvider>
       </NotifyProvider>
       </ThemeProvider>
     </AppDiv>

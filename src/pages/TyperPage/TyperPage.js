@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { loadDefinition } from 'utils/wordloading'
 import { useSearchParams } from 'react-router-dom'
+import { BackgroundContext } from 'utils/background'
 
 import WordMeaning from 'src/components/WordMeaning'
 import LoadingAnimation from 'components/LoadingAnimation'
@@ -75,7 +76,7 @@ TyperTypeWindow.propTypes = {
   progress: PropTypes.number.isRequired
 }
 
-function TyperPage ({ addParticle }) {
+function TyperPage () {
   const [isLoadingWord, setIsLoadingWord] = useState(true)
   const [wordInfo, setWordInfo] = useState('')
   const [tracker, setTracker] = useState(new StatTracker(''))
@@ -84,6 +85,7 @@ function TyperPage ({ addParticle }) {
   const [progress, setProgress] = useState(0)
   const [running, setRunning] = useState(true)
   const [searchParam] = useSearchParams()
+  const { addParticle } = useContext(BackgroundContext)
 
   const onWordLoaded = (wordInfo) => {
     console.log(wordInfo)
@@ -139,10 +141,6 @@ function TyperPage ({ addParticle }) {
     </S.TyperButtons>
     </S.TyperPage>
   )
-}
-
-TyperPage.propTypes = {
-  addParticle: PropTypes.func.isRequired
 }
 
 export { TyperPage }

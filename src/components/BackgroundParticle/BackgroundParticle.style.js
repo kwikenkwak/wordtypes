@@ -1,5 +1,4 @@
 import styled, { keyframes } from 'styled-components'
-import { lighten, bg } from 'utils/themeutils'
 
 export const moving = keyframes`
   100% {
@@ -19,20 +18,6 @@ export const rotating = keyframes`
   }
 `
 
-export const BackgroundDiv = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -10;
-  overflow: hidden;
-  background: ${props => props.theme.colors.bg};
-  background: linear-gradient(70deg, 
-                ${lighten(0.1, 'bg')} 0%,
-                ${bg} 100%);
-`
-
 export const ParticleDiv = styled.div`
   position: absolute;
   background-color: ${
@@ -48,5 +33,4 @@ export const ParticleDiv = styled.div`
   animation-iteration-count: infinite, 1;
   animation-fill-mode: forwards;
   animation-timing-function: linear;
-
 `

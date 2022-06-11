@@ -13,7 +13,7 @@ const loadWord = (onWordLoaded, min = 10000, max = 15000) => {
     .then(onWordLoaded)
     .catch(
       (error) => {
-        console.log(error)
+        console.warn('Error while loading word', error)
       }
     )
 }

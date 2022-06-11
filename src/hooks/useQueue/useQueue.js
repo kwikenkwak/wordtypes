@@ -21,9 +21,9 @@ export const useQueue = () => {
     setQueue(queue)
   }
 
-  const popWord = (word) => {
-    notify(`Popped the word '${word}' from the queue`)
+  const popWord = () => {
     const value = queue.pop()
+    notify(`Popped the word '${value}' from the queue`)
     setQueue(queue)
     return value
   }
@@ -34,5 +34,12 @@ export const useQueue = () => {
     setQueue(queue)
   }
 
-  return { queue, addWord, removeWord, popWord, moveWord }
+  return {
+    queue,
+    addWord,
+    removeWord,
+    popWord,
+    moveWord,
+    isEmtpy: queue.length === 0
+  }
 }

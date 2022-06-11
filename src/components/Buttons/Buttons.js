@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import urls from 'utils/asseturls'
 import Icon from 'components/Icon'
 import { useNavigate } from 'react-router-dom'
-import { launchTyper } from 'utils/navutils'
+import useLaunchTyper from 'hooks/useLaunchTyper'
 import * as S from './Buttons.style.js'
 
 function BaseButton ({ onClick, url, text, invert = true }) {
@@ -52,20 +52,20 @@ function QueueButton () {
 }
 
 function TyperButton () {
-  const navigate = useNavigate()
-  return <BaseButton onClick={() => launchTyper(navigate)} url={urls.typerIcon}
+  const launchTyper = useLaunchTyper()
+  return <BaseButton onClick={launchTyper} url={urls.typerIcon}
           text={'Start'}/>
 }
 
 function SkipWordButton () {
-  const navigate = useNavigate()
-  return <BaseButton onClick={() => launchTyper(navigate)} url={urls.skipIcon}
+  const launchTyper = useLaunchTyper()
+  return <BaseButton onClick={() => launchTyper()} url={urls.skipIcon}
           text={'Skip'}/>
 }
 
 function NextWordButton () {
-  const navigate = useNavigate()
-  return <BaseButton onClick={() => launchTyper(navigate)} url={urls.skipIcon}
+  const launchTyper = useLaunchTyper()
+  return <BaseButton onClick={() => launchTyper()} url={urls.skipIcon}
           text={'Next'}/>
 }
 
