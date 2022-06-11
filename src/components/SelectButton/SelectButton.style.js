@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { base, bg, darken, transDark } from 'utils/themeutils'
+import { base, bg, transDark } from 'utils/themeutils'
 
 export const SelectButton = styled.div`
   position: relative;
@@ -10,14 +10,18 @@ export const SelectButton = styled.div`
   cursor: pointer;
 `
 
-export const SelectOptions = styled.div`
-  background-color: ${transDark(0.10, 0.30, 'bg')};
+export const Floater = styled.div`
   position: absolute;
+  display: block;
   z-index: 9999;
   overflow: hidden;
-  display: inline-block;
+`
+
+export const SelectOptions = styled.div`
+  background-color: ${transDark(0.10, 0.30, 'bg')};
   padding: .3em .1em;
   border-radius: 7px;
+  overflow: hidden;
 `
 
 export const SelectOption = styled.div`
@@ -25,7 +29,7 @@ export const SelectOption = styled.div`
   padding: 0 .1em;
   background-color: transparent;
   color: ${base};
-  transition: background-color .2s ease, color .2s ease, margin-top .1s ease;
+  transition: background-color .2s ease, color .2s ease;
   cursor: pointer;
 
   &:hover {
@@ -33,15 +37,4 @@ export const SelectOption = styled.div`
     color: ${transDark(0.10, 0.10, 'bg')};
   }
 
-  &:first-child {
-    margin-top: ${props => {
-          const margins = {
-                  exited: '-150%',
-                  entering: '0px',
-                  entered: '0px',
-                  exiting: '-150%'
-                  }
-        return margins[props.animState]
-      }}
-    }
 `

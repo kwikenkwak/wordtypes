@@ -1,22 +1,28 @@
 import useStore from 'hooks/useStore'
+import { useContext } from 'react'
+import { NotifyContext } from 'utils/notifications'
 
 export const useQueue = () => {
   const [queue, setQueue] = useStore('queue', [])
+  const { notify } = useContext(NotifyContext)
   const addWord = (word) => {
     if (queue.includes(word)) {
-      console.warn('Tried to add a word to the queue but it was already in the queue')
+      notify(`The word '${word}' is already added to the queue!`)
       return
     }
     const newQueue = [...queue, word]
+    notify(`Added the word '${word}' to the queue`)
     setQueue(newQueue)
   }
 
   const removeWord = (word) => {
+    notify(`Removed the word '${word}' from the queue`)
     queue.splice(queue.indexOf(word), 1)
     setQueue(queue)
   }
 
   const popWord = (word) => {
+    notify(`Popped the word '${word}' from the queue`)
     const value = queue.pop()
     setQueue(queue)
     return value

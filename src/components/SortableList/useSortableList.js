@@ -56,6 +56,8 @@ export const useSortableList = (items, onChange, dragClass) => {
     const y = (rect.top + rect.bottom) / 2
     const itemObjects = r().parentDiv.children
 
+    if (!itemObjects) return 1
+
     // Make sure the item is between the horizontal list borders
     const firstRect = itemObjects[0].getBoundingClientRect()
     if (rect.left < firstRect.right && firstRect.left < rect.right) {

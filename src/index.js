@@ -1,3 +1,4 @@
+import { NotifyProvider } from 'utils/notifications'
 import React, { useMemo } from 'react'
 import GlobalStyle from './GlobalStyle.style.js'
 import ReactDOM from 'react-dom/client'
@@ -71,6 +72,7 @@ function App () {
   return (
     <AppDiv>
       <ThemeProvider theme={baseTheme}>
+      <NotifyProvider>
         <GlobalStyle />
         <BrowserRouter>
           <Pages addParticle={addParticle}/>
@@ -82,6 +84,7 @@ function App () {
           )}
           </div>
         </BackgroundDiv>
+      </NotifyProvider>
       </ThemeProvider>
     </AppDiv>
   )

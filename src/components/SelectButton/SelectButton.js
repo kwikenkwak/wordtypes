@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
+import Collapser from 'components/Collapser'
 import { Transition } from 'react-transition-group'
 import * as S from './SelectButton.style.js'
 
@@ -11,17 +12,18 @@ function toTitle (str) {
 function Choices ({ parentRef, choices, current, onSelect, title, animState }) {
   const rect = parentRef.current.getBoundingClientRect()
   return ReactDOM.createPortal(
-      <S.SelectOptions
-            style={{ top: rect.bottom, left: rect.left }}>
-      <div>
+      <S.Floater style={{ top: rect.bottom, left: rect.left }}>
+      <Collapser timeout={200} active={animState === 'entering' || animState === 'entered'}>
+      <S.SelectOptions>
       { choices.map((choice, idx) =>
         <S.SelectOption className='select-option'
-          animState={animState} key={idx} onClick={() => onSelect(choice) }>
+          key={idx} onClick={() => onSelect(choice) }>
                {title ? toTitle(choice) : choice}
           </S.SelectOption>
       )}
-      </div>
-      </S.SelectOptions>,
+      </S.SelectOptions>
+      </Collapser>
+      </S.Floater>,
       document.querySelector('#root'))
 }
 
@@ -34,7 +36,6 @@ Choices.propTypes = {
   animState: PropTypes.string.isRequired
 }
 
-// TODO with styled components?
 function SelectButton ({ onChange, choices, current, title = true }) {
   const [isOpen, setIsOpen] = useState(false)
   const parentRef = useRef(null)
@@ -69,7 +70,7 @@ function SelectButton ({ onChange, choices, current, title = true }) {
     {title ? toTitle(current) : current}
     </S.SelectButton>
       <Transition in={isOpen}
-                      timeout={100} unmountOnExit>
+                      timeout={200} unmountOnExit>
         { state =>
             <Choices parentRef={parentRef} choices={choices}
                      onSelect={chooseChoice} current={current}
