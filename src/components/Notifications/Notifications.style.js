@@ -10,6 +10,7 @@ export const Notifications = styled.div`
 `
 
 export const Messages = styled.div`
+  z-index: 900;
   width: 40%;
 `
 

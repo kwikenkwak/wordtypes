@@ -1,16 +1,6 @@
 import styled from 'styled-components'
 import { lighten, bg, base } from 'utils/themeutils'
 
-const IconButton = styled.img`
-  cursor: pointer;
-  transition: filter .2s ease, transform .2s ease;
-
-  &:hover {
-    transform: scale(105%);
-    filter: opacity(80%);
-  }
-`
-
 export const VocabularyWord = styled.div`
   background-color: ${bg};
   border-radius: 12px;
@@ -55,7 +45,7 @@ export const AccuracyIcon = styled.img`
   width: 50px;
   height: 50px;
 `
-export const AddQueueIcon = styled(IconButton)`
+export const AddQueueIcon = styled.img`
   width: 50px;
   height: 50px;
 `
@@ -68,7 +58,7 @@ export const SpeedIcon = styled.img`
   width: 45.21px;
   height: 50px;
 `
-export const AgainIcon = styled(IconButton)`
+export const AgainIcon = styled.img`
   width: 55.6px;
   height: 50px;
   margin-right: 22.63px;

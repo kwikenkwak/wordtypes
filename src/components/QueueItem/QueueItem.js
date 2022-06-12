@@ -4,13 +4,15 @@ import React from 'react'
 import * as S from './QueueItem.style.js'
 import Icon from 'components/Icon'
 import GrowButton from 'components/GrowButton'
+import useLaunchTyper from 'hooks/useLaunchTyper'
 
 function QueueItem ({ word, onRemove }) {
+  const launchTyper = useLaunchTyper(word, true)
   return (
     <S.QueueItem>
       <S.WordPart>
         <S.Word>{word}</S.Word>
-        <GrowButton onClick={() => console.debug('should go to typer')}>
+        <GrowButton onClick={launchTyper}>
         <Icon
           src={urls.queueItemGo}
           size={'1em'}

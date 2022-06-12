@@ -6,25 +6,37 @@ export const useQueue = () => {
   const [queue, setQueue] = useStore('queue', [])
   const { notify } = useContext(NotifyContext)
   const addWord = (word) => {
-    if (queue.includes(word)) {
-      notify(`The word '${word}' is already added to the queue!`)
-      return
-    }
-    const newQueue = [...queue, word]
-    notify(`Added the word '${word}' to the queue`)
-    setQueue(newQueue)
+    setQueue((queue) => {
+      if (queue.includes(word)) {
+        notify(`The word '${word}' is already added to the queue!`)
+        return queue
+      }
+      const newQueue = [...queue, word]
+      notify(`Added the word '${word}' to the queue`)
+      return newQueue
+    })
   }
 
   const removeWord = (word) => {
-    notify(`Removed the word '${word}' from the queue`)
-    queue.splice(queue.indexOf(word), 1)
-    setQueue(queue)
+    setQueue((queue) => {
+      if (!queue.includes(word)) {
+        console.warn(`Tried to remove the word '${word}' from the queue` +
+                   ' but it was not present in the queue')
+        return queue
+      }
+      notify(`Removed the word '${word}' from the queue`)
+      queue.splice(queue.indexOf(word), 1)
+      return queue
+    })
   }
 
   const popWord = () => {
-    const value = queue.pop()
-    notify(`Popped the word '${value}' from the queue`)
-    setQueue(queue)
+    let value
+    setQueue((queue) => {
+      value = queue.pop()
+      notify(`Popped the word '${value}' from the queue`)
+      return queue
+    })
     return value
   }
 
