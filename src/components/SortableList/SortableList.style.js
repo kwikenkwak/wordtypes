@@ -7,6 +7,7 @@ export const FloatingItem = styled.div`
 
 export const SortableListItem = styled.div`
   transition: ${props => props.anim ? 'margin .1s ease' : 'none'};
+  margin-bottom: 0;
 `
 
 export const SortableList = styled.div`

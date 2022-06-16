@@ -33,7 +33,10 @@ function SortableList ({ items, onChange, dragClass }) {
           className="sortable-list-item"
           key={ids[idx]}
           onMouseDown={listeners[idx]}
-          style={{ marginTop: ghost === idx ? ghostRect.height + 'px' : '0' }}
+        style={{
+          marginTop: ghost === idx ? ghostRect.height + 'px' : '0',
+          marginBottom: idx === list.length - 1 ? '10px' : '0'
+        }}
         >
         {ele}
       </S.SortableListItem>

@@ -15,6 +15,7 @@ export const Wrapper = styled.div`
   align-items: flex-start;
   flex-grow: 1;
   padding: 59px 130px;
+  max-height: calc(100% - 130px);
 `
 export const ContentWindow = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ export const ContentWindow = styled.div`
   border-bottom: none;
   border-top: none;
   flex-grow: 1;
+  overflow: hidden;
 `
 export const Title = styled.div`
   font-size: 139px;
@@ -40,6 +42,7 @@ export const Queuecontent = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   padding: 10px;
+  overflow: hidden;
 `
 export const InfoTab = styled.div`
   display: flex;
@@ -61,13 +64,17 @@ export const AddTab = styled.div`
   width: 33%;
 `
 
+export const QueueWrapper = styled.div`
+  width: 33%;
+  max-height: 100%;
+  overflow-y: auto;
+`
+
 export const QueueItemList = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 8px;
-  width: 33%;
 `
 export const SubTitle = styled.div`
   text-align: left;

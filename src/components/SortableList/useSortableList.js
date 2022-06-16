@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
+import VisibilityWatcher from './VisibilityWatcher.js'
 
 export const useSortableList = (items, onChange, dragClass) => {
   const defaultState = {
@@ -18,7 +19,8 @@ export const useSortableList = (items, onChange, dragClass) => {
     parentDiv: {},
     draggedOldIndex: 0,
     list: items.slice(),
-    isFirst: false
+    isFirst: false,
+    watcher: null
   }
   const refState = useRef(defaultRefState)
   // Shorthand for the current refState
@@ -118,6 +120,21 @@ export const useSortableList = (items, onChange, dragClass) => {
     onChange(r().draggedOldIndex, index)
   }
 
+  function autoScroll () {
+    if (!r().watcher.ready()) return
+    if (r().ghost !== r().list.length) {
+      for (let i = r().ghost - 2; i < r().ghost + 2; i++) {
+        if (i < 0 || i >= r().parentDiv.children.length) continue
+        if (!r().watcher.isVisible(i)) {
+          r().parentDiv.children[i].scrollIntoView({
+            block: 'end', behavior: 'smooth'
+          })
+          break
+        }
+      }
+    }
+  }
+
   function moveDrag (e) {
     // Update the position of the dragged item
     // based on the change in position of the
@@ -127,12 +144,20 @@ export const useSortableList = (items, onChange, dragClass) => {
       y: r().draggedPos.y + e.clientY - r().mousePos.y
     }
 
+    if (!r().watcher) {
+      r().watcher = new VisibilityWatcher()
+      for (let idx = 0; idx < r().parentDiv.children.length; idx++) {
+        r().watcher.observe(r().parentDiv.children[idx], idx)
+      }
+    }
+
     // Set this so that animate will be true
     r().isFirst = false
 
     r().mousePos = { x: e.clientX, y: e.clientY }
 
     setGhost(e)
+    autoScroll()
     updateState(state)
   }
 

@@ -13,7 +13,6 @@ export const Page = styled.div`
   min-width: 100%;
   max-width: 100%;
   height: 100%;
-  overflow: auto;
   transition: left ease 2s;
   position: absolute;
   left: 0px;

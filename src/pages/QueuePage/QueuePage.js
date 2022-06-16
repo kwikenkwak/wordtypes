@@ -19,6 +19,7 @@ function QueuePage () {
               <S.SubTitle>Your word queue</S.SubTitle>
               <S.NormalText>The word queue shows you which words are waiting to be learned. The next time you start the typer the top word of the queue will be chosen instead of a random word. Here you can add a word you would like to learn. You can also add a word from another definition when you are typing by just clicking on it.</S.NormalText>
             </S.InfoTab>
+            <S.QueueWrapper>
             <S.QueueItemList>
               <SortableList items=
                 {queue.map((word, idx) =>
@@ -28,6 +29,7 @@ function QueuePage () {
                 onChange={moveWord}
               />
             </S.QueueItemList>
+            </S.QueueWrapper>
             <S.AddTab>
             <EnterInput placeholder="Add a word..."
                         style={{ width: '100%' }}
