@@ -7,6 +7,7 @@ function EnterInput (props) {
   const { onEnter, ...otherProps } = props
   const onKeyPress = (e) => {
     if (e.key === 'Enter') {
+      if (e.target.value === '') return
       onEnter(e.target.value)
       setValue('')
     }

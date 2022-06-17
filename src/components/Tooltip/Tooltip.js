@@ -19,22 +19,30 @@ function getPosition (pos, target, arrowsize = 20) {
   }
 }
 
-function Tooltip ({ text, pos = 'left', parentRef, show }) {
+function Tooltip ({ content, pos = 'left', parentRef, show }) {
   return ReactDOM.createPortal(
     <Transition timeout={200} in={show} unmountOnExit>
     {(state) =>
-      <S.Tooltip state={state} style={getPosition(pos, parentRef.current)}>
-      <S.Arrow />
+      <S.Tooltip state={state} style={getPosition(pos, parentRef.current)}
+                 direction={pos === 'left' || pos === 'right' ? 'hor' : 'vert'}
+      >
+      {typeof (content) === 'string'
+        ? <>
+        {(pos === 'right' || pos === 'bottom') && <S.Arrow pos={pos} />}
         <S.TextTooltip>
-          {text}
+         {content}
         </S.TextTooltip>
+        {(pos === 'left' || pos === 'top') && <S.Arrow pos={pos} />}
+        </>
+        : content
+      }
       </S.Tooltip>
     }
     </Transition>, document.querySelector('#root'))
 }
 
 Tooltip.propTypes = {
-  text: PropTypes.string.isRequired,
+  content: PropTypes.any.isRequired,
   pos: PropTypes.string,
   parentRef: PropTypes.object.isRequired,
   show: PropTypes.bool.isRequired

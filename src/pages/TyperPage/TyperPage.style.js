@@ -49,10 +49,18 @@ export const WordMeanings = styled.div`
   overflow: auto;
   flex-grow: 1;
   padding-top: .2em;
+  position: relative;
 `
 
 export const TyperStatsWindow = styled(TyperWindowTab)`
   margin: 1em;
+`
+
+export const InfoButton = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1em;
 `
 
 export const TyperWordWindow = styled(TyperWindowTab)`

@@ -1,45 +1,42 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import Icon from 'components/Icon'
 import urls from 'utils/asseturls'
-import * as S from './SemiTypedString.style.js'
+import InteractiveWord from 'components/InteractiveWord'
 
 function getParts (string, progress, cursor) {
   const words = string.split(' ')
-  let done = ''
-  let current = ''
-  let todo = ''
+  const res = []
+  let activeIdx = -1
+  let foundCurrent = false
   let idx = 0
-  for (let word of words) {
-    if (words[words.length - 1] !== word) {
-      word = word + ' '
+  for (const word of words) {
+    idx += word.length + 1
+
+    let active = false
+    if (idx > progress && !foundCurrent && cursor) {
+      activeIdx = words.indexOf(word)
+      foundCurrent = true
+      active = true
     }
-    idx += word.length
-    if (idx <= progress) {
-      done += word
-    } else if (idx > progress && current === '' && cursor) {
-      current = word
-    } else {
-      todo += word
-    }
+    res.push({ word, active })
   }
-  return [done, current, todo]
+  return [res, activeIdx]
 }
 
 function SemiTypedString ({ string, progress, cursor, isEnter = false }) {
-  const [done, current, todo] = getParts(string, progress, cursor)
-  return (<>
-      <S.TextDone>
-      {done}
-      </S.TextDone>
-      <S.CurrentWord>
-      {current}
-      </S.CurrentWord>
-      <S.TextTodo>
-      {todo}
-      </S.TextTodo>
+  const [words, activeIdx] = useMemo(() => getParts(string, progress, cursor),
+    [string, progress, cursor])
+  const content = useMemo(() => (<>
+    {words.map((args, idx) =>
+      <span key={idx}>
+      <InteractiveWord key={idx} {...args} />
+      {idx !== words.length - 1 && <span key={idx + '0.5'}> </span>}
+      </span>
+    )}
       { isEnter && cursor && <Icon size='1em' src={urls.enterIcon} /> }
-    </>)
+    </>), [string, activeIdx, isEnter])
+  return content
 }
 
 SemiTypedString.propTypes = {

@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { loadDefinition } from 'utils/wordloading'
 import { useSearchParams } from 'react-router-dom'
 import { BackgroundContext } from 'utils/background'
+import InfoButton from 'components/InfoButton'
 
 import WordMeaning from 'src/components/WordMeaning'
 import LoadingAnimation from 'components/LoadingAnimation'
@@ -23,6 +24,10 @@ function getMeaningLength (meaning) {
          meaning.examples.length
 }
 
+const INFOTEXT = 'Here you can train your typing skills and learn vocabulary at the same time.' +
+                 'If you see a word in a definition you don\'t understand hover over it' +
+                 ' to see a definition or click on it to add it to your queue'
+
 function TyperTypeWindow ({ meanings, running, word, onMeaningComplete, onType, currentMeaning, tracker, progress }) {
   const [currentWindow, setCurrentWindow] = useState(0)
 
@@ -37,6 +42,10 @@ function TyperTypeWindow ({ meanings, running, word, onMeaningComplete, onType, 
     <S.TyperWordWindow>
         <S.WordTitle>{word}</S.WordTitle>
         <S.WordMeanings>
+        <S.InfoButton>
+          <InfoButton pos={'left'} text={INFOTEXT} />
+        </S.InfoButton>
+
         { meanings.map((meaning, idx) => {
           return <WordMeaning key={idx} meaning={meaning}
           active={idx === currentMeaning}

@@ -33,7 +33,12 @@ export const useQueue = () => {
   const popWord = () => {
     let value
     setQueue((queue) => {
-      value = queue.pop()
+      if (queue.length === 0) {
+        console.warn('Tried to pop a word from the queue' +
+                     ' but the queue was empty')
+        return queue
+      }
+      value = queue.splice(0, 1)[0]
       notify(`Popped the word '${value}' from the queue`)
       return queue
     })

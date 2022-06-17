@@ -5,9 +5,9 @@ import Icon from 'components/Icon'
 import urls from 'utils/asseturls'
 import * as S from './InfoButton.style.js'
 
-function InfoButton ({ text }) {
+function InfoButton ({ text, pos = 'bottom' }) {
   return (<>
-      <HoverTooltip hint={text}>
+      <HoverTooltip hint={text} pos={pos}>
         <S.IconWrapper>
           <Icon src={urls.infoIcon} />
         </S.IconWrapper>
@@ -16,7 +16,8 @@ function InfoButton ({ text }) {
 }
 
 InfoButton.propTypes = {
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
+  pos: PropTypes.string
 }
 
 export { InfoButton }

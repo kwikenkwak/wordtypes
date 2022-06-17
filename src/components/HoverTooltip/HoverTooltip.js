@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Tooltip from 'components/Tooltip'
 import * as S from './HoverTooltip.style.js'
 
-function HoverTooltip ({ children, hint }) {
+function HoverTooltip ({ children, hint, pos = 'bottom' }) {
   const [showTooltip, setTooltip] = useState(false)
   const ref = useRef(null)
   return <>
@@ -13,14 +13,15 @@ function HoverTooltip ({ children, hint }) {
     {children}
     </S.Wrapper>
     { hint &&
-      <Tooltip pos={'bottom'} text={hint} show={showTooltip} parentRef={ref} />
+      <Tooltip pos={pos} content={hint} show={showTooltip} parentRef={ref} />
     }
   </>
 }
 
 HoverTooltip.propTypes = {
   children: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  hint: PropTypes.string
+  hint: PropTypes.any.isRequired,
+  pos: PropTypes.string
 }
 
 export { HoverTooltip }

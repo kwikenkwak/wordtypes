@@ -6,6 +6,8 @@ export const Tooltip = styled.div`
   z-index: 999;
   max-width: 20vw;
   transition: opacity 200ms;
+  display: flex;
+  flex-direction: ${({ direction }) => direction === 'vert' ? 'column' : 'row'};
 
   opacity: ${({ state }) => {
     switch (state) {
@@ -20,19 +22,20 @@ export const Tooltip = styled.div`
   }
 `
 
+const borderMap = { top: 'bottom', left: 'right', bottom: 'top', right: 'left' }
+
 export const TextTooltip = styled.div`
   background-color: ${transDark(0.2, 0.1, 'bg')};
   color: ${base};
   border: solid 1px ${base};
   padding: .4em;
   font-size: .5em;
-
 `
 
 export const Arrow = styled.div`
-  border-left: solid 10px transparent;
-  border-right: solid 10px transparent;
-  border-bottom: solid 10px ${base};
+  border: solid 10px transparent;
+  border-${({ pos }) => pos}: solid 10px ${base};
+  border-${({ pos }) => borderMap[pos]}: none;
   display: block;
   width: 0;
   height: 0;
