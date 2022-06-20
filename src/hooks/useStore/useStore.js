@@ -1,12 +1,15 @@
 import { useState } from 'react'
+import storeManager from 'utils/StoreManager'
 const generateStoreString = (name) =>
   `wordtypes-${name}`
 
 export const useStore = (name, defaultValue) => {
   const storeName = generateStoreString(name)
   const loadValue = () => JSON.parse(localStorage.getItem(storeName)) || defaultValue
-  const storedValue = loadValue()
-  const [value, setStateValue] = useState(storedValue)
+  const [value, setStateValue] = useState(loadValue())
+  storeManager.addCallback(storeName, () => {
+    setStateValue(loadValue())
+  })
 
   const setStoredValue = (newValue) => {
     if (typeof (newValue) === 'function') {
@@ -18,7 +21,7 @@ export const useStore = (name, defaultValue) => {
     newValue = JSON.parse(JSON.stringify(newValue))
 
     localStorage.setItem(storeName, JSON.stringify(newValue))
-    setStateValue(newValue)
+    storeManager.notifyUpdate(storeName)
   }
 
   return [value, setStoredValue]

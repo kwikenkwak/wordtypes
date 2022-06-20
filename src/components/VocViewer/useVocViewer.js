@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef, useCallback } from 'react'
+import useStore from 'hooks/useStore'
 import useIntersectionObserver from 'hooks/useIntersectionObserver'
 import StatsManager from 'utils/StatsManager'
 
@@ -27,14 +28,14 @@ function getWordList (words, method, dir, search, amount) {
   return words.slice(0, amount)
 }
 
-function useVocViewer () {
+function useVocViewer (memoryId) {
   const stats = useMemo(() => StatsManager.loadStats(), [])
   const expandTriggerRef = useRef()
   const rootScrollRef = useRef()
   const [visibleWordsAmount, setVisibleWordsAmount] = useState(30)
-  const [sortMethod, setSortMethod] = useState('date')
-  const [sortDir, setSortDir] = useState('descending')
-  const [search, setSearch] = useState('')
+  const [sortMethod, setSortMethod] = useStore(memoryId + 'sortmethod', 'date')
+  const [sortDir, setSortDir] = useStore(memoryId + 'sortdir', 'descending')
+  const [search, setSearch] = useStore(memoryId + 'sortsearch', '')
 
   const expandList = useCallback(() => {
     if (visibleWordsAmount < Object.keys(stats).length) {
@@ -57,11 +58,12 @@ function useVocViewer () {
   const sortMethodChoices = ['date', 'name', 'wpm', 'accuracy']
 
   const onSearchChange = (e) => {
+    const newSearch = e.target.value
     // Use set timeout because we want the input to
     // refresh as quickly as possible even when the list
     // is not yet updated
     setTimeout(() => {
-      setSearch(e.target.value)
+      setSearch(newSearch)
     })
   }
 

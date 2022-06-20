@@ -11,6 +11,7 @@ function SpeedViewer () {
     <>
     <ActivityHistogram
       calculator={calcAverageWPM} dataName={'WPM'}
+      memoryId={'speedviewer'}
       infoText={`Your WPM stands for words per minute and indicates how fast
         you type. You should not worry too much about your typing speed but
         instead focus on your accuracy, your speed will then automatically

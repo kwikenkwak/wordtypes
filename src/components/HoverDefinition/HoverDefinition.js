@@ -13,7 +13,6 @@ function HoverDefinition ({ word }) {
   const ref = useRef()
 
   const onLoadComplete = (data) => {
-    console.log(data)
     setWordInfo(data)
     setIsLoading(false)
   }

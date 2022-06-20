@@ -1,25 +1,9 @@
-import React, { useState } from 'react'
-import { useRive, Layout, Fit, Alignment } from 'rive-react'
-import BufferManager from 'utils/BufferManager'
+import React from 'react'
 import { StatsButton, TyperButton, QueueButton } from 'components/Buttons'
-import urls from 'utils/asseturls'
 import * as S from './WelcomePage.style.js'
 
 function WelcomePage () {
-  const [, forceUpdate] = useState(0)
-  const layout = new Layout({ fit: Fit.FitHeight, alignment: Alignment.TopCenter })
-
-  const { RiveComponent } = useRive(
-    {
-      autoplay: true,
-      animations: ['Idle'],
-      layout: layout,
-      src: BufferManager.isLoaded(urls.trees) ? undefined : urls.trees,
-      buffer: BufferManager.load(urls.trees, forceUpdate)
-    })
-
   return (<>
-    <RiveComponent style={S.TreesStyle}/>
     <S.WelcomeContent>
     <h1>Welcome to DictionaryTyper</h1>
     <S.WelcomeText>Dolor consectetur odio aliquam dignissimos?

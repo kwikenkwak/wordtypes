@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react'
-import { PropTypes } from 'prop-types'
+import React, { useMemo } from 'react'
+import useStore from 'hooks/useStore'
+import PropTypes from 'prop-types'
 import StatsManager from 'utils/StatsManager'
 import SelectButton from 'components/SelectButton'
 import Histogram from 'components/Histogram'
@@ -185,9 +186,10 @@ class DataGrouper {
   }
 }
 
-function ActivityHistogram ({ calculator, dataName, infoText = '' }) {
-  const [groupType, setGroupType] = useState(groupTypes[0])
-  const [periodType, setPeriodType] = useState(periodTypes[0])
+function ActivityHistogram ({ calculator, dataName, memoryId, infoText = '' }) {
+  const [groupType, setGroupType] = useStore(memoryId + 'group', groupTypes[0])
+  const [periodType, setPeriodType] = useStore(memoryId + 'period', periodTypes[0])
+
   const groups = useMemo(() => {
     const grouper = new DataGrouper(groupType, periodType)
     grouper.calcValues(calculator, dataName)
@@ -221,7 +223,8 @@ function ActivityHistogram ({ calculator, dataName, infoText = '' }) {
 ActivityHistogram.propTypes = {
   calculator: PropTypes.func.isRequired,
   dataName: PropTypes.string.isRequired,
-  infoText: PropTypes.string
+  infoText: PropTypes.string,
+  memoryId: PropTypes.string.isRequired
 }
 
 export { ActivityHistogram }

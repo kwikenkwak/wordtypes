@@ -2,6 +2,7 @@ import { NotifyProvider } from 'utils/notifications'
 import React, { useMemo } from 'react'
 import GlobalStyle from './GlobalStyle.style.js'
 import ReactDOM from 'react-dom/client'
+import Settings from 'components/Settings'
 
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import styled, { ThemeProvider } from 'styled-components'
@@ -72,6 +73,7 @@ function App () {
         <BrowserRouter>
           <Pages />
         </BrowserRouter>
+        <Settings />
       </BackgroundProvider>
       </NotifyProvider>
       </ThemeProvider>

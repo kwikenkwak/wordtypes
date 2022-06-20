@@ -15,15 +15,16 @@ function VocViewer () {
     sortDir,
     sortMethod,
     onSearchChange,
+    search,
     expandTriggerRef,
     rootScrollRef
-  } = useVocViewer()
+  } = useVocViewer('vocviewer')
 
   return (
     <S.VocContainer>
     <S.Header>The vocabulary you have learnt so far</S.Header>
     <S.SortOpts>
-    <StyledInput type="text" onChange={onSearchChange} placeholder={'Search for a word...'} />
+    <StyledInput type="text" value={search} onChange={onSearchChange} placeholder={'Search for a word...'} />
     <S.OptButton><SelectButton style={{ marginRight: '.3em' }}
                   onChange={onSortMethodChange}
                   choices={sortMethodChoices}

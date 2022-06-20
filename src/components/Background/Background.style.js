@@ -14,3 +14,12 @@ export const Background = styled.div`
                 ${lighten(0.1, 'bg')} 0%,
                 ${bg} 100%);
 `
+
+// We make sure the image keeps its aspect ratio
+export const BackgroundImage = styled.img`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -10;
+`

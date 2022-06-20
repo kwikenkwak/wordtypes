@@ -6,7 +6,6 @@ import useQueue from 'hooks/useQueue'
 import * as S from './InteractiveWord.style.js'
 
 function InteractiveWord ({ word, active }) {
-  console.log('interactive word updated!')
   const { addWord } = useQueue()
   const content = useMemo(() =>
     (<HoverTooltip hint={

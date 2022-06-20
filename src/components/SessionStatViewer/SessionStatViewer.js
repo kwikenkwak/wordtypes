@@ -29,7 +29,7 @@ function SpeedTab ({ stats }) {
   return (
     <S.SpeedTab>
       <S.SpeedHeader>
-        Your average wmp is {mRound(stats.wpm, 2)}
+        Your average wmp was {mRound(stats.wpm, 2)}
         <S.SpeedHeaderInfo>
           <InfoButton text='WPM stands for words per minute and indicates how fast you type' />
         </S.SpeedHeaderInfo>
@@ -53,7 +53,8 @@ SpeedTab.propTypes = {
 
 function getKeyStats (chars) {
   const counts = {}
-  for (const { key, correct } of chars) {
+  for (let { key, correct } of chars) {
+    if (key === ' ') key = 'Space'
     if (!correct) counts[key] = (counts[key] || 0) + 1
   }
   return Object.keys(counts).map((c) => { return { character: c, count: counts[c] } })
