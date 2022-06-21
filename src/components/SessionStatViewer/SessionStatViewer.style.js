@@ -46,9 +46,19 @@ export const SpeedGraph = styled.div`
 `
 export const AccuracyGraph = SpeedGraph
 
-export const ImgDefault = styled.img`
-  height: 100%;
-  filter: invert(1);
+export const Master = styled.div`
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+`
+export const MasterMessage = styled.div`
+  font-size: 1.5em;
+`
+
+export const MasterSmiley = styled.div`
+  font-size: 3em;
 `
 
 export const StatsFlexGraph = styled.div`

@@ -91,7 +91,14 @@ function AccuracyTab ({ stats }) {
               <Histogram data={getKeyStats(stats.keysData)} xKey='character' yKey='count' createTooltipText={createAccuracyTooltipText}/>
             </S.StatsFlexGraph>
           </S.AccuracyGraph>
-        : <S.ImgDefault style={{ margin: '0 1em' }} src={urls.perfectImage}/>
+        : <S.Master>
+        <S.MasterMessage>
+          Congratulations! You are a master of typing!
+        </S.MasterMessage>
+        <S.MasterSmiley>
+        🚀
+        </S.MasterSmiley>
+        </S.Master>
       }
     </S.AccuracyTab>)
 }

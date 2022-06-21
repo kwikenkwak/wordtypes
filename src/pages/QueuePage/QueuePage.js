@@ -5,6 +5,7 @@ import * as S from './QueuePage.style.js'
 import useQueue from 'hooks/useQueue'
 import EnterInput from 'components/EnterInput'
 import SortableList from 'components/SortableList'
+import EmptyQueue from './EmptyQueue'
 
 function QueuePage () {
   const { queue, addWord, removeWord, moveWord } = useQueue()
@@ -21,13 +22,17 @@ function QueuePage () {
             </S.InfoTab>
             <S.QueueWrapper>
             <S.QueueItemList>
+              {queue.length > 0
+                ? (
               <SortableList items=
                 {queue.map((word, idx) =>
                   <QueueItem key={idx} word={word} onRemove={() => removeWord(word)}/>
                 )}
                 dragClass={'draghandle'}
                 onChange={moveWord}
-              />
+                />)
+                : <EmptyQueue />
+              }
             </S.QueueItemList>
             </S.QueueWrapper>
             <S.AddTab>

@@ -15,6 +15,7 @@ import {
   StatsButton, HomeButton, FloatingNavButton,
   SkipWordButton, NextWordButton
 } from 'components/Buttons'
+import NoDefinition from './NoDefinition'
 import urls from 'utils/asseturls'
 import * as S from './TyperPage.style.js'
 
@@ -46,15 +47,18 @@ function TyperTypeWindow ({ meanings, running, word, onMeaningComplete, onType, 
           <InfoButton pos={'left'} text={INFOTEXT} />
         </S.InfoButton>
 
-        { meanings.map((meaning, idx) => {
-          return <WordMeaning key={idx} meaning={meaning}
+    { meanings.length > 0
+      ? meanings.map((meaning, idx) => {
+        return <WordMeaning key={idx} meaning={meaning}
           active={idx === currentMeaning}
           first={idx === 0}
           onType={onType} onComplete={onMeaningComplete}
           last={idx === meanings.length - 1}
           index={idx}
             />
-        })}
+      })
+      : <NoDefinition />
+    }
         </S.WordMeanings>
     </S.TyperWordWindow>
 
@@ -97,7 +101,6 @@ function TyperPage () {
   const { addParticle } = useContext(BackgroundContext)
 
   const onWordLoaded = (wordInfo) => {
-    console.log(wordInfo)
     const newTracker = new StatTracker(wordInfo.word)
     setTracker(newTracker)
     setWordInfo(wordInfo)

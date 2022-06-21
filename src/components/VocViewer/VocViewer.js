@@ -7,11 +7,11 @@ import urls from 'utils/asseturls'
 import * as S from './VocViewer.style.js'
 import StyledInput from 'components/StyledInput'
 import SessionStatViewer from 'components/SessionStatViewer'
+import NotFound from './NotFound'
 import { CSSTransition } from 'react-transition-group'
 
 function VocViewer () {
   const [showSessionStat, setShowSessionStat] = useState(false)
-  console.log(showSessionStat)
   const sessionStat = useRef(null)
 
   const openSessionStatViewer = (stats) => {
@@ -66,9 +66,12 @@ function VocViewer () {
     </S.OptButton>
     </S.SortOpts>
     <S.VocWordList ref={rootScrollRef}>
-    { words.map((word, idx) =>
+    { words.length > 0
+      ? words.map((word, idx) =>
       <VocabularyWord key={idx} stat={word} openViewer={openViewers[idx]} />
-    )}
+      )
+      : <NotFound />
+    }
     <S.ExpandTrigger ref={expandTriggerRef} />
     </S.VocWordList>
     </S.VocContainer>
