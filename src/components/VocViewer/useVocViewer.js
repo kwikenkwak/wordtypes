@@ -28,7 +28,7 @@ function getWordList (words, method, dir, search, amount) {
   return words.slice(0, amount)
 }
 
-function useVocViewer (memoryId) {
+function useVocViewer (memoryId, openViewer) {
   const stats = useMemo(() => StatsManager.loadStats(), [])
   const expandTriggerRef = useRef()
   const rootScrollRef = useRef()
@@ -67,6 +67,12 @@ function useVocViewer (memoryId) {
     })
   }
 
+  // Bind the openViewer to each individual
+  // word's stats
+  const openViewers = words.map((word) => {
+    return () => openViewer(word)
+  })
+
   const onSortDirChange = (newDir) => {
     setSortDir(newDir)
   }
@@ -86,7 +92,8 @@ function useVocViewer (memoryId) {
     onSearchChange,
     search,
     expandTriggerRef,
-    rootScrollRef
+    rootScrollRef,
+    openViewers
   }
 }
 

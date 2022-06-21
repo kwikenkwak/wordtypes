@@ -11,7 +11,7 @@ function StatsPage () {
   return (
     <S.StatsPage>
     <S.StatsPageContent>
-    <TabWindow buttons={buttons}>
+    <TabWindow buttons={buttons} useUrls>
       <AccuracyViewer />
       <SpeedViewer />
       <VocViewer />

@@ -28,7 +28,8 @@ const urls = {
   drag: createUrl('icons/drag.svg'),
   trash: createUrl('icons/trash.svg'),
   settings: createUrl('icons/settings.svg'),
-  close: createUrl('icons/close.svg')
+  close: createUrl('icons/close.svg'),
+  simpleStats: createUrl('icons/simplestats.svg')
 }
 
 export { urls }

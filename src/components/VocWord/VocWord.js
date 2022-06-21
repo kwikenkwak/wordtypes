@@ -9,7 +9,7 @@ import GrowButton from 'components/GrowButton'
 
 // TODO implement button functionality
 export const VocWord = ({
-  stat
+  stat, openViewer
 }) => {
   const { addWord } = useQueue()
   const launchTyper = useLaunchTyper(stat.word)
@@ -31,6 +31,14 @@ export const VocWord = ({
             src={urls.wpm}
           />
         </S.SpeedInfo>
+
+        <GrowButton onClick={openViewer}>
+        <S.AgainIcon
+          alt=""
+          src={urls.simpleStats}
+        />
+        </GrowButton>
+
         <GrowButton onClick={launchTyper}>
         <S.AgainIcon
           alt=""
@@ -49,5 +57,6 @@ export const VocWord = ({
 }
 
 VocWord.propTypes = {
-  stat: PropTypes.object.isRequired
+  stat: PropTypes.object.isRequired,
+  openViewer: PropTypes.func.isRequired
 }
