@@ -6,6 +6,7 @@ import TabWindow from 'components/TabWindow'
 import StandardGraph from 'components/StandardGraph'
 import InfoButton from 'components/InfoButton'
 import Histogram from 'components/Histogram'
+import Icon from 'components/Icon'
 import urls from 'utils/asseturls'
 import * as S from './SessionStatViewer.style.js'
 
@@ -92,12 +93,10 @@ function AccuracyTab ({ stats }) {
             </S.StatsFlexGraph>
           </S.AccuracyGraph>
         : <S.Master>
+        <Icon src={urls.rocket} size={'6em'} />
         <S.MasterMessage>
           Congratulations! You are a master of typing!
         </S.MasterMessage>
-        <S.MasterSmiley>
-        🚀
-        </S.MasterSmiley>
         </S.Master>
       }
     </S.AccuracyTab>)

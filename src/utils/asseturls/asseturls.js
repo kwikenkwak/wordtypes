@@ -11,7 +11,8 @@ const urls = {
   statsIcon: createUrl('icons/statsiconsimple.svg'),
   typerIcon: createUrl('icons/typericon.svg'),
   trees: createUrl('animations/trees.riv'),
-  background: createUrl('pictures/background.png'),
+  backgroundLight: createUrl('pictures/backgroundlight.png'),
+  backgroundDark: createUrl('pictures/backgrounddark.png'),
   enterIcon: createUrl('icons/enterkeybox.svg'),
   homeIcon: createUrl('icons/home.svg'),
   skipIcon: createUrl('icons/skipicon.svg'),
@@ -29,7 +30,9 @@ const urls = {
   trash: createUrl('icons/trash.svg'),
   settings: createUrl('icons/settings.svg'),
   close: createUrl('icons/close.svg'),
-  simpleStats: createUrl('icons/simplestats.svg')
+  simpleStats: createUrl('icons/simplestats.svg'),
+  thinking: createUrl('icons/thinking.svg'),
+  rocket: createUrl('icons/rocket.svg')
 }
 
 export { urls }

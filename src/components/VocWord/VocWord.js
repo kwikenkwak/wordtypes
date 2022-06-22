@@ -6,6 +6,7 @@ import urls from 'utils/asseturls'
 import useLaunchTyper from 'hooks/useLaunchTyper'
 import useQueue from 'hooks/useQueue'
 import GrowButton from 'components/GrowButton'
+import Icon from 'components/Icon'
 
 // TODO implement button functionality
 export const VocWord = ({
@@ -19,36 +20,28 @@ export const VocWord = ({
       <S.Buttons>
         <S.AccuracyInfo>
           <S.AccuracyValue>{mRound(stat.accuracy)}</S.AccuracyValue>
-          <S.AccuracyIcon
-            alt=""
-            src={urls.accuracy}
-          />
+            <Icon src={urls.accuracy} size={'50px'} />
         </S.AccuracyInfo>
         <S.SpeedInfo>
           <S.AccuracyValue>{mRound(stat.wpm)}</S.AccuracyValue>
-          <S.SpeedIcon
-            alt=""
-            src={urls.wpm}
-          />
+          <Icon src={urls.wpm} size={'45px'} />
         </S.SpeedInfo>
 
         <GrowButton onClick={openViewer}>
-        <S.AgainIcon
-          alt=""
-          src={urls.simpleStats}
-        />
+          <S.AgainIcon src={urls.simpleStats} size={'55px'} />
         </GrowButton>
 
         <GrowButton onClick={launchTyper}>
         <S.AgainIcon
-          alt=""
           src={urls.retry}
+          size={'55px'}
         />
         </GrowButton>
         <GrowButton onClick={() => addWord(stat.word)}>
-        <S.AddQueueIcon
+        <Icon
           alt=""
           src={urls.addQueue}
+          size={'50px'}
         />
         </GrowButton>
       </S.Buttons>

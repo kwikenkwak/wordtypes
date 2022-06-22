@@ -1,9 +1,8 @@
 import styled from 'styled-components'
-import { transLighten, transparentize, base } from 'utils/themeutils'
+import { transparentize, base } from 'utils/themeutils'
 
 export const TabWindowButton = styled.div`
   flex-grow: 1;
-  background-color: ${transparentize(0.9, 'bg')};
   border: solid 1px ${base};
   text-align: center;
   transition: background-color ease .2s;
@@ -18,13 +17,14 @@ export const TabWindowButton = styled.div`
     border-top-right-radius: .5em;
   }
   &:hover {
-    background-color: ${transLighten(0.3, 0.8, 'bg')};
+    background-color: ${transparentize(0.5, 'acc')};
   }
 `
 
 export const TabWindowButtonActive = styled(TabWindowButton)`
-  background-color: ${transLighten(0.3, 0.6, 'bg')};
+  background-color: ${transparentize(0.2, 'acc')};
   &:hover {
-    background-color: ${transLighten(0.3, 0.6, 'bg')};
+    background-color: ${transparentize(0.2, 'acc')};
   }
+
 `

@@ -18,7 +18,3 @@ export const EmptyQueueSubTitle = styled.div`
   font-size: 1em;
   text-align: center;
 `
-
-export const EmptyQueueSmiley = styled.div`
-  font-size: 6em;
-`

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import GrowButton from 'components/GrowButton'
 import SelectWordRange from './SelectWordRange'
 import SelectTheme from './SelectTheme'
+import Icon from 'components/Icon'
 import { CSSTransition } from 'react-transition-group'
 import urls from 'utils/asseturls'
 import * as S from './Settings.style.js'
@@ -22,7 +23,7 @@ export const Settings = () => {
       <S.SettingsContainer>
           <S.CloseButton >
             <GrowButton onClick={() => setIsOpen(false)}>
-            <img src={urls.close} alt="close"/>
+            <Icon src={urls.close} />
             </GrowButton>
           </S.CloseButton>
           <S.Setting>
@@ -38,8 +39,7 @@ export const Settings = () => {
       unmountOnExit>
       <S.Settings>
       <GrowButton onClick={() => setIsOpen(true)}>
-      <S.SettingsButton
-        src={urls.settings} />
+      <Icon src={urls.settings} size={'1.5em'} />
       </GrowButton>
       </S.Settings>
     </CSSTransition>

@@ -4,7 +4,7 @@ import useSetting, { settings } from 'hooks/useSetting'
 import * as S from './SelectTheme.style.js'
 
 const THEME_OPTIONS = [
-  'normal',
+  'light',
   'dark'
 ]
 

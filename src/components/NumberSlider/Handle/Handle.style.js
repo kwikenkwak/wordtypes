@@ -1,11 +1,11 @@
 import styled from 'styled-components'
-import { darken } from 'utils/themeutils'
+import { acc } from 'utils/themeutils'
 
 export const Handle = styled.div`
   width: 1em;
   height: 1em;
   border-radius: 20em;
-  background-color: ${darken(0.2, 'bg')};
+  background-color: ${acc};
   transition: transform ease 200ms;
   position: absolute;
   margin-left: -.5em;

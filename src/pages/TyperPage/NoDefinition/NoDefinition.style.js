@@ -16,10 +16,6 @@ export const NoDefinitionTitle = styled.div`
   text-align: center;
 `
 
-export const NoDefinitionSmiley = styled.div`
-  font-size: 3em;
-`
-
 export const NoDefinitionText = styled.div`
   font-size: 1em;
   text-align: center;

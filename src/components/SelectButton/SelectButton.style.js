@@ -1,10 +1,10 @@
 import styled from 'styled-components'
-import { base, bg, transDark } from 'utils/themeutils'
+import { acc, base, bg, transparentize } from 'utils/themeutils'
 
 export const SelectButton = styled.div`
   position: relative;
   background-color: ${base};
-  color: ${bg};
+  color: ${acc};
   border-radius: 5px;
   padding: 0 .2em;
   cursor: pointer;
@@ -18,7 +18,7 @@ export const Floater = styled.div`
 `
 
 export const SelectOptions = styled.div`
-  background-color: ${transDark(0.10, 0.30, 'bg')};
+  background-color: ${transparentize(0.1, 'acc')};
   padding: .3em .1em;
   border-radius: 7px;
   overflow: hidden;
@@ -34,7 +34,7 @@ export const SelectOption = styled.div`
 
   &:hover {
     background-color: ${base};
-    color: ${transDark(0.10, 0.10, 'bg')};
+    color: ${transparentize(0.1, 'acc')};
   }
 
 `

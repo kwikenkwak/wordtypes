@@ -5,6 +5,8 @@
 // Also show a thinking smiley
 import React from 'react'
 import * as S from './NoDefinition.style.js'
+import Icon from 'components/Icon'
+import urls from 'utils/asseturls'
 
 export const NoDefinition = () => {
   return (
@@ -12,9 +14,7 @@ export const NoDefinition = () => {
       <S.NoDefinitionTitle>
     No definition found
     </S.NoDefinitionTitle>
-    <S.NoDefinitionSmiley>
-    🤔
-    </S.NoDefinitionSmiley>
+    <Icon src={urls.thinking} size={'3em'} />
     <S.NoDefinitionText>
     We are working hard to improve the definition quality.
     Using a more simple form of the word may help.

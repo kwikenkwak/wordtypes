@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { darken, base } from 'utils/themeutils'
+import { base, acc } from 'utils/themeutils'
 
 export const AccuracyBarDiv = styled.div`
   width: 100%;
@@ -16,5 +16,5 @@ export const AccuracyBarSectionCorrect = styled(AccuracyBarSection)`
 `
 
 export const AccuracyBarSectionError = styled(AccuracyBarSection)`
-  background-color: ${darken(0.3, 'bg')};
+  background-color: ${acc};
 `

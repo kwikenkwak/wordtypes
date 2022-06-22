@@ -54,10 +54,6 @@ export const SettingsContainer = styled.div`
   overflow-x: hidden;
 `
 
-export const SettingsButton = styled.img`
-  font-size: 2em;
-`
-
 // Set a small border to separate
 // the different settings
 export const Setting = styled.div`

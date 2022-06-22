@@ -1,5 +1,14 @@
-import styled from 'styled-components'
-import { lighten, bg } from 'utils/themeutils'
+import styled, { keyframes } from 'styled-components'
+import { bgBrightness } from 'utils/themeutils'
+
+const fade = (props) => keyframes`
+  0% {
+    filter: brightness(100%);
+  }
+  100% {
+    filter: brightness(${bgBrightness(props)});
+  }
+`
 
 export const Background = styled.div`
   position: absolute;
@@ -9,10 +18,9 @@ export const Background = styled.div`
   height: 100vh;
   z-index: -10;
   overflow: hidden;
-  background: ${bg};
-  background: linear-gradient(70deg, 
-                ${lighten(0.1, 'bg')} 0%,
-                ${bg} 100%);
+  animation: ${props => fade(props)} 1s ease-in-out 1;
+  animation-delay: 0.5s;
+  animation-fill-mode: forwards;
 `
 
 // We make sure the image keeps its aspect ratio

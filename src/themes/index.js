@@ -1,2 +1,2 @@
-import { baseTheme } from './baseTheme.style.js'
-export { baseTheme }
+export { lightTheme } from './light'
+export { darkTheme } from './dark'

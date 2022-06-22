@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { darken, base } from 'utils/themeutils'
+import { base, acc } from 'utils/themeutils'
 
 export const ProgressBar = styled.div`
   display: flex;
@@ -9,7 +9,7 @@ export const ProgressBar = styled.div`
 
 export const ProgressBarLine = styled.div`
   height: 10px;
-  background-color: ${darken(0.10, 'bg')};
+  background-color: ${acc};
   position: relative;
 `
 

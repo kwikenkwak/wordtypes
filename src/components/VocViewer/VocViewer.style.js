@@ -91,7 +91,3 @@ export const CloseWrapper = styled.div`
   top: .3em;
   z-index: 5;
 `
-
-export const CloseButton = styled.img`
-
-`

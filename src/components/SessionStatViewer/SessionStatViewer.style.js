@@ -57,10 +57,6 @@ export const MasterMessage = styled.div`
   font-size: 1.5em;
 `
 
-export const MasterSmiley = styled.div`
-  font-size: 3em;
-`
-
 export const StatsFlexGraph = styled.div`
   flex-grow: 1;
   width: 100%;

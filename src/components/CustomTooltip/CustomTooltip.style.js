@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { base, transDark } from 'utils/themeutils'
+import { base, transparentize } from 'utils/themeutils'
 
 export const CustomTooltip = styled.div`
-  background-color: ${transDark(0.20, 0.20, 'bg')};
+  background-color: ${transparentize(0.2, 'acc')};
   border: solid 1px ${base};
   border-radius: .3em;
   display: flex;

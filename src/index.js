@@ -7,15 +7,16 @@ import Settings from 'components/Settings'
 import Pages from 'components/Pages'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
-import { baseTheme } from 'themes'
+import useTheme from 'hooks/useTheme'
 import { BackgroundProvider } from 'utils/background'
 
 import * as S from './index.style.js'
 
 function App () {
+  const theme = useTheme()
   return (
     <S.AppDiv>
-      <ThemeProvider theme={baseTheme}>
+      <ThemeProvider theme={theme}>
       <NotifyProvider>
       <BackgroundProvider>
         <GlobalStyle />

@@ -3,6 +3,7 @@ import useVocViewer from './useVocViewer'
 import VocabularyWord from 'components/VocWord'
 import SelectButton from 'components/SelectButton'
 import GrowButton from 'components/GrowButton'
+import Icon from 'components/Icon'
 import urls from 'utils/asseturls'
 import * as S from './VocViewer.style.js'
 import StyledInput from 'components/StyledInput'
@@ -42,7 +43,7 @@ function VocViewer () {
       <S.SessionViewerWrapper>
       <S.CloseWrapper>
         <GrowButton onClick={() => setShowSessionStat(false)}>
-          <S.CloseButton src={urls.close} />
+          <Icon src={urls.close} size={'1.3em'} />
         </GrowButton>
       </S.CloseWrapper>
       <S.SessionViewer>

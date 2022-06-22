@@ -1,19 +1,12 @@
 import styled from 'styled-components'
-import { darken, base, bg } from 'utils/themeutils'
-
-export const InvertIcon = styled.div`
-  filter: invert(100%);
-  opacity: 80%;
-`
-
-const darker = darken(0.10, 'bg')
+import { base, bg, acc } from 'utils/themeutils'
 
 export const NavButton = styled.div`
   display: flex;
   flex-flow: column;
 
-  background-color: ${darker};
-  border: ${darker} solid 3px;
+  background-color: ${bg};
+  border: ${bg} solid 3px;
   transition: background-color ease .5s;
   border-radius: 5px;
   padding: 0 1em;
@@ -24,7 +17,7 @@ export const NavButton = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: ${bg};
+    background-color: ${acc};
   }
 `
 
@@ -45,9 +38,9 @@ export const FloatingNavButton = styled.div`
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  background-color: ${darken(0.20, 'bg')};
+  background-color: ${bg};
   transition: background-color .2s ease;
   &:hover {
-    background-color: ${darken(0.05, 'bg')};
+    background-color: ${acc};
   }
 `

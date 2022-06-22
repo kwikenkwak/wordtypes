@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { bg, base, transDark } from 'utils/themeutils'
+import { bg, base, transparentize } from 'utils/themeutils'
 
 export const TyperPage = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ export const TyperWindow = styled.div`
   margin-top: 1em;
   width: 100%;
   flex-grow: 1;
-  background-color: ${transDark(0.20, 0.50, 'bg')};
+  background-color: ${transparentize(0.20, 'bg')};
   border-radius: 1em;
   border: solid 1px ${base};
   overflow-y: auto;

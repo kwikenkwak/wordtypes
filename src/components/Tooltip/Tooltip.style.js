@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { base, transDark } from 'utils/themeutils'
+import { base, bg } from 'utils/themeutils'
 
 export const Tooltip = styled.div`
   position: fixed;
@@ -25,11 +25,11 @@ export const Tooltip = styled.div`
 const borderMap = { top: 'bottom', left: 'right', bottom: 'top', right: 'left' }
 
 export const TextTooltip = styled.div`
-  background-color: ${transDark(0.2, 0.1, 'bg')};
+  background-color: ${bg};
   color: ${base};
   border: solid 1px ${base};
   padding: .4em;
-  font-size: .5em;
+  font-size: .7em;
 `
 
 export const Arrow = styled.div`

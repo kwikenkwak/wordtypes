@@ -9,10 +9,6 @@ export const NotFound = styled.div`
   height: 100%;
 `
 
-export const NotFoundIcon = styled.div`
-  font-size: 6em;
-`
-
 export const NotFoundText = styled.div`
   font-size: 1.5em;
 `

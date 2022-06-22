@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
-import { base, darken, lighten } from 'utils/themeutils'
+import { base, bg, acc } from 'utils/themeutils'
 
 const GlobalStyle = createGlobalStyle`
   html, body { 
@@ -22,22 +22,22 @@ const GlobalStyle = createGlobalStyle`
 
   /* Track */
   ::-webkit-scrollbar-track {
-    background: ${darken(0.10, 'bg')};
+    background: ${bg};
   }
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: ${lighten(0.10, 'bg')};
+    background: ${acc};
     transition: background ease .2s;
   }
 
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: ${lighten(0.15, 'bg')};
+    background: ${acc};
   }
 
   * {
-    scrollbar-color:  ${lighten(0.10, 'bg')} ${lighten(0.50, 'bg')};
+    scrollbar-color:  ${acc} ${acc};
   }
 `
 

@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import urls from 'utils/asseturls'
+import useTheme from 'hooks/useTheme'
 import BackgroundParticle from 'components/BackgroundParticle'
 import * as S from './Background.style.js'
 
 const Background = ({ particles }) => {
+  const theme = useTheme()
   return ReactDOM.createPortal(
     <S.Background>
           <div>
@@ -13,7 +14,7 @@ const Background = ({ particles }) => {
              <BackgroundParticle key={particleId} {...args} />
           )}
           </div>
-    <S.BackgroundImage src={urls.background} />
+    <S.BackgroundImage src={theme.background.image} />
     </S.Background>,
     document.querySelector('#root'))
 }
