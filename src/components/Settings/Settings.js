@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import GrowButton from 'components/GrowButton'
 import SelectWordRange from './SelectWordRange'
 import SelectTheme from './SelectTheme'
+import SelectLimit from './SelectLimit'
 import Icon from 'components/Icon'
 import { CSSTransition } from 'react-transition-group'
 import urls from 'utils/asseturls'
@@ -31,6 +32,9 @@ export const Settings = () => {
           </S.Setting>
           <S.Setting>
             <SelectWordRange />
+          </S.Setting>
+          <S.Setting>
+            <SelectLimit />
           </S.Setting>
       </S.SettingsContainer>
     </S.Settings>

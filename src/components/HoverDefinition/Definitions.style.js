@@ -11,7 +11,7 @@ export const Definition = styled.div`
 `
 
 export const Definitions = styled.div`
-  font-size: .5em;
+  font-size: .8em;
   display: flex;
   flex-direction: column;
 `

@@ -14,7 +14,7 @@ function Icon ({ size = '1em', src, className = '' }) {
 
 Icon.propTypes = {
   size: PropTypes.string,
-  src: PropTypes.string,
+  src: PropTypes.string.isRequired,
   className: PropTypes.string
 }
 

@@ -1,3 +1,4 @@
+import loadDefinition from './loaddefinition'
 import Cookies from 'js-cookie'
 const loadWord = (onWordLoaded, wordRange) => {
   fetch('/loadword', {
@@ -13,24 +14,6 @@ const loadWord = (onWordLoaded, wordRange) => {
     .catch(
       (error) => {
         console.warn('Error while loading word', error)
-      }
-    )
-}
-
-const loadDefinition = (onDefinitionLoaded, word) => {
-  fetch('/loaddefinitions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      'X-CSRFToken': Cookies.get('csrftoken')
-    },
-    body: JSON.stringify({ word: word })
-  })
-    .then(res => res.json())
-    .then(onDefinitionLoaded)
-    .catch(
-      (error) => {
-        console.log(error)
       }
     )
 }

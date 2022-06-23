@@ -5,13 +5,13 @@ import HoverDefinition from 'components/HoverDefinition'
 import useQueue from 'hooks/useQueue'
 import * as S from './InteractiveWord.style.js'
 
-function InteractiveWord ({ word, active }) {
+function InteractiveWord ({ word, active, pureWord }) {
   const { addWord } = useQueue()
   const content = useMemo(() =>
     (<HoverTooltip hint={
-      <HoverDefinition word={word} />
+      <HoverDefinition word={pureWord} />
     }>
-    <S.Word onClick={() => addWord(word)} active={active}>{word}</S.Word>
+    <S.Word onClick={() => addWord(pureWord)} active={active}>{word}</S.Word>
     </HoverTooltip>)
   , [word, active])
   return content
@@ -19,7 +19,8 @@ function InteractiveWord ({ word, active }) {
 
 InteractiveWord.propTypes = {
   word: PropTypes.string.isRequired,
-  active: PropTypes.bool.isRequired
+  active: PropTypes.bool.isRequired,
+  pureWord: PropTypes.string.isRequired
 }
 
 export { InteractiveWord }

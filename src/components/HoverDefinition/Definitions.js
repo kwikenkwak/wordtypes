@@ -3,12 +3,17 @@ import PropTypes from 'prop-types'
 import * as S from './Definitions.style.js'
 
 const MAXDEFINITIONS = 3
+const MAXLENGTH = 150
 
 function getDefinitions (wordInfo, limit) {
   const res = []
   for (let idx = 0; idx < wordInfo.definitions.length && idx < limit; idx++) {
     const def = wordInfo.definitions[idx]
-    res.push({ type: def.type, def: def.definition })
+    // limit the length of the def to the MAXLENGTH
+    const defText = def.definition.length > MAXLENGTH
+      ? def.definition.slice(0, MAXLENGTH) + '...'
+      : def.definition
+    res.push({ type: def.type, def: defText })
   }
   return res
 }

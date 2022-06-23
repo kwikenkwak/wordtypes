@@ -18,7 +18,7 @@ export const SelectWordRange = () => {
     <S.SelectWordRange>
     <S.Header>
     <S.Title>
-      Select word range
+      Word range
     </S.Title>
     <InfoButton text={HINT_TEXT} pos={'left'}/>
     </S.Header>

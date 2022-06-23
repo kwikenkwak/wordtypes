@@ -3,6 +3,7 @@ import { loadDefinition } from 'utils/wordloading'
 import { useSearchParams } from 'react-router-dom'
 import { BackgroundContext } from 'utils/background'
 import InfoButton from 'components/InfoButton'
+import useSetting, { settings } from 'hooks/useSetting'
 
 import WordMeaning from 'src/components/WordMeaning'
 import LoadingAnimation from 'components/LoadingAnimation'
@@ -29,6 +30,11 @@ const INFOTEXT = 'Here you can train your typing skills and learn vocabulary at 
                  'If you see a word in a definition you don\'t understand hover over it' +
                  ' to see a definition or click on it to add it to your queue'
 
+const CREDITTEXT = <>Data from <S.CreditLink href="https://www.wiktionary.org/">Wiktionary</S.CreditLink>
+  , adapted for this project and available under the
+  <S.CreditLink href="https://creativecommons.org/licenses/by-sa/3.0/"> CC BY-SA 3.0</S.CreditLink> license.
+</>
+
 function TyperTypeWindow ({ meanings, running, word, onMeaningComplete, onType, currentMeaning, tracker, progress }) {
   const [currentWindow, setCurrentWindow] = useState(0)
 
@@ -41,7 +47,12 @@ function TyperTypeWindow ({ meanings, running, word, onMeaningComplete, onType, 
     <S.TyperWindow>
     <TabWindow current={currentWindow}>
     <S.TyperWordWindow>
-        <S.WordTitle>{word}</S.WordTitle>
+    <S.WordTitle>
+    {word}
+    <S.Credits>
+      {CREDITTEXT}
+    </S.Credits>
+    </S.WordTitle>
         <S.WordMeanings>
         <S.InfoButton>
           <InfoButton pos={'left'} text={INFOTEXT} />
@@ -70,7 +81,7 @@ function TyperTypeWindow ({ meanings, running, word, onMeaningComplete, onType, 
     </TabWindow>
     {!running && (currentWindow === 1
       ? <div> <FloatingNavButton onClick={jumpToWord} text='Back to word' url={urls.backToWord} /></div>
-      : <div> <FloatingNavButton onClick={jumpToStats} text='View stats' url={urls.statsIcon} /></div>)}
+      : <div> <FloatingNavButton onClick={jumpToStats} text='View stats' url={urls.stats} /></div>)}
 
     </S.TyperWindow>
     <ProgressBar progress={progress} width={'100%'}/>
@@ -99,8 +110,14 @@ function TyperPage () {
   const [running, setRunning] = useState(true)
   const [searchParam] = useSearchParams()
   const { addParticle } = useContext(BackgroundContext)
+  const [defLimit] = useSetting(settings.defLimit)
 
   const onWordLoaded = (wordInfo) => {
+    // Limit the number of definitions to the defLimit setting
+    if (wordInfo.definitions.length > defLimit) {
+      wordInfo.definitions = wordInfo.definitions.slice(0, defLimit)
+    }
+
     const newTracker = new StatTracker(wordInfo.word)
     setTracker(newTracker)
     setWordInfo(wordInfo)

@@ -13,7 +13,7 @@ export const SelectTheme = () => {
   // TODO add more themes and change theme on select
   return (
     <S.SelectTheme>
-      <S.Title>Select theme</S.Title>
+      <S.Title>Theme</S.Title>
       <SelectButton onChange={setTheme} choices={THEME_OPTIONS} current={theme}/>
     </S.SelectTheme>
   )

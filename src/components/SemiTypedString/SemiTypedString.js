@@ -4,6 +4,20 @@ import Icon from 'components/Icon'
 import urls from 'utils/asseturls'
 import InteractiveWord from 'components/InteractiveWord'
 
+// Some words can contain punctuation marks or
+// there can be capital letters in the word
+// We need to remove those two in order to be able
+// to look up the word in the dictionary.
+function purifyWord (string) {
+  // Remove punctuation marks
+  const noPunctation = string.replace(/[.,-/#!$%^&*;:{}=\-_`~()]/g, '')
+
+  // Replace capital letters with lowercase
+  const noCaps = noPunctation.replace(/[A-Z]/g,
+    (match) => match.toLowerCase())
+  return noCaps
+}
+
 function getParts (string, progress, cursor) {
   const words = string.split(' ')
   const res = []
@@ -19,7 +33,7 @@ function getParts (string, progress, cursor) {
       foundCurrent = true
       active = true
     }
-    res.push({ word, active })
+    res.push({ active, word, pureWord: purifyWord(word) })
   }
   return [res, activeIdx]
 }

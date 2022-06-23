@@ -25,11 +25,13 @@ export const WelcomeContent = styled(Fader)`
   flex-flow: column;
   justify-content: center;
   align-items: center;
+  height: 100%;
   `
 
 export const WelcomeText = styled.p`
   max-width: 50%;
   text-align: center;
+  margin: 0;
 `
 
 export const NavButtons = styled(Fader)`
@@ -46,3 +48,13 @@ export const TreesStyle = {
   height: '100%',
   zIndex: -3
 }
+
+// Give the title a big font size
+// a bold style
+// also make sure the line height
+// nicely fits the title
+export const Title = styled.span`
+  font-size: 10em;
+  font-weight: bold;
+  line-height: 0.6;
+`

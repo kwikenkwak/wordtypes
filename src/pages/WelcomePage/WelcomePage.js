@@ -5,9 +5,11 @@ import * as S from './WelcomePage.style.js'
 function WelcomePage () {
   return (<>
     <S.WelcomeContent>
-    <h1>Welcome to DictionaryTyper</h1>
-    <S.WelcomeText>Dolor consectetur odio aliquam dignissimos?
-Consectetur velit dignissimos beatae ducimus fuga labore? Sunt provident excepturi et dolore alias sequi Aut illo repellendus vel velit quis Autem porro similique error eum ut Sed itaque et maiores harum possimus quo Culpa laborum nostrum eligendi rem odio! Praesentium voluptatem nulla ducimus tempore ullam itaque, laborum, beatae laudantium. Sunt.
+    <S.Title>WORDTYPES</S.Title>
+    <S.WelcomeText>
+    Wordtypes is a tool that allows you to enlarge your vocabulary
+    and at the same time practice your typing skills. Just click on
+    the Start button and start typing!
     </S.WelcomeText>
     <S.NavButtons>
       <StatsButton />

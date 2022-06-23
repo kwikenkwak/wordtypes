@@ -9,13 +9,25 @@ function getPosition (pos, target, arrowsize = 20) {
   const rect = target.getBoundingClientRect()
   const rootRect = document.querySelector('body').getBoundingClientRect()
   if (pos === 'left') {
-    return { right: rootRect.width - rect.left, top: rect.top }
+    return {
+      right: rootRect.width - rect.left,
+      top: rect.top + rect.height / 2 - arrowsize / 2
+    }
   } else if (pos === 'right') {
-    return { left: rect.right, top: rect.top }
+    return {
+      left: rect.right,
+      top: rect.top + rect.height / 2 - arrowsize / 2
+    }
   } else if (pos === 'top') {
-    return { bottom: rootRect.height - rect.top, left: rect.left }
+    return {
+      bottom: rootRect.height - rect.top,
+      left: rect.left + rect.width / 2 - arrowsize / 2
+    }
   } else if (pos === 'bottom') {
-    return { top: rect.bottom, left: rect.left + rect.width / 2 - arrowsize / 2 }
+    return {
+      top: rect.bottom,
+      left: rect.left + rect.width / 2 - arrowsize / 2
+    }
   }
 }
 

@@ -42,6 +42,7 @@ export const WordTitle = styled.h1`
   color: ${bg};
   border-bottom: solid 1px ${base};
   justify-content: center;
+  position: relative;
 `
 
 export const WordMeanings = styled.div`
@@ -66,4 +67,15 @@ export const InfoButton = styled.div`
 export const TyperWordWindow = styled(TyperWindowTab)`
   display: flex;
   flex-flow: column;
+`
+
+export const Credits = styled.div`
+  position: absolute;
+  bottom: .1em;
+  right: .2em;
+  font-size: .2em;
+`
+
+export const CreditLink = styled.a`
+  color: ${bg};
 `

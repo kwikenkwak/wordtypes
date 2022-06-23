@@ -75,7 +75,7 @@ function WordMeaning ({ meaning, active, onType, onComplete, first, last, index 
     if (active && !first) div.current.scrollIntoView({ behavior: 'smooth' })
   }, [active])
 
-  const onKeyPresss = (e) => {
+  const onKeyPress = (e) => {
     if (!active) return
     e.preventDefault()
     const charTyped = e.keyCode === 13 ? 'Enter' : String.fromCharCode(e.keyCode)
@@ -97,9 +97,14 @@ function WordMeaning ({ meaning, active, onType, onComplete, first, last, index 
     // while typing
     document.activeElement.blur()
 
-    window.addEventListener('keypress', onKeyPresss)
+    window.addEventListener('keypress', onKeyPress)
 
-    return () => window.removeEventListener('keypress', onKeyPresss)
+    // Prevent the backspace key from navigating back
+    window.addEventListener('keydown', (e) => {
+      if (e.which === 8) { e.preventDefault() }
+    })
+
+    return () => window.removeEventListener('keypress', onKeyPress)
   })
 
   return (

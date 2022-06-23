@@ -2,7 +2,8 @@ import useStore from 'hooks/useStore'
 
 const defaults = {
   wordRange: [0, 100_000],
-  theme: 'light'
+  theme: 'light',
+  defLimit: 10
 }
 
 export const useSetting = (setting) => {
@@ -12,5 +13,6 @@ export const useSetting = (setting) => {
 
 export const settings = {
   wordRange: 'wordRange',
-  theme: 'theme'
+  theme: 'theme',
+  defLimit: 'defLimit'
 }

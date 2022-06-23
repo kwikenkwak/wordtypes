@@ -28,7 +28,7 @@ export const VocWord = ({
         </S.SpeedInfo>
 
         <GrowButton onClick={openViewer}>
-          <S.AgainIcon src={urls.simpleStats} size={'55px'} />
+          <S.AgainIcon src={urls.stats} size={'55px'} />
         </GrowButton>
 
         <GrowButton onClick={launchTyper}>
