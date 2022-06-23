@@ -9,7 +9,6 @@ function createUrl (filepath) {
 
 const urls = {
   typerIcon: createUrl('icons/typericon.svg'),
-  trees: createUrl('animations/trees.riv'),
   backgroundLight: createUrl('pictures/backgroundlight.jpg'),
   backgroundDark: createUrl('pictures/backgrounddark.jpg'),
   enterIcon: createUrl('icons/enterkeybox.svg'),
