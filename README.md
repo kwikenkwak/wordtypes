@@ -3,7 +3,7 @@ A site to practice your typing skills and enlarge your English vocabulary at the
 
 ## Visit
 
-The website can be visited [here](https://www.wordtypes.herokuapp.com)
+The website can be visited [here](https://wordtypes.herokuapp.com)
 
 ## About the code
 

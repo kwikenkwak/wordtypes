@@ -14,7 +14,7 @@ import urls from 'utils/asseturls'
 
 import * as S from './index.style.js'
 
-const GithubLink = 'http://www.github.com/kwikenkwak/dictyper'
+const GithubLink = 'http://www.github.com/kwikenkwak/wordtypes'
 
 function App () {
   const theme = useTheme()
