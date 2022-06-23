@@ -30,9 +30,11 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', True)
+DEBUG = os.environ.get('DEBUG', True) == 'True'
 
 ALLOWED_HOSTS = []
+
+ADMINS = [('kwikenkwak', 'kwikandkwak@gmail.com')]
 
 
 # Application definition
